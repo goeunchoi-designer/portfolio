@@ -4,153 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BDLNow — Case Study · Goeun Choi</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Overused+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/case-study.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --white:     #ffffff; --off-white: #f8f8f8; --gray-light: #f0f0f0;
-      --gray-text: #888888; --black:     #111111; --border:     #e8e8e8;
+      --gray-text: #767676; --black:     #111111; --border:     #e8e8e8;
       --radius:    20px;    --radius-sm: 12px;
       --shadow:    0 4px 24px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
       --highlight: #fef3c7; --note-bg:  #fef9e7;
     }
-    body { font-family:'Overused Grotesk','Inter',system-ui,sans-serif; background:var(--white); color:var(--black); line-height:1.6; font-size:16px; font-weight:400; }
+    html { overflow-x: hidden; }
+    body { overflow-x: hidden; }
 
-    /* Nav */
-    nav { position:sticky; top:0; background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); border-radius:0 0 20px 20px; z-index:100; }
-    .nav-inner { max-width:1280px; margin:0 auto; padding:24px 64px; display:flex; justify-content:space-between; align-items:center; }
-    .nav-logo { font-size:15px; font-weight:600; color:var(--black); text-decoration:none; letter-spacing:-.01em; }
-    .nav-links { display:flex; gap:36px; list-style:none; }
-    .nav-links a { font-size:13px; color:var(--gray-text); text-decoration:none; transition:color .15s; }
-    .nav-links a:hover { color:var(--black); }
-
-    /* Page */
-    .page { max-width:1280px; margin:0 auto; padding:0 64px; }
-
-    /* Hero */
-    .hero { padding:72px 0 64px; border-bottom:1px solid var(--border); }
-    .hero-meta { display:flex; align-items:center; gap:12px; margin-bottom:32px; }
-    .hero-back { font-size:13px; color:var(--gray-text); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color .15s; }
-    .hero-back:hover { color:var(--black); }
-    .hero-meta-sep { color:var(--border); }
-    .hero-meta-tag { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); }
-    .hero-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px; }
-    .hero-tag-pill { font-size:11px; font-weight:500; background:var(--off-white); color:var(--black); border:1px solid var(--border); border-radius:999px; padding:5px 14px; }
-    .hero-tag-pill.filled { background:var(--black); color:var(--white); border-color:transparent; }
-    h1.hero-title { font-size:clamp(34px,4.5vw,66px); font-weight:700; letter-spacing:-.035em; line-height:1.05; color:var(--black); margin-bottom:20px; }
-    p.hero-desc { font-size:17px; color:var(--gray-text); line-height:1.65; margin-bottom:48px; }
-
-    /* Stats */
-    .hero-stats { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:52px; }
-    .hero-stat { padding:28px 32px; border-right:1px solid var(--border); }
-    .hero-stat:last-child { border-right:none; }
-    .hero-stat-num { font-size:38px; font-weight:700; letter-spacing:-.03em; display:block; margin-bottom:6px; }
-    .hero-stat-label { font-size:12px; color:var(--gray-text); line-height:1.4; }
-
-    /* Cover */
-    .hero-cover { width:100%; aspect-ratio:16/7; background:var(--black); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; }
-    .cover-ph { font-size:13px; color:rgba(255,255,255,.25); letter-spacing:.04em; }
-
-    /* Overview bar — matches hero-stats card style */
-    .cs-overview {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      margin-bottom: 52px;
-    }
-    .cs-overview-item {
-      padding: 28px 32px;
-      border-right: 1px solid var(--border);
-    }
-    .cs-overview-item:last-child { border-right: none; }
-    .cs-overview-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: var(--black);
-      color: var(--white);
-      padding: 10px 32px;
-      margin: -28px -32px 20px -32px;
-    }
-    .cs-overview-label svg { flex-shrink: 0; opacity: .75; }
-    .cs-overview-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--black);
-      line-height: 1.5;
-    }
-
-    /* Body layout: sidebar + main */
-    .body-layout {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 0;
-      align-items: start;
-    }
-
-    /* Left sticky sidebar nav */
-    .section-nav {
-      position: sticky;
-      top: 96px;
-      padding: 30px 32px 80px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .section-nav a {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--gray-text);
-      text-decoration: none;
-      padding: 8px 16px 6px 18px;
-      border-radius: 999px;
-      white-space: nowrap;
-      transition: color .2s, background .2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .section-nav a:hover { color: var(--black); }
-    .section-nav a.active {
-      background: var(--black);
-      color: var(--white);
-      font-weight: 600;
-    }
-    .snav-icon { width: 14px; height: 14px; flex-shrink: 0; color: inherit; }
-
-    /* Content */
-    .content { padding: 80px 0 120px; padding-left: 72px; border-left: 1px solid var(--border); }
-    .cs-section { padding:72px 0; border-bottom:1px solid var(--border); }
-    .cs-section:last-child { border-bottom:none; }
-
-    /* Typography */
-    .section-label { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); margin-bottom:20px; display:block; }
-    .section-title { font-size:clamp(24px,2.8vw,38px); font-weight:700; letter-spacing:-.025em; line-height:1.1; margin-bottom:24px; }
-    .section-body { font-size:16px; line-height:1.8; color:#333; }
-    .section-body p+p { margin-top:20px; }
-
-    /* Layout helpers */
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:48px; align-items:start; }
-    .three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px; }
-
-    /* Callout */
-    .callout { background:var(--off-white); border-radius:var(--radius-sm); padding:28px 32px; margin-top:40px; }
-    .callout.dark { background:var(--black); color:var(--white); }
-    .callout-label { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:10px; display:block; }
-    .callout.dark .callout-label { color:rgba(255,255,255,.8); }
-    .callout-text { font-size:18px; font-weight:600; line-height:1.5; letter-spacing:-.01em; }
-    .callout.dark .callout-text { color:var(--white); }
-    /* Global: black background = white text */
-    [class*="dark"],
-    .bento-card,
-    .outcome-card.filled { color: var(--white); }
+    /* Cover placeholder */
+    .cover-ph { font-size:14px; color:#ffffff; letter-spacing:.04em; }
 
     /* Chat-bubble observation list */
     .obs-emoji-list { display:flex; flex-direction:column; gap:28px; margin-top:40px; }
@@ -158,7 +27,7 @@
     .obs-emoji-item.right { flex-direction:row-reverse; }
     .obs-emoji { font-size:28px; flex-shrink:0; margin-bottom:4px; }
     .obs-bubble-wrap { display:flex; flex-direction:column; max-width:78%; }
-    .obs-emoji-label { font-size:12px; font-weight:500; color:var(--gray-text); margin-bottom:8px; }
+    .obs-emoji-label { font-size:14px; font-weight:500; color:var(--gray-text); margin-bottom:8px; }
     .obs-emoji-item.right .obs-emoji-label { text-align:right; }
     .obs-bubble { background:var(--off-white); border-radius:18px; padding:20px 24px; }
     .obs-bubble-text { font-size:15px; color:#333; line-height:1.65; }
@@ -168,125 +37,73 @@
     .aha-label { font-size:14px; font-weight:500; color:var(--gray-text); margin-bottom:10px; display:block; }
     .aha-text { font-size:17px; line-height:1.65; color:var(--black); }
 
-    /* Cards — ab-card/ab-interior style */
+    /* Insight cards */
     .insight-card { border:1px solid var(--border); border-radius:16px; overflow:hidden; background:var(--white); transition:transform .3s cubic-bezier(.22,1,.36,1), box-shadow .3s; }
     .insight-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,.08); }
-    .insight-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--white); background:var(--black); display:block; padding:10px 20px; }
+    .insight-label { font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--white); background:var(--black); display:block; padding:10px 20px; }
     .insight-card-body { padding:18px 20px 20px; }
     .insight-num { font-size:34px; font-weight:700; letter-spacing:-.03em; margin-bottom:6px; display:block; }
-    .insight-desc { font-size:12px; color:var(--gray-text); line-height:1.5; }
-
-    /* Image blocks */
-    .img-block { width:100%; background:var(--off-white); border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; margin-top:40px; }
-    .img-block.dark { background:var(--black); border-color:transparent; }
-    .img-ph { font-size:12px; color:var(--gray-text); letter-spacing:.04em; padding:40px; text-align:center; }
-    .img-block.dark .img-ph { color:rgba(255,255,255,.25); }
-
-    /* Process steps */
-    .process-steps { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:48px; }
-    .process-step { padding:28px 24px; border-right:1px solid var(--border); }
-    .process-step:last-child { border-right:none; }
-    .step-num { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:10px; display:block; }
-    .step-title { font-size:14px; font-weight:600; margin-bottom:8px; }
-    .step-desc { font-size:12px; color:var(--gray-text); line-height:1.5; }
+    .insight-desc { font-size:14px; color:var(--gray-text); line-height:1.5; }
+    .insight-card { transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
 
     /* Pull quote */
-    .pull-quote { padding:40px 0;  margin:48px 0; }
+    .pull-quote { padding:40px 0; margin:48px 0; }
     .pull-quote p { font-size:clamp(20px,2.2vw,30px); font-weight:600; letter-spacing:-.02em; line-height:1.35; }
 
-    /* Bento decision grid */
+    /* Bento extras */
     .bento-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:48px; }
-    .bento-card { background:var(--black); border-radius:var(--radius-sm); overflow:hidden; }
     .bento-card-body { padding:28px; display:flex; flex-direction:column; min-height:220px; }
-    .bento-icon { width:40px; height:40px; color:var(--white); flex-shrink:0; margin-bottom:10px;}
-    .bento-num { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.8); display:block; margin-bottom:10px; }
+    .bento-icon { width:40px; height:40px; color:var(--white); flex-shrink:0; margin-bottom:10px; }
+    .bento-num { font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#ffffff; display:block; margin-bottom:10px; }
     .bento-title { font-size:17px; font-weight:600; color:var(--white); line-height:1.3; margin-bottom:10px; }
-    .bento-desc { font-size:13px; color:var(--white); line-height:1.6; }
+    .bento-desc { font-size:14px; color:var(--white); line-height:1.6; }
     .bento-img-card { background:#111; border-radius:var(--radius-sm); overflow:hidden; min-height:220px; display:flex; align-items:center; justify-content:center; }
-    .bento-img-ph { font-size:11px; color:rgba(255,255,255,.18); letter-spacing:.04em; padding:24px; text-align:center; }
+    .bento-img-ph { font-size:14px; color:#ffffff; letter-spacing:.04em; padding:24px; text-align:center; }
     .bento-span-2 { grid-column:span 2; }
 
-    /* Annotated layout */
-    .anno-layout { display:flex; flex-direction:column; gap:12px; margin-top:48px; }
-    .anno-row { display:grid; gap:12px; align-items:stretch; }
-    .anno-row.img-right { grid-template-columns:1fr 2fr; }
-    .anno-row.img-left  { grid-template-columns:2fr 1fr; }
+    /* Feature side layout */
+    .feat-side-layout { display:grid; grid-template-columns:2fr 1fr; gap:16px; align-items:stretch; }
+    .feat-side-cards { display:flex; flex-direction:column; gap:12px; height:100%; }
+
+    /* Annotated detail layout */
     .anno-row-detail { display:grid; grid-template-columns:2fr 1fr; grid-template-rows:1fr 1fr; gap:12px; }
     .anno-row-detail .anno-img { grid-row:1/3; }
     .anno-col { display:flex; flex-direction:column; gap:12px; }
-    .anno-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:28px; display:flex; flex-direction:column; flex:1; transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
-    .anno-card:hover { transform:translateY(-4px); box-shadow:0 10px 36px rgba(0,0,0,.1); }
-    .anno-card-icon { width:36px; height:36px; color:var(--black); flex-shrink:0; margin-bottom:16px; }
-    .anno-card-title { font-size:16px; font-weight:600; color:var(--black); line-height:1.3; margin-bottom:10px; }
-    .anno-card-desc { font-size:13px; color:var(--gray-text); line-height:1.65; }
-    .anno-img { background:var(--off white); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; min-height:320px; display:flex; align-items:center; justify-content:center; }
-    .anno-img img { width:100%; height:100%; object-fit:contain; display:block;padding:10px }
-    .anno-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
 
-    /* Summary card — unified background section card */
-    .summary-card { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:40px; }
-    .summary-card-brief { padding:28px 32px; background:var(--off-white); border-bottom:1px solid var(--border); }
-    .summary-card-body { display:grid; grid-template-columns:1fr 1fr; min-height:260px; }
-    .summary-card-map { border-right:1px solid var(--border); overflow:hidden; }
-    .summary-card-map img { background:black; width:100%; height:100%; object-fit:cover; display:block; }
-    .summary-card-stats { display:flex; flex-direction:column; }
-    .summary-stat { padding:28px 32px; flex:1; display:flex; flex-direction:column; justify-content:center; }
-    .summary-stat + .summary-stat { border-top:1px solid var(--border); }
-    .summary-stat-label { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:10px; }
-
-    /* Outcome */
-    .outcome-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:48px; }
-    .outcome-card { padding:32px 28px; border:1px solid var(--border); border-radius:var(--radius-sm); }
-    .outcome-card.filled { background:var(--black); border-color:transparent; }
-    .outcome-num { font-size:42px; font-weight:700; letter-spacing:-.03em; display:block; margin-bottom:6px; }
-    .outcome-card.filled .outcome-num { color:var(--white); }
-    .outcome-desc { font-size:13px; color:var(--gray-text); line-height:1.5; }
-    .outcome-card.filled .outcome-desc { color:var(--white); }
-
-    /* Browser mockup */
-    .browser-mockup { width:100%; border-radius:var(--radius); overflow:hidden; margin-top:40px; border:1px solid var(--border); box-shadow:0 8px 40px rgba(0,0,0,.10); }
-    .browser-chrome { background:#f0f0f0; border-bottom:1px solid #d8d8d8; padding:10px 16px; display:flex; align-items:center; gap:12px; }
-    .browser-dots { display:flex; gap:6px; flex-shrink:0; }
-    .browser-dots span { width:12px; height:12px; border-radius:50%; display:block; }
-    .browser-dots span:nth-child(1) { background:#ff5f57; }
-    .browser-dots span:nth-child(2) { background:#febc2e; }
-    .browser-dots span:nth-child(3) { background:#28c840; }
-    .browser-url { flex:1; background:#fff; border:1px solid #d0d0d0; border-radius:6px; padding:4px 12px; font-size:12px; color:#666; font-family:inherit; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .browser-viewport { height:480px; overflow-y:scroll; background:#fff; overscroll-behavior:contain; }
+    /* Browser scrollbar variant */
     .browser-viewport::-webkit-scrollbar { width:10px; }
     .browser-viewport::-webkit-scrollbar-track { background:#f4f4f4; }
     .browser-viewport::-webkit-scrollbar-thumb { background:#c0c0c0; border-radius:5px; border:2px solid #f4f4f4; }
     .browser-viewport::-webkit-scrollbar-thumb:hover { background:#a0a0a0; }
-    .browser-viewport img { width:100%; display:block; }
 
-    /* Related */
-    .related { padding:64px 0; border-top:1px solid var(--border); }
-    .related h3 { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); margin-bottom:32px; }
-    .related-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-    .related-card { border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; text-decoration:none; display:block; transition:box-shadow .3s,transform .3s; }
-    .related-card:hover { box-shadow:var(--shadow); transform:translateY(-3px); }
-    .related-thumb { width:100%; aspect-ratio:16/9; background:var(--off-white); display:flex; align-items:center; justify-content:center; }
-    .related-thumb.dark { background:var(--black); }
-    .related-thumb-ph { font-size:12px; color:var(--gray-text); }
-    .related-thumb.dark .related-thumb-ph { color:rgba(255,255,255,.25); }
-    .related-body { padding:20px 24px; }
-    .related-tag { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text); margin-bottom:6px; display:block; }
-    .related-title { font-size:17px; font-weight:600; color:var(--black); letter-spacing:-.01em; }
+    /* Comparison border overrides */
+    .comparison-col.problem { border-color:var(--border); }
+    .comparison-col.solution { border-color:var(--black); }
 
-    /* Card entrance animation */
-    .card-enter {
-      opacity: 0;
-      transform: translateY(28px) scale(0.97);
+    /* Comparison screen */
+    .comparison-screen { width:100%; aspect-ratio:16/10; overflow:hidden; background:var(--off-white); border-bottom:1px solid var(--border); }
+    .comparison-screen img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
+
+    /* Comparison point icon colors (bdlnow-specific) */
+    .comparison-col.problem .comparison-point-icon { color:#e53e3e; transition:color .2s; }
+    .comparison-col.solution .comparison-point-icon { color:var(--black); }
+
+    /* Research flaw hover states */
+    .research-flaw { transition: background .25s ease; cursor: default; }
+    .research-flaw:hover { background: rgba(255,255,255,.05); }
+    .flaw-icon-box {
+      width: 46px; height: 46px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      transition: border-color .25s, background .25s;
     }
-    .card-enter.card-visible {
-      opacity: 1;
-      transform: none;
-      transition: opacity .65s ease, transform .7s cubic-bezier(.22,.68,0,1.15);
+    .research-flaw:hover .flaw-icon-box {
+      border-color: #ffffff;
+      background: rgba(255,255,255,.09);
     }
 
-    /* Text utilities */
-    strong, .bold { font-weight: 600; letter-spacing: -.01em; }
-    .highlight { background: var(--highlight); padding: 2px 6px; border-radius: 4px; font-weight: 500; }
+    /* Insight paragraph */
     .insight-paragraph {
       margin: 28px 0;
       padding-left: 0;
@@ -310,65 +127,12 @@
       stroke: currentColor;
     }
 
-    /* Lightbox */
-    .lightbox-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:1000; display:flex; align-items:center; justify-content:center; padding:32px; opacity:0; pointer-events:none; transition:opacity .2s ease; }
-    .lightbox-overlay.open { opacity:1; pointer-events:all; }
-    .lightbox-overlay img { max-width:100%; max-height:100%; border-radius:var(--radius-sm); object-fit:contain; transform:scale(.95); transition:transform .25s cubic-bezier(.25,.46,.45,.94); box-shadow:0 24px 80px rgba(0,0,0,.5); }
-    .lightbox-overlay.open img { transform:scale(1); }
-    .lightbox-close { position:absolute; top:24px; right:28px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.12); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; transition:background .15s; }
-    .lightbox-close:hover { background:rgba(255,255,255,.22); }
-    .lb-trigger { cursor:zoom-in; }
-
-    /* Card slide-in animations */
-    .slide-left  { opacity:0; transform:translateX(-40px); transition:opacity .55s ease, transform .55s cubic-bezier(.25,.46,.45,.94); }
-    .slide-right { opacity:0; transform:translateX( 40px); transition:opacity .55s ease, transform .55s cubic-bezier(.25,.46,.45,.94); }
-    .slide-left.in, .slide-right.in { opacity:1; transform:translateX(0); }
-
-    /* Reveal */
-    .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease,transform .7s cubic-bezier(.25,.46,.45,.94); }
-    .reveal.visible { opacity:1; transform:none; }
-    /* Ensure hero is always visible */
-    .hero.reveal { opacity:1; transform:none; }
-
-    /* Comparison section */
-    .comparison-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:48px; }
-    .comparison-col { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
-    .comparison-col.problem { border-color:var(--border); }
-    .comparison-col.solution { border-color:var(--black); }
-    .comparison-col-label { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:12px 20px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
-    .comparison-col.problem .comparison-col-label { background:var(--off-white); color:var(--gray-text); }
-    .comparison-col.solution .comparison-col-label { background:var(--black); color:var(--white); }
-    .comparison-col-label span { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-    .comparison-col.problem .comparison-col-label span { background:#ccc; }
-    .comparison-col.solution .comparison-col-label span { background:#fff; }
-    .comparison-screen { width:100%; aspect-ratio:16/10; overflow:hidden; background:var(--off-white); border-bottom:1px solid var(--border); }
-    .comparison-screen img { width:100%; height:100%; object-fit:cover; object-position:top; display:block; }
-    .comparison-points { padding:20px; display:flex; flex-direction:column; gap:12px; }
-    .comparison-point { display:flex; align-items:flex-start; gap:10px; }
-    .comparison-point-icon { width:18px; height:18px; flex-shrink:0; margin-top:2px; }
-    .comparison-col.problem .comparison-point-icon { color:#aaa; }
-    .comparison-col.solution .comparison-point-icon { color:var(--black); }
-    .comparison-point-text { font-size:13px; line-height:1.6; color:#333; }
-    .comparison-col.problem .comparison-point-text { color:var(--gray-text); }
-
-    /* Interactions */
-    .comparison-point { transition:transform .2s cubic-bezier(.22,1,.36,1); cursor:default; }
-    .comparison-point:hover { transform:translateX(4px); }
-    .comparison-col.problem .comparison-point-icon { color:#e53e3e; transition:color .2s; }
-    .outcome-card { transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
-    .outcome-card:hover { transform:translateY(-4px); box-shadow:0 10px 36px rgba(0,0,0,.08); }
-    .research-flaw { transition:background .2s; }
-    .research-flaw:hover { background:rgba(255,255,255,.05); }
-    .insight-card { transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
+    /* Related thumbnails */
+    .related-thumb-ph { font-size:14px; color:var(--gray-text); }
+    .related-thumb.dark .related-thumb-ph { color:#ffffff; }
 
     @media(max-width:900px){
-      .page{padding:0 28px;} .nav-inner{padding:20px 28px;} .hero{padding:48px 0;}
-      .hero-stats,.two-col,.three-col,.decision-grid,.outcome-grid,.related-grid{grid-template-columns:1fr;}
-      .hero-stat{border-right:none;border-bottom:1px solid var(--border);} .hero-stat:last-child{border-bottom:none;}
-      .process-steps{grid-template-columns:1fr 1fr;} .process-step:nth-child(2){border-right:none;}
-      .body-layout{grid-template-columns:1fr;}
-      .section-nav{display:none;}
-      .content{border-left:none;padding-left:0;}
+      .feat-side-layout { grid-template-columns:1fr; }
       .anno-row.img-right,.anno-row.img-left{grid-template-columns:1fr;}
       .anno-row.img-left .anno-img{order:-1;}
       .anno-row-detail{grid-template-columns:1fr; grid-template-rows:auto;}
@@ -376,13 +140,14 @@
       .anno-row-detail .anno-card:last-child{order:3;}
       .anno-img{min-height:220px;}
       .anno-bottom{grid-template-columns:1fr !important;}
-      .comparison-grid{grid-template-columns:1fr;}
       .research-grid{grid-template-columns:1fr !important; grid-template-rows:auto auto;}
       .research-img{border-right:none !important; border-bottom:1px solid var(--border); min-height:240px !important;}
       .research-flaws{flex-direction:row !important;}
       .research-flaw{border-bottom:none !important; border-right:1px solid var(--border);}
       .research-flaw:last-child{border-right:none;}
       .design-feat-grid{grid-template-columns:1fr !important;}
+      .hero-stat{border-right:none;border-bottom:1px solid var(--border);} .hero-stat:last-child{border-bottom:none;}
+      .process-steps{grid-template-columns:1fr 1fr;} .process-step:nth-child(2){border-right:none;}
     }
     @media(max-width:600px){
       .research-flaws{flex-direction:column !important;}
@@ -415,20 +180,20 @@
     <div class="hero-tags">
       <span class="hero-tag-pill filled">Live</span>
       <span class="hero-tag-pill">Product Designer</span>
-      <span class="hero-tag-pill">Figma · WordPress · Illustrator · Photoshop · After Efffects</span>
+      <span class="hero-tag-pill">Figma · WordPress · Illustrator · Photoshop · After Effects</span>
     </div>
-    <h1 class="hero-title">Designing Canada's real-time GDP nowcast into something anyone could actually read</h1>
-    <p class="hero-desc">BDLNow is the Business Data Lab's real-time economic intelligence tool. Powered by 45 indicators, it delivers a model-driven GDP estimate for Canada updated every Monday, months ahead of Statistics Canada. I designed the platform end to end.</p>
+    <h1 class="hero-title">Making Canada's real-time GDP estimate readable by anyone</h1>
+    <p class="hero-desc">BDLNow is the Business Data Lab's weekly GDP nowcast for Canada. A nowcast estimates economic growth in real time, before official data is published. Powered by 45 indicators, updated every Monday, months ahead of Statistics Canada. I designed the interface and integrated the R Shiny application into the live WordPress site.</p>
 
     <!-- Overview bar — styled like hero-stats -->
     <div class="cs-overview">
       <div class="cs-overview-item">
         <span class="cs-overview-label"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="4.5" r="2.5"/><path d="M2 12c0-2.8 2.2-5 5-5s5 2.2 5 5"/></svg>Role</span>
-        <span class="cs-overview-value">Product Designer (UI, UX) · Markting Designer</span>
+        <span class="cs-overview-value">Product Designer (UI, UX) · Marketing Designer</span>
       </div>
       <div class="cs-overview-item">
         <span class="cs-overview-label"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z"/><line x1="8" y1="4" x2="10" y2="6"/></svg>Tools</span>
-        <span class="cs-overview-value">Figma · WordPress · Illustrator · Photoshop · After Efffects</span>
+        <span class="cs-overview-value">Figma · WordPress · Illustrator · Photoshop · After Effects</span>
       </div>
       <div class="cs-overview-item">
         <span class="cs-overview-label"><svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="1.5" width="11" height="11" rx="2"/><line x1="1.5" y1="5.5" x2="12.5" y2="5.5"/><line x1="1.5" y1="9" x2="12.5" y2="9"/><line x1="5.5" y1="5.5" x2="5.5" y2="12.5"/></svg>Service</span>
@@ -452,20 +217,12 @@
 
     <!-- Left sticky sidebar nav -->
     <div class="section-nav">
-      <!-- Background: document/text lines -->
-      <a href="#background" class="active">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <line x1="2" y1="3.5" x2="12" y2="3.5"/>
-          <line x1="2" y1="6.5" x2="12" y2="6.5"/>
-          <line x1="2" y1="9.5" x2="8" y2="9.5"/>
-        </svg>Background
-      </a>
-      <!-- The Gap: two blocks with space between -->
-      <a href="#problem">
+      <!-- The Problem -->
+      <a href="#problem" class="active">
         <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="1.5" y="3.5" width="4" height="7" rx="1"/>
           <rect x="8.5" y="3.5" width="4" height="7" rx="1"/>
-        </svg>The Gap
+        </svg>The Problem
       </a>
       <!-- Research: magnifying glass -->
       <a href="#research">
@@ -503,68 +260,44 @@
 
   <div class="content">
 
-    <!-- 01 Background -->
-    <section class="cs-section reveal" id="background">
-      <span class="section-label">01 — Background</span>
-      <h2 class="section-title">The model was ready.<br>Nobody outside the team could read it.</h2>
-      <div class="section-body">
-        <p>Official Canadian GDP data takes about 60 days to come out. By then, businesses have already had to guess on hiring and spending decisions. Our team at the Business Data Lab (BDL) wanted to fix this. Our economists built a smart model that tracks 45 live signals to estimate the GDP in real time, updating every single Monday.</p>
-        <p>My job was to design the platform around this complex data. I didn’t want to water down the economics. Instead, my goal was to take our team’s months of hard work and turn it into something <span class="highlight">a journalist, policymaker, or CEO could easily read and trust in seconds.</span></p>
-      </div>
-     
-      <div class="summary-card">
-        <div class="summary-card-brief">
-          <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;">
-            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gray-text);flex-shrink:0;"><rect x="4" y="1.5" width="8" height="3" rx="1"/><rect x="2" y="3" width="12" height="11.5" rx="1.5"/><line x1="5" y1="8" x2="11" y2="8"/><line x1="5" y1="10.5" x2="9" y2="10.5"/></svg>
-            <span class="callout-label" style="margin-bottom:0;">The brief</span>
-          </div>
-          <p class="callout-text">Design a public platform that makes real-time GDP estimates accessible to anyone, from a business executive to a financial journalist, without losing the rigor the model was built on.</p>
-        </div>
-     
-          <div class="summary-card-stats">
-           
-        </div>
-      </div>
-    </section>
-
-    <!-- 02 The Gap -->
+    <!-- 01 The Problem -->
     <section class="cs-section reveal" id="problem">
-      <span class="section-label">02 — The Gap</span>
-      <h2 class="section-title">The data existed.<br>The interface did not.</h2>
+      <span class="section-label">01 — The Problem</span>
+      <h2 class="section-title">The model was ready. <br>Nobody outside the team could read it.</h2>
 
       <div class="section-body" style="margin-top:24px;">
-        <p>Real-time economic forecasting wasn't new. It lived behind closed doors at private banks and inside dense academic frameworks. We had the model to change that. But we ran into three problems that made it harder than it sounds.</p>
+        <p>Official GDP data from Statistics Canada takes about 60 days to be published. By then, business leaders and policymakers have already made critical hiring and investment decisions based on partial signal. My job was to take our economists' model and turn it into something <span class="highlight">a journalist, policymaker, or CEO could read and trust in seconds.</span></p>
       </div>
 
       <div style="display:flex; flex-direction:column; margin-top:48px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden;">
 
         <div style="display:grid; grid-template-columns:80px 1fr; border-bottom:1px solid var(--border);">
           <div style="background:var(--black); display:flex; align-items:center; justify-content:center; padding:32px 0;">
-            <span style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.8);">01</span>
+            <span style="font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#ffffff;">01</span>
           </div>
           <div style="padding:32px 36px;">
-            <p style="font-size:14px; font-weight:600; letter-spacing:-.01em; color:var(--black); margin-bottom:10px;">Built for Academics, Not Humans</p>
-            <p style="font-size:15px; color:#444; line-height:1.7;">The only public reference was the New York Fed’s nowcast model. It was brilliant economics, but reading it required a statistics background. Most people who actually need GDP data do not have a PhD.</p>
+            <p style="font-size:14px; font-weight:600; letter-spacing:-.01em; color:var(--black); margin-bottom:10px;">The 60-Day Blind Spot</p>
+            <p style="font-size:15px; color:#444; line-height:1.7;">Stakeholders were forced to make fast-moving economic calls on lagging indicators. The official number always arrived after the decision was already made.</p>
           </div>
         </div>
 
         <div style="display:grid; grid-template-columns:80px 1fr; border-bottom:1px solid var(--border);">
           <div style="background:var(--black); display:flex; align-items:center; justify-content:center; padding:32px 0;">
-            <span style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.8);">02</span>
+            <span style="font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#ffffff;">02</span>
           </div>
           <div style="padding:32px 36px;">
-            <p style="font-size:14px; font-weight:600; letter-spacing:-.01em; color:var(--black); margin-bottom:10px;">Decisions Made on Guesswork</p>
-            <p style="font-size:15px; color:#444; line-height:1.7;">Businesses making critical hiring or investment choices were forced to wait months for official government reports. They had to spend money based on pure gut feeling while waiting for data.</p>
+            <p style="font-size:14px; font-weight:600; letter-spacing:-.01em; color:var(--black); margin-bottom:10px;">Academic Friction</p>
+            <p style="font-size:15px; color:#444; line-height:1.7;">The existing reference data required statistical context that most casual readers did not have. The model was credible. The presentation assumed expertise the audience did not bring.</p>
           </div>
         </div>
 
         <div style="display:grid; grid-template-columns:80px 1fr;">
           <div style="background:var(--black); display:flex; align-items:center; justify-content:center; padding:32px 0;">
-            <span style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.8);">03</span>
+            <span style="font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#ffffff;">03</span>
           </div>
           <div style="padding:32px 36px;">
             <p style="font-size:14px; font-weight:600; letter-spacing:-.01em; color:var(--black); margin-bottom:10px;">The "Invisible" Answers</p>
-            <p style="font-size:15px; color:#444; line-height:1.7;">When our economists shared early data, stakeholders always asked the same questions: What does this mean? Is it good or bad? How confident are you? The model had the answers, but the interface hid them completely.</p>
+            <p style="font-size:15px; color:#444; line-height:1.7;">Every time our economists shared early data, stakeholders asked the same thing: what does this mean? The model had the answers. The interface hid them.</p>
           </div>
         </div>
 
@@ -572,266 +305,201 @@
 
       <div class="callout dark" style="margin-top:24px;">
         <span class="callout-label">The Design Mission</span>
-        <p class="callout-text">BDLNow was not just a data engineering project. The model was the engine, but the design had to be the bridge that allowed a journalist, a CEO, or a policymaker to actually use it.</p>
+        <p class="callout-text">The model was built for economists. The platform had to work for everyone else.</p>
       </div>
     </section>
 
     <!-- 03 Research -->
     <section class="cs-section reveal" id="research">
-      <span class="section-label">03 — Research</span>
+      <span class="section-label">02 — Research</span>
       <h2 class="section-title">Comparative Audit</h2>
       <div class="section-body">
-        <p>I pulled in a group of colleagues from across the Chamber: policy advisors, communications staff, membership managers. No economists. I sat with them in front of the New York Fed's nowcast page and asked them to find the GDP estimate. What happened next told me everything I needed to know.</p>
-        <p>Nobody found it quickly. Most were lost within the first thirty seconds. Not because they weren't smart. <span class="highlight">The page was never designed for them.</span> It was built by researchers for researchers, and everyone else was an afterthought.</p>
+        <p>I pulled in colleagues from across the Chamber. Policy advisors, communications staff, membership managers. I put the New York Fed's nowcast in front of them and asked them to find the GDP estimate.</p>
+        <p>Most took well over 30 seconds just to locate the GDP estimate. And even when they found it, <span class="highlight">the probability ranges left them unsure whether the number meant anything.</span></p>
+        <p>The NY Fed model was our benchmark. It showed what a public-facing GDP nowcast could look like. BDLNow was built to do the same thing for Canada, and actually be readable.</p>
       </div>
 
       <div class="research-grid" style="display:grid; grid-template-columns:3fr 2fr; gap:0; margin-top:40px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden;">
 
-        <div class="research-img" style="overflow:hidden; border-right:1px solid var(--border); background:var(--off-white); min-height:360px;">
-          <img src="assets/bdlnow/newyork-fed-staff-nowcast.png" alt="The NY Fed Staff Nowcast interface" style="width:100%;height:100%;object-fit:contain;object-position:top center;display:block;" />
+        <div class="research-img" style="overflow:hidden; border-right:1px solid var(--border); background:var(--off-white); min-height:360px; cursor:zoom-in;">
+          <img src="assets/bdlnow/newyork-fed-staff-nowcast.png" alt="The NY Fed Staff Nowcast interface" class="lb-trigger" style="width:100%;height:100%;object-fit:contain;object-position:top center;display:block;" />
         </div>
 
         <div class="research-flaws" style="display:flex; flex-direction:column; background:var(--black);">
 
           <div class="research-flaw" style="padding:36px 32px; flex:1; border-bottom:1px solid rgba(255,255,255,.1); position:relative; overflow:hidden;">
-            <span style="position:absolute; top:-16px; right:16px; font-size:96px; font-weight:700; letter-spacing:-.04em; color:rgba(255,255,255,.04); line-height:1; pointer-events:none; user-select:none;">01</span>
-            <span style="font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.8); display:block; margin-bottom:14px;">Flaw 01</span>
-            <p style="font-size:15px; font-weight:600; letter-spacing:-.01em; color:var(--white); margin-bottom:12px; line-height:1.3;">The Mental Model Mismatch</p>
-            <p style="font-size:13px; color:rgba(255,255,255,.8); line-height:1.75;">The page assumed you already knew what you were looking at. My colleagues arrived looking for a conclusion. The interface gave them a proof first and buried the answer somewhere in the middle.</p>
+            <span style="position:absolute; top:-16px; right:16px; font-size:96px; font-weight:700; letter-spacing:-.04em; color:#ffffff; line-height:1; pointer-events:none; user-select:none; opacity:0.4;">01</span>
+            <span style="font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#ffffff; display:block; margin-bottom:14px;">Flaw 01</span>
+            <p style="font-size:15px; font-weight:600; letter-spacing:-.01em; color:var(--white); margin-bottom:12px; line-height:1.3;">Hidden on Hover</p>
+            <p style="font-size:14px; color:#ffffff; line-height:1.75;">The estimate is a dot on the chart, the same visual weight as every other point. Most people scrolled past it without knowing it was there.</p>
           </div>
 
           <div class="research-flaw" style="padding:36px 32px; flex:1; position:relative; overflow:hidden;">
-            <span style="position:absolute; top:-16px; right:16px; font-size:96px; font-weight:700; letter-spacing:-.04em; color:rgba(255,255,255,.04); line-height:1; pointer-events:none; user-select:none;">02</span>
-            <span style="font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.8); display:block; margin-bottom:14px;">Flaw 02</span>
-            <p style="font-size:15px; font-weight:600; letter-spacing:-.01em; color:var(--white); margin-bottom:12px; line-height:1.3;">The Friction of Information Density</p>
-            <p style="font-size:13px; color:rgba(255,255,255,.8); line-height:1.75;">Everything on the page had equal visual weight. Raw data series, timestamped releases, probability curves. Nothing told you what to look at first. The cognitive load was enormous before you even got close to the number.</p>
+            <span style="position:absolute; top:-16px; right:16px; font-size:96px; font-weight:700; letter-spacing:-.04em; color:#ffffff; line-height:1; pointer-events:none; user-select:none; opacity:0.4;">02</span>
+            <span style="font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#ffffff; display:block; margin-bottom:14px;">Flaw 02</span>
+            <p style="font-size:15px; font-weight:600; letter-spacing:-.01em; color:var(--white); margin-bottom:12px; line-height:1.3;">Number Without Meaning</p>
+            <p style="font-size:14px; color:#ffffff; line-height:1.75;">Four probability bands, a bell curve, raw interval ranges stacked on top of each other. Precise, but unreadable.</p>
           </div>
 
         </div>
 
       </div>
 
-      <p style="font-size:12px; color:var(--gray-text); margin-top:10px; letter-spacing:0.03em;">The NY Fed Staff Nowcast. The model BDLNow is built on. The interface BDLNow set out to rethink.</p>
+      <p style="font-size:14px; color:var(--gray-text); margin-top:10px; letter-spacing:0.03em;">The NY Fed Staff Nowcast. The same model BDLNow runs on, and the interface we set out to rethink.</p>
 
       <div class="callout dark" style="margin-top:24px;">
         <span class="callout-label">The UX Challenge</span>
-        <p class="callout-text">Clarity and credibility do not have to be a trade-off. The solution was progressive disclosure: the high-level conclusion obvious at a glance, and the deeply technical data exactly one click away for the people who needed it.</p>
-      </div>
-    </section>
-
-    <!-- 04 Design -->
-    <section class="cs-section reveal" id="design">
-      <span class="section-label">04 — Design</span>
-      <h2 class="section-title">Same model, completely different reader.</h2>
-      <div class="section-body">
-        <p>The audit gave me a clear list of what was broken. <span class="highlight">Each decision in BDLNow responds to a specific problem on the NY Fed page.</span> The comparison below shows the direct line between what we found and what we built.</p>
+        <p class="callout-text">The NY Fed proved the model could be public. BDLNow had to prove it could also be readable.</p>
       </div>
 
-      <div class="comparison-grid" style="margin-top:48px;">
+      <div class="section-body" style="margin-top:52px;">
+        <p>From that audit, I mapped every friction point to a direct design response. <span class="highlight">Same model. The interface is completely different because the reader is completely different.</span></p>
+      </div>
+
+      <div class="comparison-grid" style="margin-top:32px;">
 
         <div class="comparison-col problem">
           <div class="comparison-col-label">
-            <span></span>NY Fed Staff Nowcast
+            <span></span>NY Fed Friction
           </div>
-       
           <div class="comparison-points">
             <div class="comparison-point">
               <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><line x1="6" y1="6" x2="12" y2="12"/><line x1="12" y1="6" x2="6" y2="12"/></svg>
-              <p class="comparison-point-text"><strong>Estimate buried in a sentence.</strong> "The nowcast for 2026:Q2 is 2.5%, with the 50% probability interval at [1.4, 3.7]%..." The number has no visual prominence.</p>
+              <p class="comparison-point-text">The estimate is buried in text or revealed only through chart interaction.</p>
             </div>
             <div class="comparison-point">
               <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><line x1="6" y1="6" x2="12" y2="12"/><line x1="12" y1="6" x2="6" y2="12"/></svg>
-              <p class="comparison-point-text"><strong>Probability bell curve as the confidence tool.</strong> Meaningful to a statistician. Opaque to anyone making a hiring or investment decision.</p>
+              <p class="comparison-point-text">Probability bands require statistical confidence to understand.</p>
             </div>
             <div class="comparison-point">
               <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><line x1="6" y1="6" x2="12" y2="12"/><line x1="12" y1="6" x2="6" y2="12"/></svg>
-              <p class="comparison-point-text"><strong>Raw data series names throughout.</strong> "Manufacturing shipments of non-durable goods, seasonally adjusted" with timestamps to the minute. Not readable without a background in economics.</p>
-            </div>
-            <div class="comparison-point">
-              <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><line x1="6" y1="6" x2="12" y2="12"/><line x1="12" y1="6" x2="6" y2="12"/></svg>
-              <p class="comparison-point-text"><strong>No context for the number.</strong> Nothing tells you whether 2.5% is strong, weak, or surprising relative to what other forecasters think.</p>
+              <p class="comparison-point-text">The model's credibility is not obvious to non-experts.</p>
             </div>
           </div>
         </div>
 
         <div class="comparison-col solution">
           <div class="comparison-col-label">
-            <span></span>BDLNow
+            <span></span>Design Angle
           </div>
           <div class="comparison-points">
             <div class="comparison-point">
               <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="5.5,9 8,11.5 12.5,6.5"/></svg>
-              <p class="comparison-point-text"><strong>GDP estimate is the dominant element.</strong> The number leads the page in the largest type. One sentence below it states the estimate, the weekly change, and the reference week in plain English.</p>
+              <p class="comparison-point-text">Make the answer visible before asking users to interpret the model.</p>
             </div>
             <div class="comparison-point">
               <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="5.5,9 8,11.5 12.5,6.5"/></svg>
-              <p class="comparison-point-text"><strong>Bloomberg consensus range as the confidence frame.</strong> Where professional forecasters sit, shown visually. Anyone can read it without a statistics background.</p>
+              <p class="comparison-point-text">Replace statistical abstraction with a consensus frame.</p>
             </div>
             <div class="comparison-point">
               <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="5.5,9 8,11.5 12.5,6.5"/></svg>
-              <p class="comparison-point-text"><strong>Indicators grouped by economic category.</strong> Consumption, Production, Labour, Financial. Named for what they mean in the economy, not what the data series is called.</p>
-            </div>
-            <div class="comparison-point">
-              <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="7"/><polyline points="5.5,9 8,11.5 12.5,6.5"/></svg>
-              <p class="comparison-point-text"><strong>Context is built into the layout.</strong> The Bloomberg range immediately shows whether BDLNow's estimate is inside or outside professional consensus. No extra interpretation needed.</p>
+              <p class="comparison-point-text">Let users judge the model's track record in one view.</p>
             </div>
           </div>
         </div>
 
       </div>
 
+    </section>
 
-      <div class="section-body" style="margin-top:52px;">
-        <p><span class="highlight">The restructure followed one simple rule: deliver the conclusion first, then provide the context.</span> Instead of forcing users to understand the math before they could see the result, BDLNow gives them the answer instantly. If they want to explore the data layers behind it, that information is ready and waiting exactly one click away.</p>
+    <!-- 04 Design -->
+    <section class="cs-section reveal" id="design">
+      <span class="section-label">03 — Design</span>
+      <h2 class="section-title">Conclusion first, context second.</h2>
+      <div class="section-body">
+        <p>That one rule drove every decision. The answer is on screen the moment the page loads. The data behind it is one click away.</p>
+        <p>It's how the three design angles from the audit became a real interface: <span class="highlight">the estimate labeled on the chart, the Bloomberg range standing in for statistical confidence, and the model's track record visible in one view.</span></p>
       </div>
-      <!-- Part 1: Weekly GDP Nowcast -->
-      <div style="margin-top:52px;">
-        <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);">
-          <span style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--white);background:var(--black);padding:6px 14px;border-radius:999px;white-space:nowrap;">01</span>
-          <span style="font-size:15px;font-weight:600;color:var(--black);">Weekly GDP Nowcast</span>
-        </div>
-        <div class="anno-img" style="min-height:320px; margin-bottom:16px;">
-          <img src="assets/bdlnow/Weekly GDP Nowcast section.png" alt="Weekly GDP Nowcast chart showing estimate vs Bloomberg consensus" style="width:100%;height:100%;object-fit:contain;display:block;padding:12px;" />
-        </div>
-        <div class="design-feat-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-          <div class="anno-card">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="2,16 7,10 11,13 16,7 20,9"/>
-              <line x1="2" y1="19" x2="20" y2="19"/>
-            </svg>
-            <p class="anno-card-title">Estimate vs Bloomberg consensus, always visible</p>
-            <p class="anno-card-desc">The purple line is BDLNow's estimate. The blue band is where professional forecasters sit. Both in one chart, no toggling needed.</p>
-          </div>
-          <div class="anno-card" style="background:var(--black);border-color:transparent;">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--white);">
-              <circle cx="11" cy="11" r="2.5"/>
-              <line x1="11" y1="2" x2="11" y2="5"/>
-              <line x1="11" y1="17" x2="11" y2="20"/>
-              <line x1="2" y1="11" x2="5" y2="11"/>
-              <line x1="17" y1="11" x2="20" y2="11"/>
-            </svg>
-            <p class="anno-card-title" style="color:var(--white);">Hover reveals the exact weekly value</p>
-            <p class="anno-card-desc" style="color:rgba(255,255,255,.8);">Each data point is interactive. A tooltip shows the precise estimate and its date so you can trace how the number moved week by week.</p>
-          </div>
-          <div class="anno-card">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="2" y1="20" x2="20" y2="20"/>
-              <polyline points="5,20 5,12 9,8 13,14 17,4 17,20"/>
-            </svg>
-            <p class="anno-card-title">Trajectory readable before any interaction</p>
-            <p class="anno-card-desc">The chart opens with the full quarter in view. You can read the direction of the economy in under 30 seconds, no clicks needed.</p>
-          </div>
-        </div>
+      <!-- Feature tabs -->
+      <div style="margin-top:52px; margin-bottom:20px;">
+        <span style="font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-text);display:block;margin-bottom:12px;">Inside the platform</span>
+        <p style="font-size:22px;font-weight:700;letter-spacing:-.025em;line-height:1.2;color:var(--black);">Three sections. Each answering a different question.</p>
       </div>
+      <div class="feat-tabs" style="margin-top:0;">
+        <div class="feat-tab-bar">
+          <button class="feat-tab-btn active" data-tab="ftab1">
+            <span class="tab-num">01</span>Weekly GDP Nowcast
+          </button>
+          <button class="feat-tab-btn" data-tab="ftab2">
+            <span class="tab-num">02</span>Impact Analysis
+          </button>
+          <button class="feat-tab-btn" data-tab="ftab3">
+            <span class="tab-num">03</span>Quarterly GDP Growth
+          </button>
+        </div>
 
-      <!-- Part 2: Impact Analysis -->
-      <div style="margin-top:52px;">
-        <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);">
-          <span style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--white);background:var(--black);padding:6px 14px;border-radius:999px;white-space:nowrap;">02</span>
-          <span style="font-size:15px;font-weight:600;color:var(--black);">Impact Analysis</span>
-        </div>
-        <div class="anno-img" style="min-height:360px; margin-bottom:16px;">
-          <img src="assets/bdlnow/Impact Analysis section.png" alt="Impact Analysis chart and data release table" style="width:100%;height:100%;object-fit:contain;display:block;padding:12px;" />
-        </div>
-        <div class="design-feat-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-          <div class="anno-card" style="background:var(--black);border-color:transparent;">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--white);">
-              <rect x="2" y="14" width="4" height="6" rx="1"/>
-              <rect x="9" y="8" width="4" height="12" rx="1"/>
-              <rect x="16" y="3" width="4" height="17" rx="1"/>
-            </svg>
-            <p class="anno-card-title" style="color:var(--white);">Indicators grouped by economic category</p>
-            <p class="anno-card-desc" style="color:rgba(255,255,255,.8);">Consumption, Production, Financial, Labour. Named for what they mean in the economy, not the raw data series names.</p>
+        <!-- Panel 1 -->
+        <div class="feat-tab-panel active" id="ftab1">
+          <div class="anno-img" style="min-height:320px; margin-bottom:16px;">
+            <img src="assets/bdlnow/Weekly GDP Nowcast section.png" alt="Weekly GDP Nowcast" style="width:100%;height:100%;object-fit:contain;display:block;padding:12px;" />
           </div>
-          <div class="anno-card">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="18" height="14" rx="2"/>
-              <line x1="2" y1="9" x2="20" y2="9"/>
-              <line x1="7" y1="9" x2="7" y2="18"/>
-            </svg>
-            <p class="anno-card-title">Drill from chart to data release table</p>
-            <p class="anno-card-desc">Each bar in the chart maps to the table below. Click through to see which indicators moved the estimate and by how much.</p>
-          </div>
-          <div class="anno-card">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="3" y1="7" x2="19" y2="7"/>
-              <line x1="3" y1="12" x2="19" y2="12"/>
-              <line x1="3" y1="17" x2="13" y2="17"/>
-              <polyline points="17,14 20,17 17,20"/>
-            </svg>
-            <p class="anno-card-title">Expandable rows for source transparency</p>
-            <p class="anno-card-desc">Each row expands to show the data description, transformation method, and Statistics Canada source. Economists get the detail. Everyone else can skip it.</p>
+          <div class="design-feat-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+            <div class="anno-card">
+              <img src="assets/bdlnow/icons/chart-line.svg" class="anno-card-icon" alt="">
+              <p class="anno-card-title">Estimate vs consensus, always visible</p>
+              <p class="anno-card-desc">BDLNow's line and the Bloomberg professional range in one chart. No toggling.</p>
+            </div>
+            <div class="anno-card" style="background:var(--black);border-color:transparent;">
+              <img src="assets/bdlnow/icons/crosshair.svg" class="anno-card-icon" alt="" style="filter:invert(1);">
+              <p class="anno-card-title" style="color:var(--white);">Hover for the exact weekly value</p>
+              <p class="anno-card-desc" style="color:#ffffff;">Tooltip shows the estimate and date for each data point.</p>
+            </div>
+            <div class="anno-card">
+              <img src="assets/bdlnow/icons/chart-direction.svg" class="anno-card-icon" alt="">
+              <p class="anno-card-title">Direction readable at a glance</p>
+              <p class="anno-card-desc">Full quarter in view on load. No clicks needed to read the trend.</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Part 3: Actual and Nowcast Quarterly GDP Growth -->
-      <div style="margin-top:52px;">
-        <div style="display:flex;align-items:center;gap:16px;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border);">
-          <span style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--white);background:var(--black);padding:6px 14px;border-radius:999px;white-space:nowrap;">03</span>
-          <span style="font-size:15px;font-weight:600;color:var(--black);">Actual and Nowcast Quarterly GDP Growth</span>
-        </div>
-        <div class="anno-img" style="min-height:320px; margin-bottom:16px;">
-          <img src="assets/bdlnow/Actual and Nowcast Quarterly Canada GDP Growth section.png" alt="Actual and Nowcast Quarterly Canada GDP Growth bar chart" style="width:100%;height:100%;object-fit:contain;display:block;padding:12px;" />
-        </div>
-        <div class="design-feat-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
-          <div class="anno-card">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="2" y1="20" x2="20" y2="20"/>
-              <rect x="3" y="10" width="3" height="10" rx=".5"/>
-              <rect x="8" y="6" width="3" height="14" rx=".5"/>
-              <rect x="13" y="13" width="3" height="7" rx=".5" style="fill:var(--black);"/>
-              <rect x="18" y="8" width="3" height="12" rx=".5" style="fill:var(--black);"/>
-            </svg>
-            <p class="anno-card-title">Historical and forward-looking in one chart</p>
-            <p class="anno-card-desc">Light blue bars show what happened. Purple bars show BDLNow's estimate. Past and present in one view, no switching needed.</p>
-          </div>
-          <div class="anno-card" style="background:var(--black);border-color:transparent;">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--white);">
-              <circle cx="5" cy="14" r="2" fill="currentColor" stroke="none"/>
-              <circle cx="11" cy="8" r="2" fill="currentColor" stroke="none"/>
-              <circle cx="17" cy="11" r="2" fill="currentColor" stroke="none"/>
-              <line x1="2" y1="20" x2="20" y2="20"/>
-            </svg>
-            <p class="anno-card-title" style="color:var(--white);">Historical dots show model accuracy</p>
-            <p class="anno-card-desc" style="color:rgba(255,255,255,.8);">Dots mark where BDLNow estimated before the official number came out. You can see how accurate the model has been, right in the chart.</p>
-          </div>
-          <div class="anno-card">
-            <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-              <path d="M2 17l10 5 10-5"/>
-              <path d="M2 12l10 5 10-5"/>
-            </svg>
-            <p class="anno-card-title">Two consecutive quarters, always in view</p>
-            <p class="anno-card-desc">Stats Canada releases data about 60 days late, so two quarters overlap. BDLNow shows both at once so you never have to navigate away to see the full picture.</p>
+        <!-- Panel 2 -->
+        <div class="feat-tab-panel" id="ftab2">
+          <div class="feat-side-layout">
+            <div class="anno-img" style="min-height:360px;">
+              <img src="assets/bdlnow/Impact Analysis section.png" alt="Impact Analysis" style="width:100%;height:100%;object-fit:contain;display:block;padding:12px;" />
+            </div>
+            <div class="feat-side-cards">
+              <div class="anno-card" style="background:var(--black);border-color:transparent;flex:1;">
+                <img src="assets/bdlnow/icons/bars-category.svg" class="anno-card-icon" alt="" style="filter:invert(1);">
+                <p class="anno-card-title" style="color:var(--white);">Grouped by category, not by data series</p>
+                <p class="anno-card-desc" style="color:#ffffff;">Consumption, Production, Financial, Labour. Named for what they mean, not what Stats Canada calls them.</p>
+              </div>
+              <div class="anno-card" style="flex:1;">
+                <img src="assets/bdlnow/icons/list-expand.svg" class="anno-card-icon" alt="">
+                <p class="anno-card-title">Data Release Impact table</p>
+                <p class="anno-card-desc">Sits below the bar chart. Each row is an indicator. Expand any row to see the description, transformation method, and Stats Canada source.</p>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Panel 3 -->
+        <div class="feat-tab-panel" id="ftab3">
+          <div class="anno-img" style="min-height:320px; margin-bottom:16px;">
+            <img src="assets/bdlnow/Actual and Nowcast Quarterly Canada GDP Growth section.png" alt="Quarterly GDP Growth" style="width:100%;height:100%;object-fit:contain;display:block;padding:12px;" />
+          </div>
+          <div class="design-feat-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
+            <div class="anno-card">
+              <img src="assets/bdlnow/icons/chart-overlay.svg" class="anno-card-icon" alt="">
+              <p class="anno-card-title">Past and present in one view</p>
+              <p class="anno-card-desc">Light blue is official GDP. Purple is BDLNow's estimate. No switching needed.</p>
+            </div>
+            <div class="anno-card" style="background:var(--black);border-color:transparent;">
+              <img src="assets/bdlnow/icons/dots-accuracy.svg" class="anno-card-icon" alt="" style="filter:invert(1);">
+              <p class="anno-card-title" style="color:var(--white);">Dots show past accuracy</p>
+              <p class="anno-card-desc" style="color:#ffffff;">Each dot is BDLNow's estimate before the official number came out. Model track record, visible in the chart.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
     <!-- 06 Outcome -->
     <section class="cs-section reveal" id="outcome">
-      <span class="section-label">05 — Outcome</span>
+      <span class="section-label">04 — Outcome</span>
       <h2 class="section-title">Live, public, and updated every week.</h2>
-      <div class="section-body">
-        <p>BDLNow launched publicly in September 2025 through the Canadian Chamber of Commerce. It is available to anyone at businessdatalab.ca/bdlnow, updated every Monday. The platform tracks two consecutive quarters at a time and refreshes automatically once Statistics Canada publishes the official release for a given quarter.</p>
-        <p>The tool reaches policymakers, business leaders, journalists, and financial professionals. It is the first public Canadian nowcast of its kind: free, model-driven, and updated every week without editorial adjustment.</p>
-      </div>
-      <div class="outcome-grid">
-        <div class="outcome-card filled">
-          <span class="outcome-num">45</span>
-          <p class="outcome-desc">High-frequency indicators powering the weekly estimate. Retail, manufacturing, employment, commodities, and financial markets. All re-weighted every Monday.</p>
-        </div>
-        <div class="outcome-card">
-          <span class="outcome-num">Every<br>Monday</span>
-          <p class="outcome-desc">Update cadence. New data arrives, the model re-runs, and the estimate updates. Users can see what moved it in Impact Analysis.</p>
-        </div>
-        <div class="outcome-card">
-          <span class="outcome-num">~60 days</span>
-          <p class="outcome-desc">Lead time ahead of Statistics Canada's official quarterly release. BDLNow starts estimating on day one of the quarter.</p>
-        </div>
-      </div>
-      <div class="browser-mockup">
+      <div class="browser-mockup" style="margin-bottom:40px;">
         <div class="browser-chrome">
           <div class="browser-dots">
             <span></span><span></span><span></span>
@@ -842,16 +510,32 @@
           <img src="assets/bdlnow/bdlnow_page_screen.png" alt="BDLNow live platform" />
         </div>
       </div>
+      <div class="section-body">
+        <p>BDLNow is the first freely available public nowcast of Canadian GDP. It launched in September 2025 and has been running every Monday since. No editorial adjustment. No paywall.</p>
+      </div>
+      <div class="outcome-grid">
+        <div class="outcome-card filled">
+          <span class="outcome-num">~60 days</span>
+          <p class="outcome-desc">Ahead of Statistics Canada's official release. Business leaders and policymakers get a credible estimate while the official number is still being calculated.</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-num">Every<br>Monday</span>
+          <p class="outcome-desc">Markets and decisions don't wait for quarterly reports. A fresh estimate every week means the number stays current as conditions change.</p>
+        </div>
+        <div class="outcome-card">
+          <span class="outcome-num">45</span>
+          <p class="outcome-desc">Indicators across retail, employment, housing, commodities, and financial markets. More sources means no single data release can throw off the whole estimate.</p>
+        </div>
+      </div>
     </section>
 
     <!-- 07 What I Learned -->
     <section class="cs-section reveal" id="learned">
-      <span class="section-label">06 — What I Learned</span>
-      <h2 class="section-title">What this project<br>taught me.</h2>
+      <span class="section-label">05 — What I Learned</span>
+      <h2 class="section-title">What this project <br>taught me.</h2>
       <div class="section-body">
-        <p><span class="highlight">Designing for credibility and designing for clarity are not opposites.</span> This project proved that. The answer was not to simplify the model. It was to structure the interface so readers who needed the headline got it first, and readers who needed the depth could find it without searching. Progressive disclosure is not about hiding complexity. It is about sequencing it correctly.</p>
-        <p>Understanding the model was part of the design work. I sat with the economists long enough to understand what a dynamic factor model actually does, what drives the week-over-week change, and why the Bloomberg comparison mattered to different types of readers. That knowledge changed almost every decision I made on screen. You cannot design the communication of something you do not understand.</p>
-        <p><span class="highlight">I also learned that public tools carry a different kind of responsibility.</span> BDLNow was not an internal dashboard. It was designed to be referenced in boardrooms, cited in news coverage, and opened by people making real economic decisions. Getting the framing right, especially the distinction between a nowcast and a forecast, was not a content problem. It was a design problem. The copy, the hierarchy, and the visual structure all had to work together to communicate that distinction before anyone scrolled past the first paragraph.</p>
+        <p>Understanding the model was part of the design work. I sat with the economists until I could explain what moved the number each week and what the Bloomberg range actually meant. That knowledge changed decisions I made on screen. You cannot design the communication of something you do not understand.</p>
+        <p>BDLNow gets read by people making decisions and writing headlines. <span class="highlight">I couldn't just put data on a screen and hope they figured it out.</span> The top of the page had to be clear enough that anyone landing there for the first time understood exactly what the number meant, where it came from, and why they should trust it.</p>
       </div>
     </section>
 
@@ -861,7 +545,7 @@
       <div class="related-grid">
         <a href="can-us-case-study.html" class="related-card">
           <div class="related-thumb">
-            <img src="assets/can-us-case-stuy/Main DashboardMap_Sidebar.png" alt="CAN-U.S. District Dashboard" style="width:100%;height:100%;object-fit:contain;display:block;" />
+            <video src="assets/can-us-case-stuy/Dashboard_intro.mp4" poster="assets/can-us-case-stuy/Dashboard_intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
           </div>
           <div class="related-body">
             <span class="related-tag">01 · Policy Data Visualization</span>
@@ -884,94 +568,7 @@
   </div><!-- /body-layout -->
 </div><!-- /page -->
 
-<script>
-  // Scroll reveal
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-  // Active section nav
-  const sections = document.querySelectorAll('.cs-section');
-  const navLinks = document.querySelectorAll('.section-nav a');
-  const sObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        navLinks.forEach(a => a.classList.remove('active'));
-        const lnk = document.querySelector(`.section-nav a[href="#${e.target.id}"]`);
-        if (lnk) lnk.classList.add('active');
-      }
-    });
-  }, { threshold: 0.35 });
-  sections.forEach(s => sObs.observe(s));
-
-  // Card scroll-in entrance
-  const cardEls = document.querySelectorAll('.callout, .obs-item, .insight-card, .decision-card, .outcome-card, .related-card, .hero-stat, .process-step');
-  cardEls.forEach(c => c.classList.add('card-enter'));
-
-  // Stagger cards within grid containers
-  document.querySelectorAll('.decision-grid, .outcome-grid, .three-col, .obs-list, .hero-stats, .process-steps, .related-grid').forEach(grid => {
-    Array.from(grid.children).forEach((child, i) => {
-      if (child.classList.contains('card-enter')) {
-        child.style.transitionDelay = `${i * 0.1}s`;
-      }
-    });
-  });
-
-  const cardObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('card-visible');
-        cardObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  cardEls.forEach(c => cardObs.observe(c));
-
-  // Smooth scroll
-  navLinks.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const t = document.querySelector(a.getAttribute('href'));
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // Card slide-in
-  const slideObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); slideObs.unobserve(e.target); }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.slide-left, .slide-right').forEach(el => slideObs.observe(el));
-
-  // Lightbox
-  const overlay = document.createElement('div');
-  overlay.className = 'lightbox-overlay';
-  overlay.innerHTML = '<button class="lightbox-close" aria-label="Close">✕</button><img>';
-  document.body.appendChild(overlay);
-  const lbImg = overlay.querySelector('img');
-
-  function openLightbox(src, alt) {
-    lbImg.src = src;
-    lbImg.alt = alt || '';
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('.img-block img, .anno-img img').forEach(img => {
-    img.classList.add('lb-trigger');
-    img.addEventListener('click', () => openLightbox(img.src, img.alt));
-  });
-
-  overlay.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-</script>
+<script src="assets/js/case-study.js" defer></script>
 
 </body>
 </html>

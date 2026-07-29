@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BriefBuy Case Study · Goeun Choi</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Overused+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/case-study.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --white:     #ffffff; --off-white: #f8f8f8; --gray-light: #f0f0f0;
       --gray-text: #888888; --black:     #111111; --border:     #e8e8e8;
@@ -15,181 +16,30 @@
       --highlight: #fef3c7; --note-bg:  #fef9e7;
       --brand:     #5d5cff; --brand-teal: #2dd4bf;
     }
-    body { font-family:'Overused Grotesk','Inter',system-ui,sans-serif; background:var(--white); color:var(--black); line-height:1.6; font-size:16px; font-weight:400; }
 
-    /* Nav */
-    nav { position:sticky; top:0; background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); border-radius:0 0 20px 20px; z-index:100; }
-    .nav-inner { max-width:1280px; margin:0 auto; padding:24px 64px; display:flex; justify-content:space-between; align-items:center; }
-    .nav-logo { font-size:15px; font-weight:600; color:var(--black); text-decoration:none; letter-spacing:-.01em; }
-    .nav-links { display:flex; gap:36px; list-style:none; }
-    .nav-links a { font-size:13px; color:var(--gray-text); text-decoration:none; transition:color .15s; }
-    .nav-links a:hover { color:var(--black); }
+    /* Cover placeholder */
+    .cover-ph { font-size:14px; color:#ffffff; letter-spacing:.04em; }
 
-    /* Page */
-    .page { max-width:1280px; margin:0 auto; padding:0 64px; }
+    /* Role badge row */
+    .role-row { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:48px; }
+    .role-cell { padding:28px 32px; border-right:1px solid var(--border); }
+    .role-cell:last-child { border-right:none; }
+    .role-cell-tag { font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:10px; }
+    .role-cell-name { font-size:15px; font-weight:600; color:var(--black); margin-bottom:6px; }
+    .role-cell-desc { font-size:14px; color:var(--gray-text); line-height:1.5; }
 
-    /* Hero */
-    .hero { padding:72px 0 64px; border-bottom:1px solid var(--border); }
-    .hero-meta { display:flex; align-items:center; gap:12px; margin-bottom:32px; }
-    .hero-back { font-size:13px; color:var(--gray-text); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color .15s; }
-    .hero-back:hover { color:var(--black); }
-    .hero-meta-sep { color:var(--border); }
-    .hero-meta-tag { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); }
-    .hero-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px; }
-    .hero-tag-pill { font-size:11px; font-weight:500; background:var(--off-white); color:var(--black); border:1px solid var(--border); border-radius:999px; padding:5px 14px; }
-    .hero-tag-pill.filled { background:var(--black); color:var(--white); border-color:transparent; }
-    h1.hero-title { font-size:clamp(34px,4.5vw,66px); font-weight:700; letter-spacing:-.035em; line-height:1.05; color:var(--black); margin-bottom:20px; }
-    p.hero-desc { font-size:17px; color:var(--gray-text); line-height:1.65; margin-bottom:48px; }
+    /* Bento */
+    .bento-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:48px; }
+    .bento-card-body { padding:28px; display:flex; flex-direction:column; min-height:220px; }
+    .bento-num { font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#ffffff; display:block; margin-bottom:10px; }
+    .bento-title { font-size:17px; font-weight:600; color:var(--white); line-height:1.3; margin-bottom:10px; }
+    .bento-desc { font-size:14px; color:#ffffff; line-height:1.6; }
+    .bento-span-2 { grid-column:span 2; }
 
-    /* Stats */
-    .hero-stats { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:52px; }
-    .hero-stat { padding:28px 32px; border-right:1px solid var(--border); }
-    .hero-stat:last-child { border-right:none; }
-    .hero-stat-num { font-size:38px; font-weight:700; letter-spacing:-.03em; display:block; margin-bottom:6px; }
-    .hero-stat-label { font-size:12px; color:var(--gray-text); line-height:1.4; }
+    /* Step dot uses brand color */
+    .step-dot { background:var(--brand); }
 
-    /* Cover */
-    .hero-cover { width:100%; aspect-ratio:16/7; background:var(--black); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-    .cover-ph { font-size:13px; color:rgba(255,255,255,.25); letter-spacing:.04em; }
-
-    /* Overview bar */
-    .cs-overview {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      margin-bottom: 52px;
-    }
-    .cs-overview-item {
-      padding: 28px 32px;
-      border-right: 1px solid var(--border);
-    }
-    .cs-overview-item:last-child { border-right: none; }
-    .cs-overview-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: var(--black);
-      color: var(--white);
-      padding: 10px 32px;
-      margin: -28px -32px 20px -32px;
-    }
-    .cs-overview-label svg { flex-shrink: 0; opacity: .75; }
-    .cs-overview-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--black);
-      line-height: 1.5;
-    }
-
-    /* Body layout */
-    .body-layout {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 0;
-      align-items: start;
-    }
-
-    /* Left sticky sidebar nav */
-    .section-nav {
-      position: sticky;
-      top: 96px;
-      padding: 30px 32px 80px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .section-nav a {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--gray-text);
-      text-decoration: none;
-      padding: 8px 16px 6px 18px;
-      border-radius: 999px;
-      white-space: nowrap;
-      transition: color .2s, background .2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .section-nav a:hover { color: var(--black); }
-    .section-nav a.active {
-      background: var(--black);
-      color: var(--white);
-      font-weight: 600;
-    }
-    .snav-icon { width: 14px; height: 14px; flex-shrink: 0; color: inherit; }
-
-    /* Content */
-    .content { padding: 80px 0 120px; padding-left: 72px; border-left: 1px solid var(--border); }
-    .cs-section { padding:72px 0; border-bottom:1px solid var(--border); }
-    .cs-section:last-child { border-bottom:none; }
-
-    /* Typography */
-    .section-label { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); margin-bottom:20px; display:block; }
-    .section-title { font-size:clamp(24px,2.8vw,38px); font-weight:700; letter-spacing:-.025em; line-height:1.1; margin-bottom:24px; }
-    .section-body { font-size:16px; line-height:1.8; color:#333; }
-    .section-body p+p { margin-top:20px; }
-
-    /* Layout helpers */
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:48px; align-items:start; }
-    .three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px; }
-
-    /* Callout */
-    .callout { background:var(--off-white); border-radius:var(--radius-sm); padding:28px 32px; margin-top:40px; }
-    .callout.dark { background:var(--black); color:var(--white); }
-    .callout-label { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:10px; display:block; }
-    .callout.dark .callout-label { color:rgba(255,255,255,.8); }
-    .callout-text { font-size:18px; font-weight:600; line-height:1.5; letter-spacing:-.01em; }
-    .callout.dark .callout-text { color:var(--white); }
-    [class*="dark"],
-    .bento-card,
-    .outcome-card.filled { color: var(--white); }
-
-    /* Annotated layout */
-    .anno-layout { display:flex; flex-direction:column; gap:12px; margin-top:48px; }
-    .anno-row { display:grid; gap:12px; align-items:stretch; }
-    .anno-row.img-right { grid-template-columns:1fr 2fr; }
-    .anno-row.img-left  { grid-template-columns:2fr 1fr; }
-    .anno-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:28px; display:grid; grid-template-columns:26px 1fr; grid-template-rows:auto auto; gap:6px 12px; align-items:start; flex:1; transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
-    .anno-card:hover { transform:translateY(-4px); box-shadow:0 10px 36px rgba(0,0,0,.1); }
-    .anno-card-icon { width:26px; height:26px; color:var(--black); flex-shrink:0; grid-column:1; grid-row:1; margin-top:2px; }
-    .anno-card-title { font-size:14px; font-weight:600; color:var(--black); line-height:1.3; margin-bottom:0; grid-column:2; grid-row:1; align-self:center; }
-    .anno-card-desc { font-size:13px; color:var(--gray-text); line-height:1.65; grid-column:1 / -1; grid-row:2; }
-    .anno-img { background:var(--off-white); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; min-height:320px; display:flex; align-items:center; justify-content:center; }
-    .anno-img img { width:100%; height:100%; object-fit:contain; display:block; padding:10px; }
-    .anno-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-
-    /* Summary card */
-    .summary-card { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:40px; }
-    .summary-card-brief { padding:28px 32px; background:var(--off-white); border-bottom:1px solid var(--border); }
-
-    /* Process steps */
-    .process-steps { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:48px; }
-    .process-step { padding:28px 24px; border-right:1px solid var(--border); }
-    .process-step:last-child { border-right:none; }
-    .step-num { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:10px; display:block; }
-    .step-title { font-size:14px; font-weight:600; margin-bottom:8px; }
-    .step-desc { font-size:12px; color:var(--gray-text); line-height:1.5; }
-    .step-flow { display:flex; align-items:center; margin-top:32px; margin-bottom:48px; }
-    .step-pill { border:1.5px solid var(--border); border-radius:999px; padding:18px 26px; text-align:center; flex-shrink:0; opacity:0; transform:translateY(10px); transition:opacity .45s ease, transform .45s cubic-bezier(.25,.46,.45,.94); }
-    .step-pill.visible { opacity:1; transform:none; }
-    .step-pill.featured { background:var(--black); border-color:var(--black); }
-    .step-pill-title { font-size:14px; font-weight:600; color:var(--black); letter-spacing:-.01em; }
-    .step-pill.featured .step-pill-title { color:var(--white); }
-    .step-pill-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); display:block; margin-top:4px; }
-    .step-pill.featured .step-pill-label { color:rgba(255,255,255,.5); }
-    .step-connector { flex:1; display:flex; align-items:center; opacity:0; transition:opacity .4s ease; }
-    .step-connector.visible { opacity:1; }
-    .step-dash { flex:1; border-top:1.5px dashed var(--border); }
-    .step-dot { width:8px; height:8px; border-radius:50%; background:var(--brand); flex-shrink:0; }
-    @media(max-width:700px){ .step-flow { flex-direction:column; align-items:stretch; gap:8px; } .step-connector { display:none; } .step-pill { border-radius:var(--radius-sm); text-align:left; padding:16px 20px; } }
+    /* Process flow card */
     .process-flow-card {
       margin-top: 18px;
       border: 1px solid var(--border);
@@ -205,7 +55,7 @@
       margin-bottom: 24px;
     }
     .process-flow-head span {
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 700;
       letter-spacing: .14em;
       text-transform: uppercase;
@@ -213,7 +63,7 @@
     }
     .process-flow-head p {
       max-width: 360px;
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.6;
       color: var(--gray-text);
       text-align: right;
@@ -222,236 +72,12 @@
     .process-node { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:20px; display:flex; flex-direction:column; gap:10px; transition:transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s; cursor:default; }
     .process-node:hover { transform:translateY(-4px); box-shadow:0 10px 28px rgba(0,0,0,.08); }
     .process-node.important { background:var(--black); border-color:transparent; }
-    .process-node-num { font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); background:var(--off-white); border:1px solid var(--border); border-radius:999px; padding:4px 10px; width:fit-content; }
-    .process-node.important .process-node-num { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.15); color:rgba(255,255,255,.6); }
+    .process-node-num { font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); background:var(--off-white); border:1px solid var(--border); border-radius:999px; padding:4px 10px; width:fit-content; }
+    .process-node.important .process-node-num { background:rgba(255,255,255,.12); border-color:#ffffff; color:#ffffff; }
     .process-node strong { display:block; font-size:14px; font-weight:600; color:var(--black); letter-spacing:-.01em; line-height:1.3; }
     .process-node.important strong { color:var(--white); }
-    .process-node p { font-size:12px; line-height:1.6; color:var(--gray-text); }
-    .process-node.important p { color:rgba(255,255,255,.6); }
-
-    /* Bento grid */
-    .bento-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:48px; }
-    .bento-card { background:var(--black); border-radius:var(--radius-sm); overflow:hidden; }
-    .bento-card-body { padding:28px; display:flex; flex-direction:column; min-height:220px; }
-    .bento-num { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.8); display:block; margin-bottom:10px; }
-    .bento-title { font-size:17px; font-weight:600; color:var(--white); line-height:1.3; margin-bottom:10px; }
-    .bento-desc { font-size:13px; color:rgba(255,255,255,.8); line-height:1.6; }
-    .bento-span-2 { grid-column:span 2; }
-
-    /* Outcome */
-    .outcome-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:48px; }
-    .outcome-card { padding:32px 28px; border:1px solid var(--border); border-radius:var(--radius-sm); }
-    .outcome-card.filled { background:var(--black); border-color:transparent; }
-    .outcome-num { font-size:42px; font-weight:700; letter-spacing:-.03em; display:block; margin-bottom:6px; }
-    .outcome-card.filled .outcome-num { color:var(--white); }
-    .outcome-desc { font-size:13px; color:var(--gray-text); line-height:1.5; }
-    .outcome-card.filled .outcome-desc { color:rgba(255,255,255,.8); }
-    .outcome-card { transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
-    .outcome-card:hover { transform:translateY(-4px); box-shadow:0 10px 36px rgba(0,0,0,.08); }
-
-    /* Comparison section */
-    .comparison-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:48px; }
-    .comparison-col { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
-    .comparison-col.problem { border-color:var(--border); }
-    .comparison-col.solution { border-color:var(--black); }
-    .comparison-col-label { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:12px 20px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
-    .comparison-col.problem .comparison-col-label { background:var(--off-white); color:var(--gray-text); }
-    .comparison-col.solution .comparison-col-label { background:var(--black); color:var(--white); }
-    .comparison-col-label span { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-    .comparison-col.problem .comparison-col-label span { background:#ccc; }
-    .comparison-col.solution .comparison-col-label span { background:#fff; }
-    .comparison-points { padding:20px; display:flex; flex-direction:column; gap:12px; }
-    .comparison-point { display:flex; align-items:flex-start; gap:10px; transition:transform .2s cubic-bezier(.22,1,.36,1); cursor:default; }
-    .comparison-point:hover { transform:translateX(4px); }
-    .comparison-point-icon { width:18px; height:18px; flex-shrink:0; margin-top:2px; }
-    .comparison-col.problem .comparison-point-icon { color:#e53e3e; }
-    .comparison-col.solution .comparison-point-icon { color:var(--black); }
-    .comparison-point-text { font-size:13px; line-height:1.6; color:#333; }
-    .comparison-col.problem .comparison-point-text { color:var(--gray-text); }
-
-    /* Image blocks */
-    .img-block { width:100%; background:var(--off-white); border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; margin-top:40px; }
-    .img-block.dark { background:var(--black); border-color:transparent; }
-    .img-ph { font-size:12px; color:var(--gray-text); letter-spacing:.04em; padding:40px; text-align:center; }
-    .img-block.dark .img-ph { color:rgba(255,255,255,.25); }
-
-    /* Browser mockup */
-    .browser-mockup { width:100%; border-radius:var(--radius); overflow:hidden; margin-top:40px; border:1px solid var(--border); box-shadow:0 8px 40px rgba(0,0,0,.10); }
-    .browser-chrome { background:#f0f0f0; border-bottom:1px solid #d8d8d8; padding:10px 16px; display:flex; align-items:center; gap:12px; }
-    .browser-dots { display:flex; gap:6px; flex-shrink:0; }
-    .browser-dots span { width:12px; height:12px; border-radius:50%; display:block; }
-    .browser-dots span:nth-child(1) { background:#ff5f57; }
-    .browser-dots span:nth-child(2) { background:#febc2e; }
-    .browser-dots span:nth-child(3) { background:#28c840; }
-    .browser-url { flex:1; background:#fff; border:1px solid #d0d0d0; border-radius:6px; padding:4px 12px; font-size:12px; color:#666; font-family:inherit; }
-    .browser-viewport { height:480px; overflow-y:scroll; background:#fff; overscroll-behavior:contain; }
-    .browser-viewport::-webkit-scrollbar { width:10px; }
-    .browser-viewport::-webkit-scrollbar-track { background:#f4f4f4; }
-    .browser-viewport::-webkit-scrollbar-thumb { background:#c0c0c0; border-radius:5px; border:2px solid #f4f4f4; }
-    .browser-viewport img { width:100%; display:block; }
-
-    /* Related */
-    .related { padding:64px 0; border-top:1px solid var(--border); }
-    .related h3 { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); margin-bottom:32px; }
-    .related-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-    .related-card { border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; text-decoration:none; display:block; transition:box-shadow .3s,transform .3s; }
-    .related-card:hover { box-shadow:var(--shadow); transform:translateY(-3px); }
-    .related-thumb { width:100%; aspect-ratio:16/9; background:var(--off-white); display:flex; align-items:center; justify-content:center; }
-    .related-thumb.dark { background:var(--black); }
-    .related-thumb-ph { font-size:12px; color:var(--gray-text); }
-    .related-thumb.dark .related-thumb-ph { color:rgba(255,255,255,.25); }
-    .related-body { padding:20px 24px; }
-    .related-tag { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text); margin-bottom:6px; display:block; }
-    .related-title { font-size:17px; font-weight:600; color:var(--black); letter-spacing:-.01em; }
-
-    /* Text utilities */
-    strong, .bold { font-weight: 600; letter-spacing: -.01em; }
-    .highlight { background: var(--highlight); padding: 2px 6px; border-radius: 4px; font-weight: 500; }
-
-    /* Card entrance animation */
-    .card-enter { opacity: 0; transform: translateY(28px) scale(0.97); }
-    .card-enter.card-visible { opacity: 1; transform: none; transition: opacity .65s ease, transform .7s cubic-bezier(.22,.68,0,1.15); }
-
-    /* Reveal */
-    .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease,transform .7s cubic-bezier(.25,.46,.45,.94); }
-    .reveal.visible { opacity:1; transform:none; }
-    .hero.reveal { opacity:1; transform:none; }
-
-    /* Role badge row */
-    .role-row { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:48px; }
-    .role-cell { padding:28px 32px; border-right:1px solid var(--border); }
-    .role-cell:last-child { border-right:none; }
-    .role-cell-tag { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:10px; }
-    .role-cell-name { font-size:15px; font-weight:600; color:var(--black); margin-bottom:6px; }
-    .role-cell-desc { font-size:12px; color:var(--gray-text); line-height:1.5; }
-
-    /* Slide animations */
-    .slide-left  { opacity:0; transform:translateX(-40px); transition:opacity .55s ease, transform .55s cubic-bezier(.25,.46,.45,.94); }
-    .slide-right { opacity:0; transform:translateX( 40px); transition:opacity .55s ease, transform .55s cubic-bezier(.25,.46,.45,.94); }
-    .slide-left.in, .slide-right.in { opacity:1; transform:translateX(0); }
-
-    /* Lightbox */
-    .lightbox-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:1000; display:flex; align-items:center; justify-content:center; padding:32px; opacity:0; pointer-events:none; transition:opacity .2s ease; }
-    .lightbox-overlay.open { opacity:1; pointer-events:all; }
-    .lightbox-overlay img { max-width:100%; max-height:100%; border-radius:var(--radius-sm); object-fit:contain; transform:scale(.95); transition:transform .25s cubic-bezier(.25,.46,.45,.94); box-shadow:0 24px 80px rgba(0,0,0,.5); }
-    .lightbox-overlay.open img { transform:scale(1); }
-    .lightbox-close { position:absolute; top:24px; right:28px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.12); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; transition:background .15s; }
-    .lightbox-close:hover { background:rgba(255,255,255,.22); }
-    .lb-trigger { cursor:zoom-in; }
-
-    /* Character animation keyframes */
-    @keyframes body-bob {
-      0%, 100% { transform: translateY(0);    }
-      25%, 75%  { transform: translateY(-6px); }
-    }
-    @keyframes shadow-pulse {
-      0%, 100% { opacity: .55; transform: scaleX(1);    }
-      25%, 75%  { opacity: .28; transform: scaleX(.78); }
-    }
-    @keyframes walk-leg-l { 0%,100%{transform:rotate(-18deg)} 50%{transform:rotate( 18deg)} }
-    @keyframes walk-leg-r { 0%,100%{transform:rotate( 18deg)} 50%{transform:rotate(-18deg)} }
-    @keyframes walk-arm-l { 0%,100%{transform:rotate( 14deg)} 50%{transform:rotate(-14deg)} }
-    @keyframes walk-arm-r { 0%,100%{transform:rotate(-14deg)} 50%{transform:rotate( 14deg)} }
-    @keyframes run-leg-l  { 0%,100%{transform:rotate(-28deg)} 50%{transform:rotate( 28deg)} }
-    @keyframes run-leg-r  { 0%,100%{transform:rotate( 28deg)} 50%{transform:rotate(-28deg)} }
-    @keyframes run-arm-l  { 0%,100%{transform:rotate( 22deg)} 50%{transform:rotate(-22deg)} }
-    @keyframes run-arm-r  { 0%,100%{transform:rotate(-22deg)} 50%{transform:rotate( 22deg)} }
-    .char .body-bob { animation: body-bob var(--dur) ease-in-out infinite; }
-    .char .shad     { transform-box: fill-box; transform-origin: 50% 50%;
-                      animation: shadow-pulse var(--dur) ease-in-out infinite; }
-    .char .leg-l, .char .leg-r { transform-box: fill-box; transform-origin: 50% 0%; }
-    .char .arm-l { transform-box: fill-box; transform-origin: 100% 50%; }
-    .char .arm-r { transform-box: fill-box; transform-origin:   0% 50%; }
-    .char.walk .leg-l { animation: walk-leg-l var(--dur) ease-in-out infinite; }
-    .char.walk .leg-r { animation: walk-leg-r var(--dur) ease-in-out infinite; }
-    .char.walk .arm-l { animation: walk-arm-l var(--dur) ease-in-out infinite; }
-    .char.walk .arm-r { animation: walk-arm-r var(--dur) ease-in-out infinite; }
-    .char.run  .leg-l { animation: run-leg-l  var(--dur) ease-in-out infinite; }
-    .char.run  .leg-r { animation: run-leg-r  var(--dur) ease-in-out infinite; }
-    .char.run  .arm-l { animation: run-arm-l  var(--dur) ease-in-out infinite; }
-    .char.run  .arm-r { animation: run-arm-r  var(--dur) ease-in-out infinite; }
-    .char.run  { transform: rotate(-5deg); }
-
-    @media(max-width:900px){
-      html,
-      body {
-        width: 100%;
-        max-width: 100%;
-        overflow-x: hidden;
-      }
-      .page{width:100%;max-width:100%;overflow:hidden;padding:0 28px;} .nav-inner{padding:20px 28px;} .hero{padding:48px 0;}
-      img,
-      video,
-      svg {
-        max-width: 100%;
-      }
-      .content,
-      .cs-section,
-      .section-body,
-      .callout,
-      .anno-img,
-      .browser-mockup,
-      .hero-cover {
-        min-width: 0;
-        max-width: 100%;
-      }
-      .hero-meta,
-      .nav-inner {
-        flex-wrap: wrap;
-      }
-      .hero-stats,.two-col,.three-col,.outcome-grid,.related-grid,.comparison-grid{grid-template-columns:1fr;}
-      .role-row{grid-template-columns:1fr;} .role-cell{border-right:none;border-bottom:1px solid var(--border);} .role-cell:last-child{border-bottom:none;}
-      .process-steps{grid-template-columns:1fr;} .process-step{border-right:none;border-bottom:1px solid var(--border);}
-      .process-timeline,
-      .process-flow {
-        grid-template-columns: 1fr;
-      }
-      .process-card {
-        min-height: 0;
-      }
-      .process-flow-card {
-        padding: 24px;
-      }
-      .process-flow-head {
-        display: block;
-      }
-      .process-flow-head p {
-        max-width: none;
-        margin-top: 10px;
-        text-align: left;
-      }
-      .bento-grid{grid-template-columns:1fr;} .bento-span-2{grid-column:span 1;}
-      .body-layout{grid-template-columns:1fr;}
-      .section-nav{display:none;}
-      .content{border-left:none;padding-left:0;}
-      .anno-row.img-right,.anno-row.img-left{grid-template-columns:1fr;}
-      .anno-bottom{grid-template-columns:1fr !important;}
-      .cs-overview{grid-template-columns:1fr 1fr;} .cs-overview-item:nth-child(2){border-right:none;} .cs-overview-item:nth-child(3){border-top:1px solid var(--border);} .cs-overview-item:nth-child(4){border-top:1px solid var(--border); border-right:none;}
-      .problem-cards{grid-template-columns:1fr;}
-      .mobile-stack {
-        grid-template-columns: 1fr !important;
-      }
-      .mobile-stack > * {
-        border-right: none !important;
-      }
-      .mobile-stack > * + * {
-        border-top: 1px solid var(--border);
-      }
-      .pipeline-grid {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-      }
-      .pipeline-grid > .pipeline-arrow {
-        display: none !important;
-      }
-      .pipeline-grid > * {
-        min-height: auto !important;
-      }
-      .browser-viewport {
-        height: auto;
-        max-height: 70vh;
-      }
-    }
+    .process-node p { font-size:14px; line-height:1.6; color:var(--gray-text); }
+    .process-node.important p { color:#ffffff; }
 
     /* Problem section */
     .problem-chat-wrap {
@@ -515,28 +141,143 @@
     .chat-bubble:nth-child(2) { animation-delay: .45s; }
     .chat-bubble:nth-child(3) { animation-delay: .9s; }
 
+    /* Feature side layout */
+    .feat-side-layout { display:grid; grid-template-columns:2fr 1fr; gap:16px; align-items:start; }
+    .feat-side-cards { display:flex; flex-direction:column; gap:12px; }
+
+    /* Comparison border overrides */
+    .comparison-col.problem { border-color:var(--border); }
+    .comparison-col.solution { border-color:var(--black); }
+
+    /* Browser scrollbar variant */
+    .browser-viewport::-webkit-scrollbar { width:10px; }
+    .browser-viewport::-webkit-scrollbar-track { background:#f4f4f4; }
+    .browser-viewport::-webkit-scrollbar-thumb { background:#c0c0c0; border-radius:5px; border:2px solid #f4f4f4; }
+
+    /* Related thumbnails */
+    .related-thumb-ph { font-size:14px; color:var(--gray-text); }
+    .related-thumb.dark .related-thumb-ph { color:#ffffff; }
+
+    /* Character animation keyframes */
+    @keyframes body-bob {
+      0%, 100% { transform: translateY(0);    }
+      25%, 75%  { transform: translateY(-6px); }
+    }
+    @keyframes shadow-pulse {
+      0%, 100% { opacity: .55; transform: scaleX(1);    }
+      25%, 75%  { opacity: .28; transform: scaleX(.78); }
+    }
+    @keyframes walk-leg-l { 0%,100%{transform:rotate(-18deg)} 50%{transform:rotate( 18deg)} }
+    @keyframes walk-leg-r { 0%,100%{transform:rotate( 18deg)} 50%{transform:rotate(-18deg)} }
+    @keyframes walk-arm-l { 0%,100%{transform:rotate( 14deg)} 50%{transform:rotate(-14deg)} }
+    @keyframes walk-arm-r { 0%,100%{transform:rotate(-14deg)} 50%{transform:rotate( 14deg)} }
+    @keyframes run-leg-l  { 0%,100%{transform:rotate(-28deg)} 50%{transform:rotate( 28deg)} }
+    @keyframes run-leg-r  { 0%,100%{transform:rotate( 28deg)} 50%{transform:rotate(-28deg)} }
+    @keyframes run-arm-l  { 0%,100%{transform:rotate( 22deg)} 50%{transform:rotate(-22deg)} }
+    @keyframes run-arm-r  { 0%,100%{transform:rotate(-22deg)} 50%{transform:rotate( 22deg)} }
+    .char .body-bob { animation: body-bob var(--dur) ease-in-out infinite; }
+    .char .shad     { transform-box: fill-box; transform-origin: 50% 50%;
+                      animation: shadow-pulse var(--dur) ease-in-out infinite; }
+    .char .leg-l, .char .leg-r { transform-box: fill-box; transform-origin: 50% 0%; }
+    .char .arm-l { transform-box: fill-box; transform-origin: 100% 50%; }
+    .char .arm-r { transform-box: fill-box; transform-origin:   0% 50%; }
+    .char.walk .leg-l { animation: walk-leg-l var(--dur) ease-in-out infinite; }
+    .char.walk .leg-r { animation: walk-leg-r var(--dur) ease-in-out infinite; }
+    .char.walk .arm-l { animation: walk-arm-l var(--dur) ease-in-out infinite; }
+    .char.walk .arm-r { animation: walk-arm-r var(--dur) ease-in-out infinite; }
+    .char.run  .leg-l { animation: run-leg-l  var(--dur) ease-in-out infinite; }
+    .char.run  .leg-r { animation: run-leg-r  var(--dur) ease-in-out infinite; }
+    .char.run  .arm-l { animation: run-arm-l  var(--dur) ease-in-out infinite; }
+    .char.run  .arm-r { animation: run-arm-r  var(--dur) ease-in-out infinite; }
+    .char.run  { transform: rotate(-5deg); }
+
     @media(max-width:900px){
-      .problem-cards {
+      .feat-side-layout { grid-template-columns:1fr; }
+      .role-row{grid-template-columns:1fr;} .role-cell{border-right:none;border-bottom:1px solid var(--border);} .role-cell:last-child{border-bottom:none;}
+      .process-steps{grid-template-columns:1fr;} .process-step{border-right:none;border-bottom:1px solid var(--border);}
+      .process-timeline,
+      .process-flow {
         grid-template-columns: 1fr;
       }
+      .process-card { min-height: 0; }
+      .process-flow-card { padding: 24px; }
+      .process-flow-head { display: block; }
+      .process-flow-head p { max-width: none; margin-top: 10px; text-align: left; }
+      .bento-grid{grid-template-columns:1fr;} .bento-span-2{grid-column:span 1;}
+      .anno-row.img-right,.anno-row.img-left{grid-template-columns:1fr;}
+      .anno-bottom{grid-template-columns:1fr !important;}
+      .problem-cards{grid-template-columns:1fr;}
+      .mobile-stack {
+        grid-template-columns: 1fr !important;
+      }
+      .mobile-stack > * {
+        border-right: none !important;
+      }
+      .mobile-stack > * + * {
+        border-top: 1px solid var(--border);
+      }
+      .test-results-card {
+        border-radius: var(--radius-sm);
+      }
+      .test-results-card .test-results-head {
+        display: none !important;
+      }
+      .test-results-card .test-result-row {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        padding: 20px 22px !important;
+        align-items: start !important;
+      }
+      .test-results-card .test-result-row > * {
+        border-top: none !important;
+      }
+      .test-results-card .test-result-row p:nth-child(1) {
+        font-size: 14px !important;
+        line-height: 1.45;
+      }
+      .test-results-card .test-result-row p:nth-child(2),
+      .test-results-card .test-result-row p:nth-child(3) {
+        display: grid;
+        grid-template-columns: 64px 1fr;
+        gap: 12px;
+        font-size: 14px !important;
+        line-height: 1.45;
+      }
+      .test-results-card .test-result-row p:nth-child(2)::before,
+      .test-results-card .test-result-row p:nth-child(3)::before {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: var(--gray-text);
+      }
+      .test-results-card .test-result-row p:nth-child(2)::before {
+        content: "Time";
+      }
+      .test-results-card .test-result-row p:nth-child(3)::before {
+        content: "Result";
+      }
+      .pipeline-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+      .pipeline-grid > .pipeline-arrow {
+        display: none !important;
+      }
+      .pipeline-grid > * {
+        min-height: auto !important;
+      }
+      .browser-viewport {
+        height: auto;
+        max-height: 70vh;
+      }
+    }
+    @media(max-width:900px){
+      .problem-cards { grid-template-columns: 1fr; }
       .week-timeline { border-radius: var(--radius-sm); }
       .process-flow { grid-template-columns:1fr 1fr; }
     }
-
-    /* Feature tabs */
-    .feat-tabs { margin-top:52px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
-    .feat-tab-bar { display:flex; background:var(--off-white); border-bottom:1px solid var(--border); }
-    .feat-tab-btn { flex:1; padding:14px 20px; font-size:13px; font-weight:500; font-family:inherit; color:var(--gray-text); background:none; border:none; border-right:1px solid var(--border); cursor:pointer; display:flex; align-items:center; gap:10px; transition:color .2s, background .2s; }
-    .feat-tab-btn:last-child { border-right:none; }
-    .feat-tab-btn .tab-num { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; background:var(--gray-light); color:var(--gray-text); padding:3px 8px; border-radius:999px; flex-shrink:0; transition:background .2s, color .2s; }
-    .feat-tab-btn.active { color:var(--white); background:var(--black); font-weight:600; }
-    .feat-tab-btn.active .tab-num { background:rgba(255,255,255,.15); color:var(--white); }
-    .feat-tab-btn:hover:not(.active) { color:var(--black); }
-    .feat-tab-panel { display:none; padding:32px; }
-    .feat-tab-panel.active { display:block; }
-    .feat-side-layout { display:grid; grid-template-columns:2fr 1fr; gap:16px; align-items:start; }
-    .feat-side-cards { display:flex; flex-direction:column; gap:12px; }
-    @media(max-width:900px){ .feat-side-layout { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -567,7 +308,7 @@
       <span class="hero-tag-pill">Vibe Coding</span>
       <span class="hero-tag-pill">Figma · Next.js · Claude API</span>
     </div>
-    <h1 class="hero-title">Running shoe shopping gets messy fast.<br>BriefBuy keeps the decision clear.</h1>
+    <h1 class="hero-title">Running shoe shopping gets messy fast. <br>BriefBuy keeps the decision clear.</h1>
     <p class="hero-desc">BriefBuy is an AI running shoe comparison app. You paste product links, and it turns the research into fit scores, ranked options, and shoes you can rule out. I built it with a data engineer and a frontend developer in four weeks.</p>
 
     <div class="cs-overview">
@@ -656,21 +397,21 @@
       <!-- 01 Background -->
       <section class="cs-section reveal" id="background">
         <span class="section-label">01 Background</span>
-        <h2 class="section-title">I had four weeks to build an AI product.<br>I shipped the design and the frontend.</h2>
+        <h2 class="section-title">I had four weeks to build an AI product. <br>I shipped the design and the frontend.</h2>
         <div class="section-body">
-          <p>In April 2026, a friend invited me to a Korean IT community challenge. Three people, four weeks, one working product. I was the only designer on the team.</p>
-          <p>We chose running shoes because the buying decision is genuinely hard. Foot shape, distance, budget, injury history. Every detail changes the right answer. Most people spend hours researching and still feel uncertain at checkout.</p>
-          <p>I designed the product and vibe-coded the entire frontend. It was the first time I shipped code I actually wrote. That changed how I think about what a designer can own.</p>
+          <p>In April 2026, I joined a four-week product challenge through an IT community. Our team of three set out to build a working AI shopping assistant for running shoes.</p>
+          <p>We chose running shoes because the purchase decision is surprisingly complex. Foot shape, running distance, budget, fit preferences, and injury history can all change what makes a shoe feel right. Even after hours of research, many shoppers still arrive at checkout unsure.</p>
+          <p>I led the product design and built the frontend, turning the concept into a usable prototype within the challenge timeline. It was my first time shipping production-facing code, and it changed how I think about the role a designer can play in bringing an idea to life.</p>
         </div>
 
         <div class="role-row">
           <div class="role-cell">
             <span class="role-cell-tag">Designer + Frontend</span>
             <p class="role-cell-name">Goeun Choi</p>
-            <p class="role-cell-desc">UX structure, visual system, design tokens, runner profile, brand direction, full vibe-coded frontend development</p>
+            <p class="role-cell-desc">UX structure, visual system, design tokens, runner profile, brand direction, and frontend implementation</p>
           </div>
           <div class="role-cell">
-            <span class="role-cell-tag">Frontend Developer</span>
+            <span class="role-cell-tag">Full-Stack Developer</span>
             <p class="role-cell-name">Web App</p>
             <p class="role-cell-desc">Next.js app, chat UI, loading states, comparison board, Claude API integration, publishing</p>
           </div>
@@ -687,7 +428,7 @@
               <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gray-text);flex-shrink:0;"><rect x="4" y="1.5" width="8" height="3" rx="1"/><rect x="2" y="3" width="12" height="11.5" rx="1.5"/><line x1="5" y1="8" x2="11" y2="8"/><line x1="5" y1="10.5" x2="9" y2="10.5"/></svg>
               <span class="callout-label" style="margin-bottom:0;">The brief</span>
             </div>
-            <p class="callout-text">Build an AI running shoe comparison app. Paste links, compare options, and keep the important conditions visible.</p>
+            <p class="callout-text">Build an AI running shoe comparison web app. Paste links, compare options, and keep the important conditions visible.</p>
           </div>
         </div>
       </section>
@@ -695,7 +436,7 @@
       <!-- 02 The Problem -->
       <section class="cs-section reveal" id="problem">
         <span class="section-label">02 The Problem</span>
-        <h2 class="section-title">Chat is great at explaining.<br>It is bad at helping you decide.</h2>
+        <h2 class="section-title">Chat is great at explaining. <br>It is bad at helping you decide.</h2>
         <div class="section-body">
           <p>By message ten, you can easily lose track. The longer a shoe conversation gets, the more your original conditions drift. AI has forgotten your wide feet and your budget.</p>
         </div>
@@ -711,8 +452,8 @@
               </svg>
             </div>
             <div>
-              <p style="font-size:13px; font-weight:600; color:var(--black); margin-bottom:2px;">A runner training for a first half marathon</p>
-              <p style="font-size:13px; color:var(--gray-text);">Wide feet. Under $200. Nervous about blisters on long runs.</p>
+              <p style="font-size:14px; font-weight:600; color:var(--black); margin-bottom:2px;">A runner training for a first half marathon</p>
+              <p style="font-size:14px; color:var(--gray-text);">Wide feet. Under $200. Nervous about blisters on long runs.</p>
             </div>
           </div>
 
@@ -757,7 +498,7 @@
                   <line x1="9" y1="10" x2="15" y2="10"/><line x1="9" y1="14" x2="12" y2="14"/>
                 </svg>
               </div>
-              <p style="font-size:13px; font-weight:600; color:var(--white); letter-spacing:-.01em; line-height:1.4;">Context drifts as the chat gets longer</p>
+              <p style="font-size:14px; font-weight:600; color:var(--white); letter-spacing:-.01em; line-height:1.4;">Context drifts as the chat gets longer</p>
             </div>
           </div>
 
@@ -768,7 +509,7 @@
                   <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
                 </svg>
               </div>
-              <p style="font-size:13px; font-weight:600; color:var(--white); letter-spacing:-.01em; line-height:1.4;">Text is not a comparison surface</p>
+              <p style="font-size:14px; font-weight:600; color:var(--white); letter-spacing:-.01em; line-height:1.4;">Text is not a comparison surface</p>
             </div>
           </div>
 
@@ -779,7 +520,7 @@
                   <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
                 </svg>
               </div>
-              <p style="font-size:13px; font-weight:600; color:var(--white); letter-spacing:-.01em; line-height:1.4;">The research disappears the next day</p>
+              <p style="font-size:14px; font-weight:600; color:var(--white); letter-spacing:-.01em; line-height:1.4;">The research disappears the next day</p>
             </div>
           </div>
 
@@ -844,8 +585,8 @@
 
           <!-- Header -->
           <div style="background:var(--black); padding:16px 32px; display:flex; align-items:baseline; justify-content:space-between; gap:20px;">
-            <span style="font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.8);">How the system works</span>
-            <p style="font-size:13px; color:rgba(255,255,255,.5); line-height:1.5; text-align:right;">The chat keeps changing. The panel keeps things steady.</p>
+            <span style="font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#ffffff;">How the system works</span>
+            <p style="font-size:14px; color:#ffffff; line-height:1.5; text-align:right;">The chat keeps changing. The panel keeps things steady.</p>
           </div>
 
           <!-- Process nodes -->
@@ -885,7 +626,7 @@
       <!-- 04 Design -->
       <section class="cs-section reveal" id="design">
         <span class="section-label">04 Design</span>
-        <h2 class="section-title">Chat on one side.<br>Decisions on the other.</h2>
+        <h2 class="section-title">Chat on one side. <br>Decisions on the other.</h2>
         <div class="section-body">
           <p>The main design choice was a two panel layout. The chat is where users ask questions. The panel is where the decision stays organized.</p>
           <p><span class="highlight">The panel updates with every message, but it never moves.</span> Users can always see their profile, candidates, fit scores, and rejected options.</p>
@@ -894,18 +635,16 @@
         <!-- Two-panel layout visual -->
         <div style="margin-top:48px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden;">
           <div style="background:var(--black); padding:16px 32px;">
-            <span style="font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.8);">Two panel layout</span>
+            <span style="font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#ffffff;">Two panel layout</span>
           </div>
-          <div class="mobile-stack" style="display:grid; grid-template-columns:1fr 1fr; min-height:200px;">
+          <div class="mobile-stack" style="display:grid; grid-template-columns:1fr 1fr;">
             <div style="padding:32px; border-right:1px solid var(--border);">
-              <p style="font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:16px;">Left: Chat</p>
-              <p style="font-size:14px; font-weight:600; color:var(--black); margin-bottom:12px;">Ask, compare, refine</p>
-              <p style="font-size:13px; color:var(--gray-text); line-height:1.7;">Users paste links, ask follow ups, and narrow the list by fit, cushion, or price.</p>
+              <p style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:16px;">Left: Chat</p>
+              <p style="font-size:14px; color:var(--gray-text); line-height:1.7;">Users paste links, ask follow ups, and narrow the list by fit, cushion, or price.</p>
             </div>
             <div style="padding:32px;">
-              <p style="font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:16px;">Right: Fixed Decision Panel</p>
-              <p style="font-size:14px; font-weight:600; color:var(--black); margin-bottom:12px;">A workspace that stays visible</p>
-              <p style="font-size:13px; color:var(--gray-text); line-height:1.7;">The profile, scores, rankings, and rejected shoes stay in one place while the chat changes.</p>
+              <p style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:16px;">Right: Fixed Decision Panel</p>
+              <p style="font-size:14px; color:var(--gray-text); line-height:1.7;">The profile, scores, rankings, and rejected shoes stay in one place while the chat changes.</p>
             </div>
           </div>
           <div class="anno-img lb-trigger" style="border-top:1px solid var(--border); border-radius:0; min-height:360px; background:var(--off-white); cursor:zoom-in;" onclick="openLightbox('assets/briefbuy/briefbuy_intro_comparison.png','BriefBuy two panel comparison workspace')">
@@ -913,82 +652,101 @@
           </div>
         </div>
 
-        <!-- Design system tabs -->
+        <!-- Brand and Design System (standalone, above Inside the design tabs) -->
         <div style="margin-top:52px; margin-bottom:20px;">
-          <span style="font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:12px;">Inside the design</span>
-          <p style="font-size:22px; font-weight:700; letter-spacing:-.025em; line-height:1.2; color:var(--black);">Three components. Each solving a different part of the decision.</p>
+          <span style="font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:12px;">Brand and Design System</span>
+          <p style="font-size:22px; font-weight:700; letter-spacing:-.025em; line-height:1.2; color:var(--black);">A companion character that grows with the user.</p>
         </div>
-        <div class="feat-tabs" style="margin-top:0;">
-          <div class="feat-tab-bar">
-            <button class="feat-tab-btn active" data-tab="dtab1">
-              <span class="tab-num">01</span>Brand and Design System
-            </button>
-            <button class="feat-tab-btn" data-tab="dtab2">
-              <span class="tab-num">02</span>Runner Profile
-            </button>
-            <button class="feat-tab-btn" data-tab="dtab3">
-              <span class="tab-num">03</span>ScoreCircle and Crown Ranking
-            </button>
-          </div>
-
-          <!-- Panel 1: Brand and Design System -->
-          <div class="feat-tab-panel active" id="dtab1">
+        <div style="margin-bottom:80px;">
           <!-- Two-column: character widget left, description right -->
           <div class="mobile-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
 
-          <!-- Left: Interactive character level-up widget -->
-          <div id="charWidget" style="background:linear-gradient(160deg,#f4f3ff 0%,#edfefe 100%); border:1px solid var(--border); border-radius:var(--radius); padding:48px 32px 40px; display:flex; flex-direction:column; align-items:center; position:relative; overflow:hidden; transition:background .5s ease;">
+          <!-- Left: Interactive character level-up widget, styled as a handheld console -->
+          <div id="charWidget" style="background:linear-gradient(160deg,#e4e2ff 0%,#dcf9f4 100%); border:1px solid var(--border); border-radius:26px; padding:16px 16px 18px; display:flex; flex-direction:column; align-items:center; position:relative; overflow:hidden; transition:background .5s ease; box-shadow:inset 0 1px 0 rgba(255,255,255,.7), 0 16px 32px rgba(93,92,255,.14);">
             <div id="charGlow" style="position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(93,92,255,.12) 0%,transparent 70%);top:20px;left:50%;transform:translateX(-50%);pointer-events:none;transition:background .5s ease;"></div>
 
             <!-- Interactive hint badge -->
-            <div style="position:absolute;top:16px;right:18px;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.85);border-radius:999px;padding:5px 11px;z-index:2;">
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="flex-shrink:0;color:rgba(0,0,0,0.45);">
+            <div style="align-self:center;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.65);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.85);border-radius:999px;padding:5px 11px;margin-bottom:14px;z-index:2;">
+              <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="flex-shrink:0;color:#111111;">
                 <path d="M2 1L2 9.5L4 7.5L5.5 11L6.5 10.5L5 7L7.5 6.5L2 1Z" fill="currentColor"/>
               </svg>
-              <span style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(0,0,0,0.45);">Try it</span>
+              <span style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#111111;">Try it</span>
             </div>
 
-            <!-- Level buttons -->
-            <div style="display:flex;gap:8px;margin-bottom:36px;position:relative;z-index:1;">
-              <button id="dot-1" onclick="setCharLevel(1)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="padding:8px 18px;border-radius:999px;border:1.5px solid #111;background:#111;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.04em;" data-active="1">Lv.1</button>
-              <button id="dot-2" onclick="setCharLevel(2)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="padding:8px 18px;border-radius:999px;border:1.5px solid #999;background:rgba(255,255,255,0.7);color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.04em;" data-active="0">Lv.2</button>
-              <button id="dot-3" onclick="setCharLevel(3)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="padding:8px 18px;border-radius:999px;border:1.5px solid #999;background:rgba(255,255,255,0.7);color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.04em;" data-active="0">Lv.3</button>
-              <button id="dot-4" onclick="setCharLevel(4)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="padding:8px 18px;border-radius:999px;border:1.5px solid #999;background:rgba(255,255,255,0.7);color:#555;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;letter-spacing:.04em;" data-active="0">Lv.4</button>
+            <!-- Console shell top: brand mark -->
+            <div style="width:100%;display:flex;justify-content:center;margin-bottom:10px;position:relative;z-index:1;">
+              <span style="font-size:11px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#6b6b99;">BriefBuy Companion</span>
             </div>
 
-            <!-- Character SVG viewport -->
-            <div style="position:relative;margin-bottom:32px;z-index:1;width:175px;height:140px;display:flex;align-items:center;justify-content:center;">
-              <div id="char-svg-container" style="display:flex;align-items:center;justify-content:center;"></div>
+            <!-- Screen bezel -->
+            <div style="width:100%;background:#232338;border-radius:18px;padding:12px 16px 10px;position:relative;z-index:1;box-shadow:inset 0 2px 6px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.06);">
+              <!-- LCD screen -->
+              <div style="background:linear-gradient(160deg,#f4f3ff 0%,#edfefe 100%);border-radius:10px;padding:16px 12px 12px;display:flex;flex-direction:column;align-items:center;box-shadow:inset 0 2px 10px rgba(0,0,0,.2);min-height:190px;justify-content:center;">
 
-              <!-- Sparkle burst -->
-              <div id="c-sparkle" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:opacity .15s;">
-                <svg width="140" height="140" viewBox="0 0 140 140" style="overflow:visible;">
-                  <g stroke-linecap="round">
-                    <line x1="70" y1="70" x2="70" y2="16" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
-                    <line x1="70" y1="70" x2="108" y2="32" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
-                    <line x1="70" y1="70" x2="124" y2="70" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
-                    <line x1="70" y1="70" x2="108" y2="108" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
-                    <line x1="70" y1="70" x2="70" y2="124" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
-                    <line x1="70" y1="70" x2="32" y2="108" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
-                    <line x1="70" y1="70" x2="16" y2="70" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
-                    <line x1="70" y1="70" x2="32" y2="32" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
-                  </g>
-                </svg>
+                <!-- Character SVG viewport -->
+                <div style="position:relative;margin-bottom:12px;width:150px;height:115px;display:flex;align-items:center;justify-content:center;">
+                  <div id="char-svg-container" style="display:flex;align-items:center;justify-content:center;"></div>
+
+                  <!-- Sparkle burst -->
+                  <div id="c-sparkle" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;opacity:0;transition:opacity .15s;">
+                    <svg width="140" height="140" viewBox="0 0 140 140" style="overflow:visible;">
+                      <g stroke-linecap="round">
+                        <line x1="70" y1="70" x2="70" y2="16" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
+                        <line x1="70" y1="70" x2="108" y2="32" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
+                        <line x1="70" y1="70" x2="124" y2="70" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
+                        <line x1="70" y1="70" x2="108" y2="108" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
+                        <line x1="70" y1="70" x2="70" y2="124" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
+                        <line x1="70" y1="70" x2="32" y2="108" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
+                        <line x1="70" y1="70" x2="16" y2="70" stroke="#fbbf24" stroke-width="2.5" opacity=".9"/>
+                        <line x1="70" y1="70" x2="32" y2="32" stroke="#f59e0b" stroke-width="2" opacity=".7"/>
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Level info -->
+                <div style="text-align:center;">
+                  <span id="c-num" style="font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-text);display:block;margin-bottom:6px;">Level 1</span>
+                  <p id="c-name" style="font-size:22px;font-weight:700;color:var(--black);letter-spacing:-.02em;margin-bottom:8px;">Starter</p>
+                  <p id="c-desc" style="font-size:14px;color:var(--gray-text);line-height:1.65;max-width:260px;">Your new companion, fresh and ready to help.</p>
+                  <div style="height:28px;display:flex;align-items:center;justify-content:center;margin-top:10px;">
+                    <span id="c-unlock" style="font-size:14px;font-weight:600;background:var(--black);color:var(--white);padding:4px 14px;border-radius:999px;display:none;"></span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Screen label -->
+              <div style="text-align:right;margin-top:8px;">
+                <span style="font-size:8px;letter-spacing:.14em;color:#8686ad;font-weight:700;">LEVEL-UP DISPLAY</span>
               </div>
             </div>
 
-            <!-- Level info -->
-            <div style="text-align:center;position:relative;z-index:1;margin-bottom:28px;">
-              <span id="c-num" style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-text);display:block;margin-bottom:6px;">Level 1</span>
-              <p id="c-name" style="font-size:22px;font-weight:700;color:var(--black);letter-spacing:-.02em;margin-bottom:8px;">Starter</p>
-              <p id="c-desc" style="font-size:13px;color:var(--gray-text);line-height:1.65;max-width:260px;">Your new companion, fresh and ready to help.</p>
-              <div style="height:28px;display:flex;align-items:center;justify-content:center;margin-top:10px;">
-                <span id="c-unlock" style="font-size:11px;font-weight:600;background:var(--black);color:var(--white);padding:4px 14px;border-radius:999px;display:none;"></span>
-              </div>
-            </div>
+            <!-- Physical control cluster: d-pad, level select, and the level-up action button -->
+            <div style="width:100%;display:flex;align-items:center;justify-content:space-between;margin-top:16px;position:relative;z-index:1;">
 
-            <!-- Level Up button -->
-            <button id="c-btn" onclick="levelUpChar()" style="background:var(--black);color:var(--white);border:none;border-radius:999px;padding:14px 36px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;letter-spacing:-.01em;position:relative;z-index:1;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .3s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Level Up →</button>
+              <!-- D-pad: doubles as level up/down control -->
+              <div style="position:relative;width:58px;height:58px;flex-shrink:0;">
+                <div style="position:absolute;top:0;left:19px;width:20px;height:58px;background:#3a3a55;border-radius:5px;box-shadow:0 2px 0 #24243a;pointer-events:none;"></div>
+                <div style="position:absolute;top:19px;left:0;width:58px;height:20px;background:#3a3a55;border-radius:5px;box-shadow:0 2px 0 #24243a;pointer-events:none;"></div>
+                <div style="position:absolute;top:19px;left:19px;width:20px;height:20px;background:#2c2c44;border-radius:4px;pointer-events:none;"></div>
+
+                <button onclick="levelUpChar()" aria-label="Level up" title="Level up" style="position:absolute;top:0;left:19px;width:20px;height:19px;background:transparent;border:none;padding:0;cursor:pointer;"></button>
+                <button onclick="levelDownChar()" aria-label="Level down" title="Level down" style="position:absolute;top:39px;left:19px;width:20px;height:19px;background:transparent;border:none;padding:0;cursor:pointer;"></button>
+                <button onclick="levelDownChar()" aria-label="Previous level" title="Previous level" style="position:absolute;top:19px;left:0;width:19px;height:20px;background:transparent;border:none;padding:0;cursor:pointer;"></button>
+                <button onclick="levelUpChar()" aria-label="Next level" title="Next level" style="position:absolute;top:19px;left:39px;width:19px;height:20px;background:transparent;border:none;padding:0;cursor:pointer;"></button>
+              </div>
+
+              <!-- Level select, styled like Start/Select buttons -->
+              <div style="display:flex;gap:8px;">
+                <button id="dot-1" onclick="setCharLevel(1)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #111;background:#111;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;" data-active="1">1</button>
+                <button id="dot-2" onclick="setCharLevel(2)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #999;background:rgba(255,255,255,0.7);color:#555;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;" data-active="0">2</button>
+                <button id="dot-3" onclick="setCharLevel(3)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #999;background:rgba(255,255,255,0.7);color:#555;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;" data-active="0">3</button>
+                <button id="dot-4" onclick="setCharLevel(4)" onmouseover="if(this.dataset.active!='1')this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #999;background:rgba(255,255,255,0.7);color:#555;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;" data-active="0">4</button>
+              </div>
+
+              <!-- Level Up button, styled as the console's A button -->
+              <button id="c-btn" onclick="levelUpChar()" style="width:72px;height:72px;border-radius:50%;background:var(--black);color:var(--white);border:none;font-size:11px;font-weight:700;font-family:inherit;line-height:1.2;cursor:pointer;letter-spacing:-.01em;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .3s;box-shadow:0 4px 0 #000, 0 4px 0 rgba(0,0,0,.25);flex-shrink:0;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">Level Up →</button>
+            </div>
           </div>
 
             <!-- Right: Description -->
@@ -1131,10 +889,53 @@
                 if (btn) { btn.style.transform = 'scale(.95)'; setTimeout(function(){ btn.style.transform = 'scale(1)'; }, 150); }
               }
             };
+            window.levelDownChar = function() {
+              if (charLevel > 1) { setCharLevel(charLevel - 1); }
+            };
 
             setCharLevel(1);
           })();
           </script>
+          </div><!-- /Brand and Design System -->
+
+        <!-- Inside the design tabs -->
+        <div style="margin-top:52px; margin-bottom:20px;">
+          <span style="font-size:14px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:12px;">Inside the design</span>
+          <p style="font-size:22px; font-weight:700; letter-spacing:-.025em; line-height:1.2; color:var(--black);">Four screens. Each solving a different part of the decision.</p>
+        </div>
+        <div class="feat-tabs" style="margin-top:0;">
+          <div class="feat-tab-bar">
+            <button class="feat-tab-btn active" data-tab="dtab1">
+              <span class="tab-num">01</span>Landing Screen
+            </button>
+            <button class="feat-tab-btn" data-tab="dtab3">
+              <span class="tab-num">02</span>Shoe Detail
+            </button>
+            <button class="feat-tab-btn" data-tab="dtab2">
+              <span class="tab-num">03</span>Runner Profile
+            </button>
+            <button class="feat-tab-btn" data-tab="dtab4">
+              <span class="tab-num">04</span>Comparison Lightbox
+            </button>
+          </div>
+
+          <!-- Panel 1: Landing Screen -->
+          <div class="feat-tab-panel active" id="dtab1">
+          <div class="section-body" style="margin-bottom:32px;">
+            <p>The landing screen has one job: get the first product links pasted in. No sign up, no empty state to figure out, just a single input and a short explanation of what the app does.</p>
+            <p>Setting up a runner profile is optional here. Users can skip it and get a general comparison, or fill it in once and let foot width, mileage, budget, and pain points shape a more personal result.</p>
+          </div>
+          <div class="browser-mockup" style="margin-top:0;">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-url">briefbuy.app</div>
+            </div>
+            <div style="background:#fff;">
+              <video autoplay loop muted playsinline style="width:100%;display:block;">
+                <source src="assets/briefbuy/AI Product Comparison landing screen.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
           </div><!-- /feat-tab-panel dtab1 -->
 
           <!-- Panel 2: Runner Profile -->
@@ -1159,7 +960,7 @@
                 <line x1="8" y1="16" x2="11" y2="16"/>
               </svg>
               <p class="anno-card-title" style="color:var(--white);">Details that matter</p>
-              <p class="anno-card-desc" style="color:rgba(255,255,255,.8);">Foot width, mileage, budget, and pain points all shape the recommendation.</p>
+              <p class="anno-card-desc" style="color:#ffffff;">Foot width, mileage, budget, and pain points all shape the recommendation.</p>
             </div>
             <div class="anno-card">
               <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1176,17 +977,20 @@
           </div>
           </div><!-- /feat-tab-panel dtab2 -->
 
-          <!-- Panel 3: ScoreCircle and Crown Ranking -->
+          <!-- Panel 3: Shoe Detail -->
           <div class="feat-tab-panel" id="dtab3">
-          <div class="mobile-stack" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div class="section-body" style="margin-bottom:32px;">
+            <p>The shoe detail view is where a user checks the reasoning behind a recommendation before committing to one option.</p>
+          </div>
+          <div class="mobile-stack" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
             <div class="anno-card">
               <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"/>
                 <path d="M11 11 L11 5" stroke-linecap="round" stroke-width="2"/>
                 <circle cx="11" cy="11" r="1.5" fill="currentColor" stroke="none"/>
               </svg>
-              <p class="anno-card-title">Fit score at a glance</p>
-              <p class="anno-card-desc">A single score gives users a quick read before they open the details.</p>
+              <p class="anno-card-title">ScoreCircle breaks down the match</p>
+              <p class="anno-card-desc">The ring shows the overall match score, and the bars underneath split it into biomechanical fit, specs alignment, use case, price and value, and reviews.</p>
             </div>
             <div class="anno-card" style="background:var(--black);border-color:transparent;">
               <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--white);">
@@ -1195,8 +999,18 @@
                 <rect x="7" y="17" width="8" height="2" rx="1"/>
                 <line x1="11" y1="14" x2="11" y2="17"/>
               </svg>
-              <p class="anno-card-title" style="color:var(--white);">Rankings can change</p>
-              <p class="anno-card-desc" style="color:rgba(255,255,255,.8);">If the user changes priorities, the top pick can move with the conversation.</p>
+              <p class="anno-card-title" style="color:var(--white);">Strengths and considerations badges</p>
+              <p class="anno-card-desc" style="color:#ffffff;">Badges call out what the shoe is good at, like durability or energy return, and flag tradeoffs like a premium price, all at a glance.</p>
+            </div>
+            <div class="anno-card">
+              <svg class="anno-card-icon" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="16" height="16" rx="2"/>
+                <line x1="7" y1="8" x2="15" y2="8"/>
+                <line x1="7" y1="11" x2="15" y2="11"/>
+                <line x1="7" y1="14" x2="12" y2="14"/>
+              </svg>
+              <p class="anno-card-title">Specs with a flag when it matters</p>
+              <p class="anno-card-desc">Detailed specs like drop, weight, terrain, and stack height sit next to a small badge, such as Over Budget, whenever a number needs a second look.</p>
             </div>
           </div>
           <div class="anno-img lb-trigger" style="margin-top:20px; min-height:340px; background:var(--off-white); cursor:zoom-in;" onclick="openLightbox('assets/briefbuy/shoedetail_porfile.png','Shoe Details with ScoreCircle')">
@@ -1204,33 +1018,99 @@
           </div>
           </div><!-- /feat-tab-panel dtab3 -->
 
+          <!-- Panel 4: Comparison Lightbox -->
+          <div class="feat-tab-panel" id="dtab4">
+          <div class="section-body" style="margin-bottom:32px;">
+            <p>The comparison lightbox opens up to three shoes side by side in full detail, so users do not have to hold specs in their head while scrolling between cards.</p>
+            <p>A crown badge marks whichever shoe wins the match score, and a "Best" tag calls out the winning value in each spec row, cushioning, weight, price, and more, so the differences that matter are easy to scan in one glance. Pros and cons badges sum up the tradeoffs underneath.</p>
+          </div>
+          <div class="anno-img lb-trigger" style="min-height:340px; background:var(--off-white); cursor:zoom-in;" onclick="openLightbox('assets/briefbuy/comparison-lightbox.png','Comparison lightbox with shoes side by side')">
+            <img src="assets/briefbuy/comparison-lightbox.png" alt="Comparison lightbox showing shoes side by side" style="width:100%;height:100%;object-fit:contain;padding:16px;">
+          </div>
+          </div><!-- /feat-tab-panel dtab4 -->
+
         </div><!-- /feat-tabs -->
       </section>
 
       <!-- 05 Version 2 -->
       <section class="cs-section reveal" id="version2">
         <span class="section-label">05 Version 2</span>
-        <h2 class="section-title">After the challenge.<br>Save your work and come back to it.</h2>
+        <h2 class="section-title">After the challenge. <br>Save your work and come back to it.</h2>
         <div class="section-body">
           <p>The first build lost everything when the tab closed. In Version 2, I added a history board so users can save a comparison and come back later.</p>
         </div>
 
-        <!-- V2 history board demo video -->
+        <!-- V2 history board demo video, styled as a TV with a remote -->
         <div style="margin-top:48px;">
-          <p style="font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">History board: save, revisit, and remove boards</p>
-          <div style="border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; background:var(--black);">
-            <video controls preload="metadata" style="width:100%;display:block;border-radius:var(--radius-sm);" poster="assets/briefbuy/briefbuy_intro_comparison.png">
-              <source src="assets/briefbuy/version2_historyboard_demo.mp4" type="video/mp4">
-            </video>
+          <p style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">History board: save, revisit, and remove boards</p>
+
+          <div style="display:flex; align-items:flex-end; gap:28px; flex-wrap:wrap;">
+
+            <!-- TV -->
+            <div style="flex:1 1 420px; min-width:280px;">
+              <div style="background:#1c1c1e; border-radius:20px; padding:16px 16px 16px; box-shadow:0 24px 48px rgba(0,0,0,.28);">
+                <div style="background:#111; border-radius:10px; overflow:hidden; position:relative;">
+                  <video id="v2Video" preload="metadata" style="width:100%;display:block;" poster="assets/briefbuy/version2_historyboard_demo_poster.png" onclick="toggleV2Video()" onplay="setV2Playing(true)" onpause="setV2Playing(false)" onended="setV2Playing(false)">
+                    <source src="assets/briefbuy/version2_historyboard_demo.mp4" type="video/mp4">
+                  </video>
+                  <!-- Center play button overlay -->
+                  <button id="v2PlayOverlay" onclick="toggleV2Video()" aria-label="Play video" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.92);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 20px rgba(0,0,0,.3);transition:opacity .2s, transform .2s;">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="#111"><path d="M6 4l13 7-13 7V4z"/></svg>
+                  </button>
+                </div>
+              </div>
+              <!-- TV stand -->
+              <div style="width:64px;height:14px;background:#1c1c1e;border-radius:0 0 6px 6px;margin:0 auto;"></div>
+              <div style="width:120px;height:6px;background:#1c1c1e;border-radius:3px;margin:0 auto;opacity:.85;"></div>
+            </div>
+
+            <!-- Remote controller -->
+            <div style="display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;">
+              <span style="display:inline-flex;align-items:center;gap:5px;background:#111;color:#fff;border-radius:999px;padding:5px 11px;white-space:nowrap;">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="#fff"><path d="M3 2l7 4-7 4V2z"/></svg>
+                <span style="font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">Play it</span>
+              </span>
+              <div style="width:64px;background:#2b2b2e;border-radius:26px;padding:18px 10px;display:flex;flex-direction:column;align-items:center;gap:14px;box-shadow:0 14px 28px rgba(0,0,0,.25);">
+                <div style="width:10px;height:10px;border-radius:50%;background:#4a4a4e;"></div>
+                <button id="v2RemoteBtn" onclick="toggleV2Video()" aria-label="Play or pause video" style="width:40px;height:40px;border-radius:50%;background:#3a3a3e;border:1px solid #4a4a4e;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                  <svg id="v2RemoteIcon" width="14" height="14" viewBox="0 0 22 22" fill="#fff"><path d="M6 4l13 7-13 7V4z"/></svg>
+                </button>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                  <div style="width:30px;height:12px;background:#3a3a3e;border-radius:6px;"></div>
+                  <div style="width:30px;height:12px;background:#3a3a3e;border-radius:6px;"></div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
+
+        <script>
+        (function(){
+          window.setV2Playing = function(isPlaying) {
+            var overlay = document.getElementById('v2PlayOverlay');
+            var icon    = document.getElementById('v2RemoteIcon');
+            if (overlay) { overlay.style.opacity = isPlaying ? '0' : '1'; overlay.style.pointerEvents = isPlaying ? 'none' : 'auto'; }
+            if (icon) {
+              icon.innerHTML = isPlaying
+                ? '<rect x="4" y="3" width="5" height="16" rx="1.5"/><rect x="13" y="3" width="5" height="16" rx="1.5"/>'
+                : '<path d="M6 4l13 7-13 7V4z"/>';
+            }
+          };
+          window.toggleV2Video = function() {
+            var video = document.getElementById('v2Video');
+            if (!video) return;
+            if (video.paused) { video.play(); } else { video.pause(); }
+          };
+        })();
+        </script>
       </section>
 
 
       <!-- 05 Outcome -->
       <section class="cs-section reveal" id="outcome">
         <span class="section-label">06 Outcome</span>
-        <h2 class="section-title">Four weeks later,<br>we had a working product.</h2>
+        <h2 class="section-title">Four weeks later, <br>we had a working product.</h2>
         <div class="section-body">
           <p>We tested five common cases for speed and accuracy. The main flow worked, and the recommendation matched the runner conditions we gave it.</p>
           <p>The best result was caching. A repeated product link loaded in 63 milliseconds instead of about 13 seconds. <span class="highlight">That made repeat research feel instant.</span></p>
@@ -1251,40 +1131,40 @@
         </div>
 
         <!-- Test results table -->
-        <div style="margin-top:40px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden;">
+        <div class="test-results-card" style="margin-top:40px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden;">
           <div style="background:var(--black); padding:16px 32px;">
-            <span style="font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.8);">Week 3 Test Results</span>
+            <span style="font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:#ffffff;">Week 3 Test Results</span>
           </div>
           <div style="display:flex; flex-direction:column;">
-            <div class="mobile-stack" style="display:grid; grid-template-columns:2fr 1fr 1fr; background:var(--off-white); border-bottom:1px solid var(--border); padding:14px 28px; gap:16px;">
-              <p style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text);">Test Case</p>
-              <p style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text);">Time</p>
-              <p style="font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text);">Result</p>
+            <div class="mobile-stack test-results-head" style="display:grid; grid-template-columns:2fr 1fr 1fr; background:var(--off-white); border-bottom:1px solid var(--border); padding:14px 28px; gap:16px;">
+              <p style="font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text);">Test Case</p>
+              <p style="font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text);">Time</p>
+              <p style="font-size:14px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text);">Result</p>
             </div>
-            <div class="mobile-stack" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
-              <p style="font-size:13px; color:var(--black); font-weight:500;">Three Nike running shoes</p>
-              <p style="font-size:13px; color:var(--gray-text);">30.0s total</p>
-              <p style="font-size:13px; color:var(--black);">Pegasus 42 recommended.</p>
+            <div class="mobile-stack test-result-row" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
+              <p style="font-size:14px; color:var(--black); font-weight:500;">Three Nike running shoes</p>
+              <p style="font-size:14px; color:var(--gray-text);">30.0s total</p>
+              <p style="font-size:14px; color:var(--black);">Pegasus 42 recommended.</p>
             </div>
-            <div class="mobile-stack" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
-              <p style="font-size:13px; color:var(--black); font-weight:500;">Two running shoes plus one lifestyle shoe</p>
-              <p style="font-size:13px; color:var(--gray-text);">40.4s total</p>
-              <p style="font-size:13px; color:var(--black);">Lifestyle shoe was flagged correctly.</p>
+            <div class="mobile-stack test-result-row" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
+              <p style="font-size:14px; color:var(--black); font-weight:500;">Two running shoes plus one lifestyle shoe</p>
+              <p style="font-size:14px; color:var(--gray-text);">40.4s total</p>
+              <p style="font-size:14px; color:var(--black);">Lifestyle shoe was flagged correctly.</p>
             </div>
-            <div class="mobile-stack" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
-              <p style="font-size:13px; color:var(--black); font-weight:500;">Invalid URL in the list</p>
-              <p style="font-size:13px; color:var(--gray-text);">0.39s to fail</p>
-              <p style="font-size:13px; color:var(--black);">Bad link was flagged. Other links still worked.</p>
+            <div class="mobile-stack test-result-row" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
+              <p style="font-size:14px; color:var(--black); font-weight:500;">Invalid URL in the list</p>
+              <p style="font-size:14px; color:var(--gray-text);">0.39s to fail</p>
+              <p style="font-size:14px; color:var(--black);">Bad link was flagged. Other links still worked.</p>
             </div>
-            <div class="mobile-stack" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
-              <p style="font-size:13px; color:var(--black); font-weight:500;">Same URLs requested again</p>
-              <p style="font-size:13px; color:var(--gray-text);">63ms average</p>
-              <p style="font-size:13px; color:var(--black);">Loaded from cache.</p>
+            <div class="mobile-stack test-result-row" style="display:grid; grid-template-columns:2fr 1fr 1fr; border-bottom:1px solid var(--border); padding:18px 28px; gap:16px; align-items:center;">
+              <p style="font-size:14px; color:var(--black); font-weight:500;">Same URLs requested again</p>
+              <p style="font-size:14px; color:var(--gray-text);">63ms average</p>
+              <p style="font-size:14px; color:var(--black);">Loaded from cache.</p>
             </div>
-            <div class="mobile-stack" style="display:grid; grid-template-columns:2fr 1fr 1fr; padding:18px 28px; gap:16px; align-items:center;">
-              <p style="font-size:13px; color:var(--black); font-weight:500;">Follow up request</p>
-              <p style="font-size:13px; color:var(--gray-text);">11.4s</p>
-              <p style="font-size:13px; color:var(--black);">Ranking changed with new reasoning.</p>
+            <div class="mobile-stack test-result-row" style="display:grid; grid-template-columns:2fr 1fr 1fr; padding:18px 28px; gap:16px; align-items:center;">
+              <p style="font-size:14px; color:var(--black); font-weight:500;">Follow up request</p>
+              <p style="font-size:14px; color:var(--gray-text);">11.4s</p>
+              <p style="font-size:14px; color:var(--black);">Ranking changed with new reasoning.</p>
             </div>
           </div>
         </div>
@@ -1293,7 +1173,7 @@
       <!-- 06 What I Learned -->
       <section class="cs-section reveal" id="learned">
         <span class="section-label">07 What I Learned</span>
-        <h2 class="section-title">Building fast taught me<br>where the product was strongest.</h2>
+        <h2 class="section-title">Building fast taught me <br>where the product was strongest.</h2>
         <div class="section-body">
           <p>The biggest lesson was simple: <span class="highlight">memory is part of the design.</span> BriefBuy worked because the decision panel stayed visible while the chat kept changing.</p>
           <p>I also learned where I would push the product next. I still think users should be able to describe what they need first, without finding product links before they start.</p>
@@ -1306,7 +1186,7 @@
         <div class="related-grid">
           <a href="bdlnow-case-study.html" class="related-card">
             <div class="related-thumb">
-              <img src="assets/bdlnow/bdlnow_page_screen.png" alt="BDLNow platform" style="width:100%;height:100%;object-fit:contain;display:block;" />
+              <video src="assets/bdlnow/BDL_Now_Intro.mp4" poster="assets/bdlnow/BDL_Now_Intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
             </div>
             <div class="related-body">
               <span class="related-tag">02 · Data Platform Design</span>
@@ -1315,7 +1195,7 @@
           </a>
           <a href="can-us-case-study.html" class="related-card">
             <div class="related-thumb">
-              <img src="assets/can-us-case-stuy/Main DashboardMap_Sidebar.png" alt="CAN-U.S. District Dashboard" style="width:100%;height:100%;object-fit:contain;display:block;" />
+              <video src="assets/can-us-case-stuy/Dashboard_intro.mp4" poster="assets/can-us-case-stuy/Dashboard_intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
             </div>
             <div class="related-body">
               <span class="related-tag">01 · Policy Data Visualization</span>
@@ -1329,94 +1209,7 @@
   </div><!-- /body-layout -->
 </div><!-- /page -->
 
-<script>
-  // Scroll reveal
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-
-  // Active section nav — fires when a section's top edge enters the top 20% of the viewport
-  const sections = document.querySelectorAll('.cs-section');
-  const navLinks = document.querySelectorAll('.section-nav a');
-  const sObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        navLinks.forEach(a => a.classList.remove('active'));
-        const lnk = document.querySelector(`.section-nav a[href="#${e.target.id}"]`);
-        if (lnk) lnk.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-10% 0px -75% 0px', threshold: 0 });
-  sections.forEach(s => sObs.observe(s));
-
-  // Card entrance animation
-  const cardEls = document.querySelectorAll('.callout, .outcome-card, .related-card, .anno-card, .role-cell');
-  cardEls.forEach(c => c.classList.add('card-enter'));
-  const cardObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('card-visible');
-        cardObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  cardEls.forEach(c => cardObs.observe(c));
-
-  // Process step flow: reveal one by one
-  const processFlow = document.getElementById('processStepFlow');
-  if (processFlow) {
-    const pfObs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        const items = processFlow.querySelectorAll('.step-pill, .step-connector');
-        items.forEach((el, i) => setTimeout(() => el.classList.add('visible'), i * 180));
-        pfObs.unobserve(processFlow);
-      }
-    }, { threshold: 0.4 });
-    pfObs.observe(processFlow);
-  }
-
-  // Smooth scroll
-  navLinks.forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const t = document.querySelector(a.getAttribute('href'));
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // Slide animations
-  const slideObs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); slideObs.unobserve(e.target); }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.slide-left, .slide-right').forEach(el => slideObs.observe(el));
-
-  // Lightbox
-  const overlay = document.createElement('div');
-  overlay.className = 'lightbox-overlay';
-  overlay.innerHTML = '<button class="lightbox-close" aria-label="Close">✕</button><img>';
-  document.body.appendChild(overlay);
-  const lbImg = overlay.querySelector('img');
-  function openLightbox(src, alt) { lbImg.src = src; lbImg.alt = alt || ''; overlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
-  function closeLightbox() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
-  document.querySelectorAll('.anno-img img').forEach(img => { img.classList.add('lb-trigger'); img.addEventListener('click', () => openLightbox(img.src, img.alt)); });
-  overlay.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
-
-  // Design section tabs
-  document.querySelectorAll('.feat-tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const group = btn.closest('.feat-tabs');
-      group.querySelectorAll('.feat-tab-btn').forEach(b => b.classList.remove('active'));
-      group.querySelectorAll('.feat-tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
-    });
-  });
-</script>
+<script src="assets/js/case-study.js" defer></script>
 
 </body>
 </html>

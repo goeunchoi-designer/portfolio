@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Goeun Choi, Designer</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -29,6 +31,25 @@
       color: var(--black);
       line-height: 1.6;
       font-size: 16px;
+    }
+
+    /* ── Custom pointer: a pen icon replaces the native cursor ── */
+    @media (hover: hover) and (pointer: fine) and (min-width: 769px) {
+      * { cursor: none !important; }
+      #customCursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 10000;
+        font-size: 22px;
+        color: #ffffff;
+        mix-blend-mode: difference;
+        transform: translate(-50%, -50%) rotate(90deg);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+      #customCursor.visible { opacity: 1; }
     }
 
     /* ── Nav ── */
@@ -63,7 +84,7 @@
       list-style: none;
     }
     .nav-links a {
-      font-size: 13px;
+      font-size: 14px;
       color: var(--gray-text);
       text-decoration: none;
       transition: color 0.15s;
@@ -110,7 +131,7 @@
       padding: 80px 64px;
     }
     .hero-tag {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -135,7 +156,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--white);
     }
     .status-dot {
@@ -161,15 +182,15 @@
       margin-bottom: 0;
     }
     .section-header h2 {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--white);
     }
     .section-header span {
-      font-size: 12px;
-      color: rgba(255,255,255,.5);
+      font-size: 14px;
+      color: #ffffff;
     }
 
     /* ── Project card ── */
@@ -189,28 +210,28 @@
       flex-direction: column;
     }
     .project-number {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
-      text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 16px;
+      font-size: 14px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #ffffff; margin-bottom: 16px;
     }
     .project-title {
       font-size: 36px; font-weight: 700; line-height: 1.08;
       letter-spacing: -0.02em; color: var(--white); margin-bottom: 16px;
     }
     .project-hook {
-      font-size: 15px; line-height: 1.75; color: var(--white); margin-bottom: 28px;
+      font-size: 15px; line-height: 1.75; color: var(--white); margin-bottom: 36px;
     }
-    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 36px; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
     .project-tag {
-      font-size: 11px;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 999px; padding: 5px 14px; color: rgba(255,255,255,0.75);
-      background: transparent; font-weight: 500;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 999px; padding: 3px 11px; color: rgba(255,255,255,0.6);
+      background: transparent; font-weight: 500; letter-spacing: 0.02em;
     }
     .project-tag.highlight {
       background: var(--white); color: var(--black); border-color: transparent; font-weight: 600;
     }
     .project-cta {
-      display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600;
       color: #111; background: white; text-decoration: none; letter-spacing: 0.01em; width: fit-content;
       padding: 11px 22px 11px 20px; border-radius: 999px; border: none;
       position: relative; overflow: hidden;
@@ -237,7 +258,7 @@
     }
     .project-cta:hover .cta-arrow { transform: translateX(5px); }
     .project-cta.muted {
-      background: transparent; color: rgba(255,255,255,.3);
+      background: transparent; color: #ffffff;
       border: 1px solid rgba(255,255,255,.15); pointer-events: none; font-weight: 400;
     }
 
@@ -259,12 +280,12 @@
       border-color: transparent;
     }
     .visual-placeholder {
-      font-size: 12px;
+      font-size: 14px;
       color: var(--gray-text);
       letter-spacing: 0.04em;
     }
     .project-visual.dark .visual-placeholder {
-      color: rgba(255,255,255,0.25);
+      color: #ffffff;
     }
     .visual-accent {
       position: absolute;
@@ -313,7 +334,7 @@
       position: relative;
     }
     .ab-label {
-      font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--white);
       background: var(--black);
       display: block;
@@ -325,31 +346,31 @@
     /* Status */
     .ab-status { grid-column: auto; grid-row: auto; --rot: -2deg; display: flex; align-items: center; gap: 10px; }
     .ab-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
-    .ab-status-text { font-size: 13px; font-weight: 500; color: var(--black); }
+    .ab-status-text { font-size: 14px; font-weight: 500; color: var(--black); }
 
     /* Availability */
     .ab-avail { grid-column: auto; grid-row: auto; --rot: 2deg; }
     .ab-avail-list { display: flex; flex-direction: column; gap: 5px; margin-top: 4px; }
-    .ab-avail-list span { font-size: 12px; color: var(--black); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+    .ab-avail-list span { font-size: 14px; color: var(--black); font-weight: 500; display: flex; align-items: center; gap: 6px; }
     .ab-avail-list span::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--black); flex-shrink:0; }
 
     /* Experience card */
     .ab-exp-role { grid-column: auto; grid-row: auto; --rot: -1.5deg; }
     .ab-role-co { font-size: 14px; font-weight: 700; line-height: 1.3; display: block; margin-bottom: 3px; }
-    .ab-role-title { font-size: 11px; color: var(--gray-text); display: block; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .ab-role-title { font-size: 14px; color: var(--gray-text); display: block; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
     .ab-role-title:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 
     /* Interests */
     .ab-interests { grid-column: auto; grid-row: auto; --rot: 1.5deg; }
     .ab-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-    .ab-tags span { font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--black); white-space: nowrap; }
+    .ab-tags span { font-size: 14px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--black); white-space: nowrap; }
 
     /* Interior design mood card */
     .ab-interior { grid-column: auto; grid-row: auto; --rot: -1deg; padding: 0; overflow: hidden; }
     .ab-interior-img { width: 100%; height: 160px; object-fit: cover; display: block; }
     .ab-interior-body { padding: 16px 20px 18px; }
     .ab-interior-title { font-size: 15px; font-weight: 600; display: block; margin-bottom: 4px; }
-    .ab-interior-desc { font-size: 12px; color: var(--gray-text); line-height: 1.5; }
+    .ab-interior-desc { font-size: 14px; color: var(--gray-text); line-height: 1.5; }
     /* Interior card label — at top of card (padding:0), no negative margin needed */
     .ab-interior > .ab-label {
       margin: 0;
@@ -388,7 +409,7 @@
     .footer-nav { display: flex; flex-direction: 
     column; gap: 12px; align-items: flex-end;background:transparent }
     .footer-nav a {
-      font-size: 13px; color: var(--white);
+      font-size: 14px; color: var(--white);
       background: none; border: none; border-radius: 0;
       padding: 0; margin: 0;
       text-decoration: none; transition: opacity 0.15s;
@@ -396,8 +417,8 @@
     .footer-nav a:hover { opacity: 0.6; }
     .footer-nav a::after { display: none; }
     .footer-email-link {
-      font-size: 13px; font-weight: 500;
-      color: rgba(255,255,255,.45);
+      font-size: 14px; font-weight: 500;
+      color: #ffffff;
       text-decoration: none;
       transition: opacity 0.15s;
     }
@@ -419,7 +440,7 @@
       margin: 0 auto;
       padding: 20px 64px;
     }
-    .footer-copy { font-size: 12px; color: rgba(255,255,255,.3); }
+    .footer-copy { font-size: 14px; color: #ffffff; }
 
     /* ── Nav hover underline ── */
     .nav-links a {
@@ -458,7 +479,7 @@
       align-items: center;
       gap: 10px;
       padding-right: 44px;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 500;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -499,7 +520,7 @@
       justify-content: center;
       gap: 7px;
       color: white;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -536,7 +557,7 @@
       right: 32px;
       background: var(--black);
       color: var(--white);
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.02em;
       padding: 12px 22px;
@@ -761,7 +782,7 @@
       margin-bottom: 48px;
     }
     .skills-header h2 {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -795,7 +816,7 @@
       text-align: left;
     }
     .skill-num {
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 600;
       letter-spacing: 0.1em;
       color: var(--gray-text);
@@ -831,8 +852,8 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.75);
+      font-size: 14px;
+      color: #ffffff;
       background: var(--black);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 999px;
@@ -848,6 +869,13 @@
       stroke-linecap: round;
       stroke-linejoin: round;
     }
+    .skill-tag img {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+      filter: brightness(0) invert(1);
+      opacity: 0.65;
+    }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
@@ -862,16 +890,26 @@
       .hero-img-wrap img { max-width: 220px; }
       .skills-layout { grid-template-columns: 1fr; gap: 40px; }
       .skills-sticky { order: -1; position: relative; top: auto; animation: none; }
-      .project-card,
+      /* Flip cards (BDLNow, Gateway): stack vertically, text first, thumbnail below */
       .project-card.flip {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 28px;
       }
       .project-card.flip .project-info { order: 1; }
-      .project-card.flip .project-visual { order: 2; }
+      .project-card.flip .project-visual-link { order: 2; }
+
+      /* Regular cards (BriefBuy, Canada/US): stack like flip cards — text top, thumbnail below */
+      .project-card:not(.flip) {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
       .about-pg { grid-template-columns: 1fr 1fr; min-height: unset; gap: 12px; }
       .ab-headline { grid-column: 1 / -1; grid-row: auto; font-size: 28px; }
       .ab-time, .ab-status, .ab-role, .ab-interests, .ab-stats, .ab-building, .ab-exp, .ab-ottawa { grid-column: span 1; grid-row: auto; }
+      .ab-interior { display: grid; grid-template-columns: 110px 1fr; grid-template-rows: auto 1fr; grid-column: 1 / -1; }
+      .ab-interior > .ab-label { grid-column: 1 / -1; }
+      .ab-interior-img { grid-column: 1; height: 100%; min-height: 110px; }
+      .ab-interior-body { grid-column: 2; align-self: center; }
       footer { background: var(--black); }
       .footer-inner {
         padding: 56px 28px 40px;
@@ -898,6 +936,8 @@
 </head>
 <body>
 
+  <i id="customCursor" class="fa-solid fa-paintbrush" aria-hidden="true"></i>
+
   <!-- Nav -->
   <nav class="main-nav">
     <div class="nav-inner">
@@ -905,7 +945,7 @@
       <ul class="nav-links">
         <li><a href="#works">Works</a></li>
         <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="mailto:goeunchoi9090@gmail.com">Contact</a></li>
       </ul>
     </div>
   </nav>
@@ -1024,7 +1064,7 @@
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>InDesign</span>
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Photoshop</span>
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12a4 4 0 0 1 8 0"/><line x1="12" y1="8" x2="12" y2="12"/></svg>Lightroom</span>
-                <span class="skill-tag"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>Canva</span>
+                <span class="skill-tag"><img src="assets/home/canva-svgrepo-com.svg" alt="">Canva</span>
               </div>
             </div>
           </div>
@@ -1042,6 +1082,7 @@
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Framer</span>
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>WordPress</span>
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>Webflow</span>
+                <span class="skill-tag"><img src="assets/home/icons8-shopify-24.png" class="m-icon" alt="">Shopify</span>
               </div>
             </div>
           </div>
@@ -1074,6 +1115,8 @@
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/><path d="M19 15l.75 2.25L22 18l-2.25.75L19 21l-.75-2.25L16 18l2.25-.75L19 15z"/></svg>AI Assisted Prototyping</span>
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>GitHub</span>
                 <span class="skill-tag"><svg viewBox="0 0 24 24"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/></svg>AI Assisted Frontend Dev</span>
+                <span class="skill-tag"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.65)" fill-rule="evenodd"><path clip-rule="evenodd" d="M20.998 10.949H24v3.102h-3v3.028h-1.487V20H18v-2.921h-1.487V20H15v-2.921H9V20H7.488v-2.921H6V20H4.487v-2.921H3V14.05H0V10.95h3V5h17.998v5.949zM6 10.949h1.488V8.102H6v2.847zm10.51 0H18V8.102h-1.49v2.847z"/></svg>Claude Code</span>
+                <span class="skill-tag"><svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.65)" fill-rule="evenodd"><path clip-rule="evenodd" d="M8.086.457a6.105 6.105 0 013.046-.415c1.333.153 2.521.72 3.564 1.7a.117.117 0 00.107.029c1.408-.346 2.762-.224 4.061.366l.063.03.154.076c1.357.703 2.33 1.77 2.918 3.198.278.679.418 1.388.421 2.126a5.655 5.655 0 01-.18 1.631.167.167 0 00.04.155 5.982 5.982 0 011.578 2.891c.385 1.901-.01 3.615-1.183 5.14l-.182.22a6.063 6.063 0 01-2.934 1.851.162.162 0 00-.108.102c-.255.736-.511 1.364-.987 1.992-1.199 1.582-2.962 2.462-4.948 2.451-1.583-.008-2.986-.587-4.21-1.736a.145.145 0 00-.14-.032c-.518.167-1.04.191-1.604.185a5.924 5.924 0 01-2.595-.622 6.058 6.058 0 01-2.146-1.781c-.203-.269-.404-.522-.551-.821a7.74 7.74 0 01-.495-1.283 6.11 6.11 0 01-.017-3.064.166.166 0 00.008-.074.115.115 0 00-.037-.064 5.958 5.958 0 01-1.38-2.202 5.196 5.196 0 01-.333-1.589 6.915 6.915 0 01.188-2.132c.45-1.484 1.309-2.648 2.577-3.493.282-.188.55-.334.802-.438.286-.12.573-.22.861-.304a.129.129 0 00.087-.087A6.016 6.016 0 015.635 2.31C6.315 1.464 7.132.846 8.086.457zm-.804 7.85a.848.848 0 00-1.473.842l1.694 2.965-1.688 2.848a.849.849 0 001.46.864l1.94-3.272a.849.849 0 00.007-.854l-1.94-3.393zm5.446 6.24a.849.849 0 000 1.695h4.848a.849.849 0 000-1.696h-4.848z"/></svg>Codex</span>
               </div>
             </div>
           </div>
@@ -1108,82 +1151,81 @@
       
       </div>
 
-      <!-- 01: BriefBuy -->
-      <div class="project-card reveal">
-        <div class="project-info">
-          <p class="project-number">01 · AI Product Design</p>
-          <h3 class="project-title">BriefBuy</h3>
-          <p class="project-hook">I designed an AI shopping companion that helps runners explain what they need, compare options, and feel less overwhelmed.</p>
-          <div class="project-tags">
-       
-            <span class="project-tag">AI Product Design</span>
-            <span class="project-tag">Figma · Next.js · Claude API</span>
-          </div>
-          <a href="briefbuy-case-study.html" class="project-cta">Read case study <span class="cta-arrow">→</span></a>
-        </div>
-        <a href="briefbuy-case-study.html" class="project-visual-link">
-          <div class="project-visual dark" style="padding:0;overflow:hidden;">
-            <img src="assets/home/briefbuy-tumbnail.png" alt="BriefBuy comparison interface" style="width:100%;height:100%;object-fit:cover;display:block;" />
-            <div class="view-overlay">View project <span class="overlay-arrow">→</span></div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 02: BDLNow -->
+      <!-- 01: Gateway -->
       <div class="project-card flip reveal">
         <div class="project-info">
-          <p class="project-number">02 · Data Visualization</p>
-          <h3 class="project-title">BDLNow</h3>
-          <p class="project-hook">I helped shape a data platform that makes Canadian economic research easier to read without losing the important details.</p>
-          <div class="project-tags">
-            <span class="project-tag">UI/UX · Web Design</span>
-            <span class="project-tag">Figma · WordPress</span>
-          </div>
-          <a href="bdlnow-case-study.html" class="project-cta">Read case study <span class="cta-arrow">→</span></a>
-        </div>
-        <a href="bdlnow-case-study.html" class="project-visual-link">
-          <div class="project-visual" style="padding:0;overflow:hidden;">
-            <video src="assets/bdlnow/BDL_Now_Intro.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
-            <div class="view-overlay">View project <span class="overlay-arrow">→</span></div>
-          </div>
-        </a>
-      </div>
-
-      <!-- 03: Canada and U.S. -->
-      <div class="project-card reveal">
-        <div class="project-info">
-          <p class="project-number">03 · Policy Data Visualization</p>
-          <h3 class="project-title">Canada and U.S. District Dashboard</h3>
-          <p class="project-hook">I designed a dashboard that helps policy teams explore Canada and U.S. trade data across all 435 congressional districts.</p>
-          <div class="project-tags">
-         
-            <span class="project-tag">Product Designer</span>
-            <span class="project-tag">Figma · Shiny/R · After Effects</span>
-          </div>
-          <a href="can-us-case-study.html" class="project-cta">Read case study <span class="cta-arrow">→</span></a>
-        </div>
-        <a href="can-us-case-study.html" class="project-visual-link">
-          <div class="project-visual" style="padding:0;overflow:hidden;">
-            <img src="assets/can-us-case-stuy/Main DashboardMap_Sidebar.png" alt="Canada and U.S. District Dashboard" style="width:100%;height:100%;object-fit:contain;display:block;" />
-            <div class="view-overlay">View project <span class="overlay-arrow">→</span></div>
-          </div>
-        </a>
-      </div>
-
-      <div class="project-card flip reveal">
-        <div class="project-info">
-          <p class="project-number">04 · Brand Identity Design</p>
-          <h3 class="project-title">Gateway</h3>
-          <p class="project-hook">I collaborated on the launch rollout for a new Richcraft Homes community built for first-time buyers.</p>
+          <p class="project-number">01 · Brand Identity Design</p>
           <div class="project-tags">
             <span class="project-tag">Brand Designer</span>
             <span class="project-tag">Figma · Illustrator · InDesign · After Effects</span>
           </div>
+          <h3 class="project-title">Gateway</h3>
+          <p class="project-hook">I collaborated on the launch rollout for a new Richcraft Homes community built for first-time buyers.</p>
           <a href="gateway-case-study.html" class="project-cta">Read case study <span class="cta-arrow">→</span></a>
         </div>
         <a href="gateway-case-study.html" class="project-visual-link">
           <div class="project-visual" style="padding:0;overflow:hidden;background:#ffffff;">
             <video src="assets/gateway/gateway-intro.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+            <div class="view-overlay">View project <span class="overlay-arrow">→</span></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 02: BriefBuy -->
+      <div class="project-card reveal">
+        <div class="project-info">
+          <p class="project-number">02 · AI Product Design</p>
+          <div class="project-tags">
+            <span class="project-tag">AI Product Design</span>
+            <span class="project-tag">Figma · Next.js · Claude API</span>
+          </div>
+          <h3 class="project-title">BriefBuy</h3>
+          <p class="project-hook">I designed an AI shopping companion that helps runners explain what they need, compare options, and feel less overwhelmed.</p>
+          <a href="briefbuy-case-study.html" class="project-cta">Read case study <span class="cta-arrow">→</span></a>
+        </div>
+        <a href="briefbuy-case-study.html" class="project-visual-link">
+          <div class="project-visual dark" style="padding:0;overflow:hidden;">
+            <video src="assets/briefbuy/AI Product Comparison landing screen.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/home/briefbuy-tumbnail.png" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+            <div class="view-overlay">View project <span class="overlay-arrow">→</span></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 03: BDLNow -->
+      <div class="project-card flip reveal">
+        <div class="project-info">
+          <p class="project-number">03 · Data Visualization</p>
+          <div class="project-tags">
+            <span class="project-tag">UI/UX · Web Design</span>
+            <span class="project-tag">Figma · WordPress</span>
+          </div>
+          <h3 class="project-title">BDLNow</h3>
+          <p class="project-hook">I helped shape a data platform that makes Canadian economic research easier to read without losing the important details.</p>
+          <a href="bdlnow-case-study.html" class="project-cta">Read case study <span class="cta-arrow">→</span></a>
+        </div>
+        <a href="bdlnow-case-study.html" class="project-visual-link">
+          <div class="project-visual" style="padding:0;overflow:hidden;">
+            <video src="assets/bdlnow/BDL_Now_Intro.mp4" poster="assets/bdlnow/BDL_Now_Intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+            <div class="view-overlay">View project <span class="overlay-arrow">→</span></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 04: Canada and U.S. -->
+      <div class="project-card reveal">
+        <div class="project-info">
+          <p class="project-number">04 · Policy Data Visualization</p>
+          <div class="project-tags">
+            <span class="project-tag">Product Designer</span>
+            <span class="project-tag">Figma · Shiny/R · After Effects</span>
+          </div>
+          <h3 class="project-title">Canada and U.S. District Dashboard</h3>
+          <p class="project-hook">I designed a dashboard that helps policy teams explore Canada and U.S. trade data across all 435 congressional districts.</p>
+          <a href="can-us-case-study.html" class="project-cta">Read case study <span class="cta-arrow">→</span></a>
+        </div>
+        <a href="can-us-case-study.html" class="project-visual-link">
+          <div class="project-visual" style="padding:0;overflow:hidden;">
+            <video src="assets/can-us-case-stuy/Dashboard_intro.mp4" poster="assets/can-us-case-stuy/Dashboard_intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
             <div class="view-overlay">View project <span class="overlay-arrow">→</span></div>
           </div>
         </a>
@@ -1277,7 +1319,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© 2025 Goeun Choi</p>
+      <p class="footer-copy">© 2026 Goeun Choi's Portfolio</p>
     </div>
   </footer>
 
@@ -1288,6 +1330,18 @@
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 
   <script>
+    // ── Custom pointer: pen icon follows the mouse ──────────────────────────
+    (function () {
+      const cursor = document.getElementById('customCursor');
+      if (!cursor || !window.matchMedia('(hover: hover) and (pointer: fine) and (min-width: 769px)').matches) return;
+      window.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        cursor.classList.add('visible');
+      }, { passive: true });
+      window.addEventListener('mouseleave', () => cursor.classList.remove('visible'));
+    })();
+
     // ── Paint splash (shared) ────────────────────────────────────────────────
     function paintSplash(cx, cy, size, blobCount, blobR, speckCount, spd) {
       const dpr = window.devicePixelRatio || 1;

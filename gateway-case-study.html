@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gateway Case Study · Goeun Choi</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Overused+Grotesk:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/case-study.css">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --white:     #ffffff; --off-white: #f8f8f8; --gray-light: #f0f0f0;
       --gray-text: #888888; --black:     #111111; --border:     #e8e8e8;
@@ -14,295 +15,91 @@
       --shadow:    0 4px 24px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
       --brand:     #3D5A4F; --brand-light: #edf2f0;
     }
-    body { font-family:'Overused Grotesk','Inter',system-ui,sans-serif; background:var(--white); color:var(--black); line-height:1.6; font-size:16px; font-weight:400; }
+    html { overflow-x: hidden; }
+    body { overflow-x: hidden; }
 
-    /* Nav */
-    nav { position:sticky; top:0; background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--border); border-radius:0 0 20px 20px; z-index:100; }
-    .nav-inner { max-width:1280px; margin:0 auto; padding:24px 64px; display:flex; justify-content:space-between; align-items:center; }
-    .nav-logo { font-size:15px; font-weight:600; color:var(--black); text-decoration:none; letter-spacing:-.01em; }
-    .nav-links { display:flex; gap:36px; list-style:none; }
-    .nav-links a { font-size:13px; color:var(--gray-text); text-decoration:none; transition:color .15s; }
-    .nav-links a:hover { color:var(--black); }
+    /* Cover — page-specific: brand background, object-position:top */
+    .hero-cover { background:var(--brand); }
+    .cover-ph { font-size:14px; color:#ffffff; letter-spacing:.04em; }
+    .hero-cover img { object-position:top; }
 
-    /* Page */
-    .page { max-width:1280px; margin:0 auto; padding:0 64px; }
+    /* img-block.dark override: brand green instead of black */
+    .img-block.dark { background:var(--brand); }
 
-    /* Hero */
-    .hero { padding:72px 0 64px; border-bottom:1px solid var(--border); }
-    .hero-meta { display:flex; align-items:center; gap:12px; margin-bottom:32px; }
-    .hero-back { font-size:13px; color:var(--gray-text); text-decoration:none; display:flex; align-items:center; gap:6px; transition:color .15s; }
-    .hero-back:hover { color:var(--black); }
-    .hero-meta-sep { color:var(--border); }
-    .hero-meta-tag { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); }
-    .hero-tags { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px; }
-    .hero-tag-pill { font-size:11px; font-weight:500; background:var(--off-white); color:var(--black); border:1px solid var(--border); border-radius:999px; padding:5px 14px; }
-    .hero-tag-pill.filled { background:var(--black); color:var(--white); border-color:transparent; }
-    h1.hero-title { font-size:clamp(34px,4.5vw,66px); font-weight:700; letter-spacing:-.035em; line-height:1.05; color:var(--black); margin-bottom:20px; }
-    p.hero-desc { font-size:17px; color:var(--gray-text); line-height:1.65; margin-bottom:48px; }
-
-    /* Stats */
-    .hero-stats { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:52px; }
-    .hero-stat { padding:28px 32px; border-right:1px solid var(--border); }
-    .hero-stat:last-child { border-right:none; }
-    .hero-stat-num { font-size:38px; font-weight:700; letter-spacing:-.03em; display:block; margin-bottom:6px; }
-    .hero-stat-label { font-size:12px; color:var(--gray-text); line-height:1.4; }
-
-    /* Cover */
-    .hero-cover { width:100%; aspect-ratio:16/7; background:var(--brand); border-radius:var(--radius); display:flex; align-items:center; justify-content:center; overflow:hidden; margin-top:52px; }
-    .cover-ph { font-size:13px; color:rgba(255,255,255,.3); letter-spacing:.04em; }
-    .hero-cover img { width:100%; height:100%; object-fit:cover; object-position:top; }
-
-    /* Overview bar */
-    .cs-overview {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      margin-bottom: 52px;
-    }
-    .cs-overview-item {
-      padding: 28px 32px;
-      border-right: 1px solid var(--border);
-    }
-    .cs-overview-item:last-child { border-right: none; }
-    .cs-overview-label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: var(--black);
-      color: var(--white);
-      padding: 10px 32px;
-      margin: -28px -32px 20px -32px;
-    }
-    .cs-overview-label svg { flex-shrink: 0; opacity: .75; }
-    .cs-overview-value {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--black);
-      line-height: 1.5;
-    }
-
-    /* Body layout */
-    .body-layout {
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 0;
-      align-items: start;
-    }
-
-    /* Left sticky sidebar nav */
-    .section-nav {
-      position: sticky;
-      top: 96px;
-      padding: 30px 32px 80px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .section-nav a {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--gray-text);
-      text-decoration: none;
-      padding: 8px 16px 6px 18px;
-      border-radius: 999px;
-      white-space: nowrap;
-      transition: color .2s, background .2s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .section-nav a:hover { color: var(--black); }
-    .section-nav a.active {
-      background: var(--black);
-      color: var(--white);
-      font-weight: 600;
-    }
-    .snav-icon { width: 14px; height: 14px; flex-shrink: 0; color: inherit; }
-
-    /* Content */
-    .content { padding: 80px 0 120px; padding-left: 72px; border-left: 1px solid var(--border); }
-    .cs-section { padding:72px 0; border-bottom:1px solid var(--border); }
-    .cs-section:last-child { border-bottom:none; }
-
-    /* Typography */
-    .section-label { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); margin-bottom:20px; display:block; }
-    .section-title { font-size:clamp(24px,2.8vw,38px); font-weight:700; letter-spacing:-.025em; line-height:1.1; margin-bottom:24px; }
-    .section-body { font-size:16px; line-height:1.8; color:#333; }
-    .section-body p+p { margin-top:20px; }
-
-    /* Layout helpers */
-    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:48px; align-items:start; }
-    .three-col { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px; }
-
-    /* Callout */
-    .callout { background:var(--off-white); border-radius:var(--radius-sm); padding:28px 32px; margin-top:40px; }
-    .callout.dark { background:var(--black); color:var(--white); }
-    .callout-label { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:10px; display:block; }
-    .callout.dark .callout-label { color:rgba(255,255,255,.8); }
-    .callout-text { font-size:18px; font-weight:600; line-height:1.5; letter-spacing:-.01em; }
-    .callout.dark .callout-text { color:var(--white); }
-    [class*="dark"],
-    .bento-card,
-    .outcome-card.filled { color: var(--white); }
-
-    /* Annotated layout */
-    .anno-layout { display:flex; flex-direction:column; gap:12px; margin-top:48px; }
-    .anno-row { display:grid; gap:12px; align-items:stretch; }
-    .anno-row.img-right { grid-template-columns:1fr 2fr; }
-    .anno-row.img-left  { grid-template-columns:2fr 1fr; }
-    .anno-card { background:var(--white); border:1px solid var(--border); border-radius:var(--radius-sm); padding:28px; display:grid; grid-template-columns:26px 1fr; grid-template-rows:auto auto; gap:6px 12px; align-items:start; flex:1; transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
-    .anno-card:hover { transform:translateY(-4px); box-shadow:0 10px 36px rgba(0,0,0,.1); }
-    .anno-card-icon { width:26px; height:26px; color:var(--black); flex-shrink:0; grid-column:1; grid-row:1; margin-top:2px; }
-    .anno-card-title { font-size:14px; font-weight:600; color:var(--black); line-height:1.3; margin-bottom:0; grid-column:2; grid-row:1; align-self:center; }
-    .anno-card-desc { font-size:13px; color:var(--gray-text); line-height:1.65; grid-column:1 / -1; grid-row:2; }
-    .anno-img { background:var(--off-white); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; min-height:320px; display:flex; align-items:center; justify-content:center; }
-    .anno-img img { width:100%; height:100%; object-fit:contain; display:block; padding:10px; }
-    .anno-bottom { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
-
-    /* Summary card */
-    .summary-card { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:40px; }
-    .summary-card-brief { padding:28px 32px; background:var(--off-white); border-bottom:1px solid var(--border); }
-
-    /* Process steps */
-    .process-steps { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:48px; }
-    .process-step { padding:28px 24px; border-right:1px solid var(--border); }
-    .process-step:last-child { border-right:none; }
-    .step-num { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:10px; display:block; }
-    .step-title { font-size:14px; font-weight:600; margin-bottom:8px; }
-    .step-desc { font-size:12px; color:var(--gray-text); line-height:1.5; }
-
-    /* Step flow (animated pills) */
-    .step-flow { display:flex; align-items:center; margin-top:32px; margin-bottom:48px; }
-    .step-pill { border:1.5px solid var(--border); border-radius:999px; padding:18px 26px; text-align:center; flex-shrink:0; opacity:0; transform:translateY(10px); transition:opacity .45s ease, transform .45s cubic-bezier(.25,.46,.45,.94); }
-    .step-pill.visible { opacity:1; transform:none; }
-    .step-pill.featured { background:var(--black); border-color:var(--black); }
-    .step-pill-title { font-size:14px; font-weight:600; color:var(--black); letter-spacing:-.01em; }
-    .step-pill.featured .step-pill-title { color:var(--white); }
-    .step-pill-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); display:block; margin-top:4px; }
-    .step-pill.featured .step-pill-label { color:rgba(255,255,255,.5); }
-    .step-connector { flex:1; display:flex; align-items:center; opacity:0; transition:opacity .4s ease; }
-    .step-connector.visible { opacity:1; }
-    .step-dash { flex:1; border-top:1.5px dashed var(--border); }
-    .step-dot { width:8px; height:8px; border-radius:50%; background:var(--brand); flex-shrink:0; }
-    @media(max-width:700px){ .step-flow { flex-direction:column; align-items:stretch; gap:8px; } .step-connector { display:none; } .step-pill { border-radius:var(--radius-sm); text-align:left; padding:16px 20px; } }
-
-    /* Outcome */
-    .outcome-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:48px; }
-    .outcome-card { padding:32px 28px; border:1px solid var(--border); border-radius:var(--radius-sm); }
-    .outcome-card.filled { background:var(--black); border-color:transparent; }
-    .outcome-num { font-size:42px; font-weight:700; letter-spacing:-.03em; display:block; margin-bottom:6px; }
-    .outcome-card.filled .outcome-num { color:var(--white); }
-    .outcome-desc { font-size:13px; color:var(--gray-text); line-height:1.5; }
-    .outcome-card.filled .outcome-desc { color:rgba(255,255,255,.8); }
-    .outcome-card { transition:transform .25s cubic-bezier(.22,1,.36,1), box-shadow .25s; }
-    .outcome-card:hover { transform:translateY(-4px); box-shadow:0 10px 36px rgba(0,0,0,.08); }
-
-    /* Comparison section */
-    .comparison-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:48px; }
-    .comparison-col { border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
-    .comparison-col-label { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; padding:12px 20px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--border); }
-    .comparison-col.problem .comparison-col-label { background:var(--off-white); color:var(--gray-text); }
-    .comparison-col.solution .comparison-col-label { background:var(--black); color:var(--white); }
-    .comparison-col-label span { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-    .comparison-col.problem .comparison-col-label span { background:#ccc; }
-    .comparison-col.solution .comparison-col-label span { background:#fff; }
-    .comparison-points { padding:20px; display:flex; flex-direction:column; gap:12px; }
-    .comparison-point { display:flex; align-items:flex-start; gap:10px; transition:transform .2s cubic-bezier(.22,1,.36,1); cursor:default; }
-    .comparison-point:hover { transform:translateX(4px); }
-    .comparison-point-icon { width:18px; height:18px; flex-shrink:0; margin-top:2px; }
-    .comparison-col.problem .comparison-point-icon { color:#e53e3e; }
+    /* Comparison solution icon uses brand color */
     .comparison-col.solution .comparison-point-icon { color:var(--brand); }
-    .comparison-point-text { font-size:13px; line-height:1.6; color:#333; }
-    .comparison-col.problem .comparison-point-text { color:var(--gray-text); }
-
-    /* Image blocks */
-    .img-block { width:100%; background:var(--off-white); border:1px solid var(--border); border-radius:var(--radius-sm); display:flex; align-items:center; justify-content:center; margin-top:40px; }
-    .img-block.dark { background:var(--brand); border-color:transparent; }
-    .img-ph { font-size:12px; color:var(--gray-text); letter-spacing:.04em; padding:60px 40px; text-align:center; }
-    .img-block.dark .img-ph { color:rgba(255,255,255,.35); }
-    .img-block img { width:100%; border-radius:var(--radius-sm); display:block; }
-
-    /* Colour swatch strip */
-    .swatch-row { display:flex; gap:12px; margin-top:40px; flex-wrap:wrap; }
-    .swatch { flex:1; min-width:120px; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border); }
-    .swatch-color { height:80px; }
-    .swatch-info { padding:14px 16px; background:var(--white); }
-    .swatch-name { font-size:13px; font-weight:600; color:var(--black); display:block; }
-    .swatch-hex { font-size:11px; color:var(--gray-text); letter-spacing:.05em; margin-top:2px; display:block; }
 
     /* Type specimen */
     .type-specimen { margin-top:40px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
     .type-specimen-row { padding:28px 32px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; gap:24px; }
     .type-specimen-row:last-child { border-bottom:none; }
-    .type-label { font-size:10px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); min-width:100px; flex-shrink:0; }
+    .type-label { font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); min-width:100px; flex-shrink:0; }
     .type-sample { color:var(--black); }
 
     /* Bento grid */
     .bento-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:48px; }
-    .bento-card { background:var(--black); border-radius:var(--radius-sm); overflow:hidden; }
     .bento-card-body { padding:28px; display:flex; flex-direction:column; min-height:220px; }
-    .bento-num { font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.8); display:block; margin-bottom:10px; }
+    .bento-num { font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#ffffff; display:block; margin-bottom:10px; }
     .bento-title { font-size:17px; font-weight:600; color:var(--white); line-height:1.3; margin-bottom:10px; }
-    .bento-desc { font-size:13px; color:rgba(255,255,255,.8); line-height:1.6; }
+    .bento-desc { font-size:14px; color:#ffffff; line-height:1.6; }
     .bento-span-2 { grid-column:span 2; }
 
     /* Role badge row */
     .role-row { display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:48px; }
     .role-cell { padding:28px 32px; border-right:1px solid var(--border); }
     .role-cell:last-child { border-right:none; }
-    .role-cell-tag { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:10px; }
+    .role-cell-tag { font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:10px; }
     .role-cell-name { font-size:15px; font-weight:600; color:var(--black); margin-bottom:6px; }
-    .role-cell-desc { font-size:12px; color:var(--gray-text); line-height:1.5; }
+    .role-cell-desc { font-size:14px; color:var(--gray-text); line-height:1.5; }
 
-    /* Related */
-    .related { padding:64px 0; border-top:1px solid var(--border); }
-    .related h3 { font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); margin-bottom:32px; }
-    .related-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
-    .related-card { border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; text-decoration:none; display:block; transition:box-shadow .3s,transform .3s; }
-    .related-card:hover { box-shadow:var(--shadow); transform:translateY(-3px); }
-    .related-thumb { width:100%; aspect-ratio:16/9; background:var(--off-white); display:flex; align-items:center; justify-content:center; }
-    .related-thumb.dark { background:var(--black); }
-    .related-thumb-ph { font-size:12px; color:var(--gray-text); }
-    .related-thumb.dark .related-thumb-ph { color:rgba(255,255,255,.25); }
-    .related-body { padding:20px 24px; }
-    .related-tag { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-text); margin-bottom:6px; display:block; }
-    .related-title { font-size:17px; font-weight:600; color:var(--black); letter-spacing:-.01em; }
+    /* Step dot uses brand color */
+    .step-dot { background:var(--brand); }
 
-    /* Text utilities */
-    strong, .bold { font-weight: 600; letter-spacing: -.01em; }
+    /* Related thumbnails */
+    .related-thumb-ph { font-size:14px; color:var(--gray-text); }
+    .related-thumb.dark .related-thumb-ph { color:#ffffff; }
 
-    /* Card entrance animation */
-    .card-enter { opacity: 0; transform: translateY(28px) scale(0.97); }
-    .card-enter.card-visible { opacity: 1; transform: none; transition: opacity .65s ease, transform .7s cubic-bezier(.22,.68,0,1.15); }
+    /* Gateway mockup gallery */
+    .gateway-showcase {
+      margin-top: 12px;
+      display: grid;
+      gap: 12px;
+    }
 
-    /* Reveal */
-    .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease,transform .7s cubic-bezier(.25,.46,.45,.94); }
-    .reveal.visible { opacity:1; transform:none; }
-    .hero.reveal { opacity:1; transform:none; }
+    .gateway-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
 
-    /* Lightbox */
-    .lightbox-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:1000; display:flex; align-items:center; justify-content:center; padding:32px; opacity:0; pointer-events:none; transition:opacity .2s ease; }
-    .lightbox-overlay.open { opacity:1; pointer-events:all; }
-    .lightbox-overlay img { max-width:100%; max-height:100%; border-radius:var(--radius-sm); object-fit:contain; transform:scale(.95); transition:transform .25s cubic-bezier(.25,.46,.45,.94); box-shadow:0 24px 80px rgba(0,0,0,.5); }
-    .lightbox-overlay.open img { transform:scale(1); }
-    .lightbox-close { position:absolute; top:24px; right:28px; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.12); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; transition:background .15s; }
-    .lightbox-close:hover { background:rgba(255,255,255,.22); }
-    .lb-trigger { cursor:zoom-in; }
+    .gateway-showcase-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--off-white);
+      overflow: hidden;
+    }
+
+    .gateway-showcase-media {
+      width: 100%;
+      overflow: hidden;
+      background: var(--brand-light);
+    }
+
+    .gateway-showcase-media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .gateway-showcase-media { aspect-ratio: 4 / 3; }
+
+    .gateway-showcase-wide {
+      grid-column: 1 / -1;
+      aspect-ratio: 16 / 8;
+    }
 
     @media(max-width:900px){
-      html, body { width:100%; max-width:100%; overflow-x:hidden; }
-      .page { width:100%; max-width:100%; overflow:hidden; padding:0 28px; }
-      .nav-inner { padding:20px 28px; }
-      .hero { padding:48px 0; }
-      img, video, svg { max-width:100%; }
-      .hero-stats, .two-col, .three-col, .outcome-grid, .related-grid, .comparison-grid { grid-template-columns:1fr; }
       .role-row { grid-template-columns:1fr; }
       .role-cell { border-right:none; border-bottom:1px solid var(--border); }
       .role-cell:last-child { border-bottom:none; }
@@ -310,17 +107,21 @@
       .process-step { border-right:none; border-bottom:1px solid var(--border); }
       .bento-grid { grid-template-columns:1fr; }
       .bento-span-2 { grid-column:span 1; }
-      .body-layout { grid-template-columns:1fr; }
-      .section-nav { display:none; }
-      .content { border-left:none; padding-left:0; }
-      .anno-row.img-right, .anno-row.img-left { grid-template-columns:1fr; }
-      .anno-bottom { grid-template-columns:1fr !important; }
-      .cs-overview { grid-template-columns:1fr 1fr; }
-      .cs-overview-item:nth-child(2) { border-right:none; }
-      .cs-overview-item:nth-child(3) { border-top:1px solid var(--border); }
-      .cs-overview-item:nth-child(4) { border-top:1px solid var(--border); border-right:none; }
-      .swatch-row { flex-direction:column; }
+      .anno-row,
+      .anno-row.img-right,
+      .anno-row.img-left {
+        grid-template-columns:1fr !important;
+      }
+      .anno-card { width: 100%; }
+      .swatch-row {
+        display:grid;
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
       .swatch { min-width:auto; }
+      .gateway-showcase-grid { grid-template-columns: 1fr; }
+    }
+    @media(max-width:340px){
+      .swatch-row { grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -352,7 +153,7 @@
       <span class="hero-tag-pill">Richcraft Homes</span>
       <span class="hero-tag-pill">Figma · Adobe Creative Suite</span>
     </div>
-    <h1 class="hero-title">A new community needed a brand<br>that felt nothing like real estate.</h1>
+    <h1 class="hero-title">A new community needed a brand <br>that felt nothing like real estate.</h1>
     <p class="hero-desc">Gateway is a Richcraft Homes residential community built for younger buyers entering the market for the first time. I collaborated on the launch rollout, helping shape the brand across layouts, collateral, digital assets, and campaign touchpoints so the launch felt clear, consistent, and approachable.</p>
 
     <div class="cs-overview">
@@ -465,7 +266,7 @@
       <!-- 01 Background -->
       <section class="cs-section reveal" id="background">
         <span class="section-label">01 Background</span>
-        <h2 class="section-title">Richcraft was launching a community<br>for people who had never bought a home.</h2>
+        <h2 class="section-title">Richcraft was launching a community <br>for people who had never bought a home.</h2>
         <div class="section-body">
           <p>Richcraft Homes is one of Ottawa's established residential builders. Most of their communities target move-up buyers. Gateway was different. It was designed for millennials and Gen Z buyers in their 20s and early 30s, people purchasing their first property and coming to it with skepticism toward traditional real estate marketing.</p>
           <p>I was one of the designers on the project, collaborating on the brand rollout from concept through launch. The work focused on building a visual system that could stay consistent across every touchpoint while still feeling warm, modern, and accessible.</p>
@@ -485,7 +286,7 @@
       <!-- 02 The Problem -->
       <section class="cs-section reveal" id="problem">
         <span class="section-label">02 The Problem</span>
-        <h2 class="section-title">Real estate branding keeps using the same visual language.<br>Younger buyers have learned to ignore it.</h2>
+        <h2 class="section-title">Real estate branding keeps using the same visual language. <br>Younger buyers have learned to ignore it.</h2>
         <div class="section-body">
           <p>Most residential brands look the same. Dark serifs, gold accents, cold photography. To a first-time buyer in their late 20s, that language reads as formal and not built for them. Gateway needed to feel like a beginning, not a prestige purchase.</p>
         </div>
@@ -545,7 +346,7 @@
       <!-- 03 Strategy -->
       <section class="cs-section reveal" id="strategy">
         <span class="section-label">03 Strategy</span>
-        <h2 class="section-title">I started with the architecture,<br>not a mood board.</h2>
+        <h2 class="section-title">I started with the architecture, <br>not a mood board.</h2>
         <div class="section-body">
           <p>Most brand projects begin with references from other industries. I did the opposite. The 3D architectural renderings for Gateway already existed, and they told me what the community actually looked like: clean lines, warm stone and concrete tones, generous windows, open green space.</p>
           <p>I used those renderings as the reference point for how the colour direction should behave across layouts. That kept the work grounded in the actual architecture instead of feeling like a generic real estate campaign.</p>
@@ -558,13 +359,13 @@
 
         <div class="two-col" style="margin-top:40px;">
           <div>
-            <p style="font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">Architecture reference</p>
+            <p style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">Architecture reference</p>
             <div class="img-block lb-trigger" style="margin-top:0; aspect-ratio:4/3;">
               <img src="assets/gateway/flat-elevation.jpg" alt="Gateway flat elevation architectural render" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-sm);">
             </div>
           </div>
           <div>
-            <p style="font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">Branding moodboard</p>
+            <p style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">Branding moodboard</p>
             <div class="img-block lb-trigger" style="margin-top:0; aspect-ratio:4/3;">
               <img src="assets/gateway/branding_moodboard.png" alt="Gateway branding moodboard" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-sm);">
             </div>
@@ -575,7 +376,7 @@
       <!-- 04 Brand Identity -->
       <section class="cs-section reveal" id="identity">
         <span class="section-label">04 Brand Identity</span>
-        <h2 class="section-title">Clean lines, warm tones,<br>and type that does not try too hard.</h2>
+        <h2 class="section-title">Clean lines, warm tones, <br>and type that does not try too hard.</h2>
         <div class="section-body">
           <p>The launch system brought together the core identity, layout principles, and asset system into one cohesive structure. Each piece had to hold up across formats, from a small digital ad to a full-size sales center banner.</p>
         </div>
@@ -628,20 +429,20 @@
 
         <div class="type-specimen">
           <div class="type-specimen-row">
-            <span class="type-label">Logo<br><span style="font-weight:400; font-size:9px; letter-spacing:.05em;">Roboto</span></span>
+            <span class="type-label">Logo<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Roboto</span></span>
             <span class="type-sample" style="font-size:42px; font-weight:500; line-height:1; font-family:'Roboto',sans-serif; text-transform:uppercase;">GATEWAY</span>
           </div>
           <div class="type-specimen-row">
-            <span class="type-label">Heading<br><span style="font-weight:400; font-size:9px; letter-spacing:.05em;">Poppins</span></span>
+            <span class="type-label">Heading<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Poppins</span></span>
             <span class="type-sample" style="font-size:24px; font-weight:600; font-family:'Poppins',sans-serif;">Your first home. Your way in.</span>
           </div>
           <div class="type-specimen-row">
-            <span class="type-label">Body<br><span style="font-weight:400; font-size:9px; letter-spacing:.05em;">Poppins</span></span>
+            <span class="type-label">Body<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Poppins</span></span>
             <span class="type-sample" style="font-size:15px; font-weight:400; line-height:1.7; color:#444; font-family:'Poppins',sans-serif;">Modern homes designed for how people actually live. Open layouts, natural light, and every detail considered.</span>
           </div>
           <div class="type-specimen-row">
-            <span class="type-label">Label<br><span style="font-weight:400; font-size:9px; letter-spacing:.05em;">Poppins</span></span>
-            <span class="type-sample" style="font-size:11px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); font-family:'Poppins',sans-serif;">Register Now · Ottawa, ON</span>
+            <span class="type-label">Label<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Poppins</span></span>
+            <span class="type-sample" style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); font-family:'Poppins',sans-serif;">Register Now · Ottawa, ON</span>
           </div>
         </div>
 
@@ -680,7 +481,7 @@
       <!-- 05 Applications -->
       <section class="cs-section reveal" id="applications">
         <span class="section-label">05 Applications</span>
-        <h2 class="section-title">The system had to hold up<br>from a banner to a browser.</h2>
+        <h2 class="section-title">The system had to hold up <br>from a banner to a browser.</h2>
         <div class="section-body">
           <p>A brand system is only useful if it works in every format the team actually needs. For Gateway, that meant print collateral for the sales center, digital ads for social and search, email campaigns to the registrant list, and on-site signage.</p>
           <p>I built a set of templates for each format so the marketing team could produce new assets without the design drifting. Every template used the same palette, type scale, and spacing rules from the core system.</p>
@@ -733,13 +534,28 @@
           </div>
         </div>
 
-        <!-- Digital and social assets -->
-        <div class="two-col" style="margin-top:12px; gap:12px;">
-          <div class="img-block lb-trigger" style="margin-top:0; aspect-ratio:4/3; padding:0; overflow:hidden;">
-            <img src="assets/gateway/social-mockup.png" alt="Gateway social media mockup" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-sm);">
-          </div>
-          <div class="img-block lb-trigger" style="margin-top:0; aspect-ratio:4/3; padding:0; overflow:hidden;">
-            <img src="assets/gateway/emailcompagin.png" alt="Gateway email campaign design" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-sm);">
+        <!-- Digital, signage, and sales center assets -->
+        <div class="gateway-showcase" aria-label="Gateway campaign mockup gallery">
+          <div class="gateway-showcase-grid">
+            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
+              <img src="assets/gateway/social-mockup.png" alt="Gateway social media mockup">
+            </div>
+
+            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
+              <img src="assets/gateway/gatewaybillboard.jpg" alt="Gateway billboard campaign mockup with the message your gateway to modern living">
+            </div>
+
+            <div class="gateway-showcase-item gateway-showcase-media gateway-showcase-wide lb-trigger">
+              <img src="assets/gateway/emails.png" alt="Gateway email campaign design">
+            </div>
+
+            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
+              <img src="assets/gateway/gateway_mockup.png" alt="Gateway wall poster mockup being hung in an interior space">
+            </div>
+
+            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
+              <img src="assets/gateway/gateway-mockups.png" alt="Gateway framed poster mockup leaning against a wall">
+            </div>
           </div>
         </div>
 
@@ -754,9 +570,9 @@
       <!-- 06 Outcome -->
       <section class="cs-section reveal" id="outcome">
         <span class="section-label">06 Outcome</span>
-        <h2 class="section-title">The brand connected with<br>exactly who it was built for.</h2>
+        <h2 class="section-title">The brand connected with <br>exactly who it was built for.</h2>
         <div class="section-body">
-          <p>Gateway launched and the registrant numbers came back strong. The target demographic responded. Over 600 people from the 20 to 35 age range registered within the launch window, and the broader engagement across brand materials reached more than 4,100 new users.</p>
+          <p>Within two weeks after product launch, Gateway's registrant numbers came back strong. The target demographic responded. Over 600 people from the 20 to 35 age range registered within the launch window, and the broader engagement across brand materials reached more than 4,100 new users.</p>
           <p>The 35% conversion rate from initial interest to action was above the benchmark for comparable new community launches in the Ottawa market.</p>
         </div>
 
@@ -784,34 +600,11 @@
       <!-- 07 What I Learned -->
       <section class="cs-section reveal" id="learned">
         <span class="section-label">07 What I Learned</span>
-        <h2 class="section-title">Restraint made the system stronger.</h2>
+        <h2 class="section-title">The quieter the system, the louder the brand.</h2>
         <div class="section-body">
-          <p>Gateway taught me that a brand system does not need more pieces to feel complete. It needs a clear source of truth, disciplined application, and templates that help the work stay consistent after handoff.</p>
+          <p>I came into this project thinking more options meant more flexibility. By the end I had stripped the palette down, cut half the type styles, and trusted white space to do real work. The brand felt stronger for it.</p>
         </div>
 
-        <div class="bento-grid">
-          <div class="bento-card">
-            <div class="bento-card-body">
-              <span class="bento-num">Lesson 01</span>
-              <p class="bento-title">Start from what already exists</p>
-              <p class="bento-desc">The renders helped the visual direction feel connected to the actual community.</p>
-            </div>
-          </div>
-          <div class="bento-card">
-            <div class="bento-card-body">
-              <span class="bento-num">Lesson 02</span>
-              <p class="bento-title">Templates are design work</p>
-              <p class="bento-desc">Templates kept the system usable for the team beyond the launch.</p>
-            </div>
-          </div>
-          <div class="bento-card">
-            <div class="bento-card-body">
-              <span class="bento-num">Lesson 03</span>
-              <p class="bento-title">Less signals confidence</p>
-              <p class="bento-desc">Clean space helped the brand feel more confident and approachable.</p>
-            </div>
-          </div>
-        </div>
       </section>
 
     </div><!-- end content -->
@@ -823,7 +616,7 @@
     <div class="related-grid">
       <a class="related-card" href="bdlnow-case-study.html">
         <div class="related-thumb dark">
-          <img src="assets/bdlnow/bdlnow_page_screen.png" alt="BDLNow platform" style="width:100%;height:100%;object-fit:contain;display:block;">
+          <video src="assets/bdlnow/BDL_Now_Intro.mp4" poster="assets/bdlnow/BDL_Now_Intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
         </div>
         <div class="related-body">
           <span class="related-tag">Product Design · Data Visualization</span>
@@ -850,49 +643,7 @@
   <img src="" alt="" id="lightbox-img">
 </div>
 
-<script>
-  // Reveal on scroll
-  const reveals = document.querySelectorAll('.reveal');
-  const revObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => revObs.observe(el));
-
-  // Card enter
-  const cards = document.querySelectorAll('.card-enter');
-  const cardObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('card-visible'); cardObs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  cards.forEach(el => cardObs.observe(el));
-
-  // Sidebar nav scroll-based active
-  const sections = Array.from(document.querySelectorAll('.cs-section[id]'));
-  const navLinks = document.querySelectorAll('.section-nav a');
-  function updateActiveNav() {
-    let current = sections[0].id;
-    sections.forEach(s => {
-      if (s.getBoundingClientRect().top <= 130) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
-    });
-  }
-  window.addEventListener('scroll', updateActiveNav, { passive: true });
-  updateActiveNav();
-
-  // Lightbox
-  const overlay = document.getElementById('lightbox');
-  const lbImg   = document.getElementById('lightbox-img');
-  document.querySelectorAll('.lb-trigger').forEach(el => {
-    el.addEventListener('click', () => {
-      lbImg.src = el.querySelector('img') ? el.querySelector('img').src : el.src;
-      overlay.classList.add('open');
-    });
-  });
-  document.getElementById('lightbox-close').addEventListener('click', () => overlay.classList.remove('open'));
-  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
-</script>
+<script src="assets/js/case-study.js" defer></script>
 
 </body>
 </html>
