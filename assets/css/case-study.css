@@ -1,8 +1,16 @@
 /* Shared case study foundation */
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('../fonts/PlusJakartaSans-Variable.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: 'Overused Grotesk', 'Inter', system-ui, sans-serif;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
   background: var(--white);
   color: var(--black);
   line-height: 1.6;
@@ -31,7 +39,7 @@ nav {
 }
 
 .nav-logo {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--black);
   text-decoration: none;

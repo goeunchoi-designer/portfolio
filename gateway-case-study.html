@@ -9,123 +9,432 @@
   <link rel="stylesheet" href="assets/css/case-study.css">
   <style>
     :root {
-      --white:     #ffffff; --off-white: #f8f8f8; --gray-light: #f0f0f0;
-      --gray-text: #888888; --black:     #111111; --border:     #e8e8e8;
-      --radius:    20px;    --radius-sm: 12px;
-      --shadow:    0 4px 24px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.04);
-      --brand:     #3D5A4F; --brand-light: #edf2f0;
-    }
-    html { overflow-x: hidden; }
-    body { overflow-x: hidden; }
-
-    /* Cover — page-specific: brand background, object-position:top */
-    .hero-cover { background:var(--brand); }
-    .cover-ph { font-size:14px; color:#ffffff; letter-spacing:.04em; }
-    .hero-cover img { object-position:top; }
-
-    /* img-block.dark override: brand green instead of black */
-    .img-block.dark { background:var(--brand); }
-
-    /* Comparison solution icon uses brand color */
-    .comparison-col.solution .comparison-point-icon { color:var(--brand); }
-
-    /* Type specimen */
-    .type-specimen { margin-top:40px; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; }
-    .type-specimen-row { padding:28px 32px; border-bottom:1px solid var(--border); display:flex; align-items:baseline; gap:24px; }
-    .type-specimen-row:last-child { border-bottom:none; }
-    .type-label { font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); min-width:100px; flex-shrink:0; }
-    .type-sample { color:var(--black); }
-
-    /* Bento grid */
-    .bento-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:48px; }
-    .bento-card-body { padding:28px; display:flex; flex-direction:column; min-height:220px; }
-    .bento-num { font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:#ffffff; display:block; margin-bottom:10px; }
-    .bento-title { font-size:17px; font-weight:600; color:var(--white); line-height:1.3; margin-bottom:10px; }
-    .bento-desc { font-size:14px; color:#ffffff; line-height:1.6; }
-    .bento-span-2 { grid-column:span 2; }
-
-    /* Role badge row */
-    .role-row { display:grid; grid-template-columns:repeat(2,1fr); gap:0; border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden; margin-top:48px; }
-    .role-cell { padding:28px 32px; border-right:1px solid var(--border); }
-    .role-cell:last-child { border-right:none; }
-    .role-cell-tag { font-size:12px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-text); display:block; margin-bottom:10px; }
-    .role-cell-name { font-size:15px; font-weight:600; color:var(--black); margin-bottom:6px; }
-    .role-cell-desc { font-size:14px; color:var(--gray-text); line-height:1.5; }
-
-    /* Step dot uses brand color */
-    .step-dot { background:var(--brand); }
-
-    /* Related thumbnails */
-    .related-thumb-ph { font-size:14px; color:var(--gray-text); }
-    .related-thumb.dark .related-thumb-ph { color:#ffffff; }
-
-    /* Gateway mockup gallery */
-    .gateway-showcase {
-      margin-top: 12px;
-      display: grid;
-      gap: 12px;
+      --white:#ffffff;
+      --off-white:#ffffff;
+      --paper:#f0f0f0;
+      --gray-light:#eeeeea;
+      --gray-text:#888888;
+      --black:#111111;
+      --border:#e8e8e8;
+      --radius:18px;
+      --radius-sm:8px;
+      --brand:#111111;
+      --brand-light:#f0f0f0;
+      --stone:#d8d8d8;
+      --ink:#111111;
     }
 
-    .gateway-showcase-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+    html { scroll-behavior:smooth; overflow-x:hidden; }
+    body {
+      background:var(--white);
+      overflow-x:hidden;
     }
 
-    .gateway-showcase-item {
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--off-white);
-      overflow: hidden;
+    nav {
+      position:fixed;
+      inset:0 0 auto 0;
+      background:rgba(255,255,255,.85);
+      border-bottom:1px solid rgba(16,16,16,.08);
+      border-radius:0;
     }
 
-    .gateway-showcase-media {
-      width: 100%;
-      overflow: hidden;
-      background: var(--brand-light);
+    .nav-inner {
+      max-width:none;
+      padding:18px clamp(28px,5vw,80px);
     }
 
-    .gateway-showcase-media img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
+    .page {
+      max-width:none;
+      padding:0;
     }
 
-    .gateway-showcase-media { aspect-ratio: 4 / 3; }
-
-    .gateway-showcase-wide {
-      grid-column: 1 / -1;
-      aspect-ratio: 16 / 8;
+    .gateway-hero {
+      min-height:100vh;
+      padding:116px clamp(28px,5vw,80px) 28px;
+      display:grid;
+      grid-template-rows:auto 1fr auto;
+      gap:34px;
+      background:var(--white);
     }
 
-    @media(max-width:900px){
-      .role-row { grid-template-columns:1fr; }
-      .role-cell { border-right:none; border-bottom:1px solid var(--border); }
-      .role-cell:last-child { border-bottom:none; }
-      .process-steps { grid-template-columns:1fr 1fr; }
-      .process-step { border-right:none; border-bottom:1px solid var(--border); }
-      .bento-grid { grid-template-columns:1fr; }
-      .bento-span-2 { grid-column:span 1; }
-      .anno-row,
-      .anno-row.img-right,
-      .anno-row.img-left {
-        grid-template-columns:1fr !important;
+    .project-kicker {
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gray-text);
+    }
+
+    .gateway-title {
+      align-self:end;
+      max-width:1260px;
+      font-size:clamp(56px,12vw,172px);
+      font-weight:700;
+      letter-spacing:-.055em;
+      line-height:.86;
+      color:var(--black);
+    }
+
+    .gateway-title span {
+      display:block;
+      color:transparent;
+      -webkit-text-stroke:2px var(--black);
+      text-stroke:2px var(--black);
+    }
+
+    .hero-summary {
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);
+      gap:clamp(28px,6vw,120px);
+      align-items:end;
+    }
+
+    .hero-summary p {
+      max-width:640px;
+      font-size:clamp(20px,2.3vw,34px);
+      line-height:1.15;
+      letter-spacing:-.02em;
+      color:var(--black);
+    }
+
+    .project-meta {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px 32px;
+      padding-top:22px;
+      border-top:1px solid var(--border);
+    }
+
+    .meta-label {
+      display:block;
+      margin-bottom:7px;
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--gray-text);
+    }
+
+    .meta-value {
+      display:block;
+      font-size:16px;
+      font-weight:600;
+      line-height:1.35;
+      color:var(--black);
+    }
+
+    .full-media {
+      width:100%;
+      min-height:70vh;
+      background:var(--black);
+      overflow:hidden;
+    }
+
+    .full-media video,
+    .full-media img,
+    .media-panel video,
+    .media-panel img {
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+    }
+
+    .section-wrap {
+      padding:clamp(72px,10vw,150px) clamp(28px,5vw,80px);
+    }
+
+    .editorial-intro {
+      display:grid;
+      grid-template-columns:minmax(280px,.92fr) minmax(320px,1.08fr);
+      gap:clamp(32px,8vw,130px);
+      align-items:start;
+    }
+
+    .eyebrow {
+      display:block;
+      margin-bottom:22px;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--gray-text);
+    }
+
+    .big-question {
+      font-size:clamp(36px,5.8vw,86px);
+      font-weight:700;
+      letter-spacing:-.045em;
+      line-height:.96;
+      color:var(--black);
+    }
+
+    .body-copy {
+      max-width:680px;
+      font-size:clamp(18px,2vw,24px);
+      line-height:1.45;
+      letter-spacing:-.01em;
+      color:#292929;
+    }
+
+    .body-copy p + p { margin-top:24px; }
+
+    .statement-band {
+      padding:clamp(80px,12vw,170px) clamp(28px,5vw,80px);
+      background:var(--black);
+      color:var(--white);
+    }
+
+    .statement-grid {
+      display:grid;
+      grid-template-columns:minmax(240px,.7fr) minmax(320px,1.3fr);
+      gap:clamp(32px,8vw,120px);
+      align-items:end;
+    }
+
+    .statement-grid .eyebrow { color:rgba(255,255,255,.68); }
+
+    .statement-copy {
+      font-size:clamp(38px,6vw,96px);
+      font-weight:700;
+      line-height:.96;
+      letter-spacing:-.048em;
+    }
+
+    .pill-list {
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:34px;
+    }
+
+    .pill-list span {
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:999px;
+      padding:9px 14px 8px;
+      color:rgba(255,255,255,.86);
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .media-grid {
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px;
+    }
+
+    .media-panel {
+      min-height:360px;
+      border-radius:var(--radius-sm);
+      overflow:hidden;
+      background:var(--gray-light);
+      border:1px solid rgba(16,16,16,.08);
+    }
+
+    .span-7 { grid-column:span 7; }
+    .span-5 { grid-column:span 5; }
+    .span-6 { grid-column:span 6; }
+    .span-12 { grid-column:1 / -1; }
+    .tall { min-height:620px; }
+    .short { min-height:280px; }
+
+    .caption {
+      margin-top:11px;
+      font-size:13px;
+      line-height:1.5;
+      color:var(--gray-text);
+    }
+
+    .system-section {
+      background:var(--white);
+    }
+
+    .system-head {
+      display:grid;
+      grid-template-columns:minmax(260px,.9fr) minmax(320px,1.1fr);
+      gap:clamp(30px,7vw,100px);
+      margin-bottom:52px;
+      align-items:end;
+    }
+
+    .logo-stage {
+      aspect-ratio:16/7;
+      border-radius:var(--radius-sm);
+      overflow:hidden;
+      background:var(--black);
+      margin-bottom:14px;
+    }
+
+    .system-row {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+
+    .palette-card,
+    .type-card {
+      min-height:360px;
+      border:1px solid var(--border);
+      border-radius:var(--radius-sm);
+      background:var(--off-white);
+      padding:28px;
+    }
+
+    .swatches {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      margin-top:34px;
+    }
+
+    .swatch-block {
+      min-height:150px;
+      padding:14px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      color:var(--white);
+      border-radius:6px;
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    .swatch-block.light { color:var(--black); border:1px solid var(--border); }
+
+    .type-display {
+      margin-top:36px;
+      font-family:'Poppins',sans-serif;
+      font-size:clamp(34px,5vw,72px);
+      font-weight:600;
+      line-height:.95;
+      letter-spacing:-.04em;
+    }
+
+    .work-strip {
+      background:var(--black);
+      color:var(--white);
+    }
+
+    .work-strip .eyebrow,
+    .work-strip .caption { color:rgba(255,255,255,.62); }
+
+    .work-strip .big-question { color:var(--white); }
+
+    .outcome-band {
+      display:grid;
+      grid-template-columns:minmax(260px,.85fr) minmax(320px,1.15fr);
+      gap:clamp(32px,8vw,120px);
+      align-items:start;
+    }
+
+    .stat-stack {
+      display:grid;
+      gap:12px;
+    }
+
+    .stat-line {
+      display:grid;
+      grid-template-columns:160px 1fr;
+      gap:22px;
+      padding:24px 0;
+      border-top:1px solid var(--border);
+    }
+
+    .stat-line:last-child { border-bottom:1px solid var(--border); }
+
+    .stat-num {
+      font-size:clamp(38px,5vw,72px);
+      font-weight:700;
+      line-height:.9;
+      letter-spacing:-.04em;
+      color:var(--black);
+    }
+
+    .stat-desc {
+      font-size:17px;
+      line-height:1.45;
+      color:#303030;
+    }
+
+    .next-work {
+      padding:80px clamp(28px,5vw,80px);
+      border-top:1px solid var(--border);
+      background:var(--white);
+    }
+
+    .related {
+      margin:0;
+      padding:0;
+      border-top:0;
+    }
+
+    .reveal {
+      opacity:1;
+      transform:none;
+      transition:opacity .8s ease, transform .8s cubic-bezier(.22,1,.36,1);
+    }
+
+    .js .reveal {
+      opacity:0;
+      transform:translateY(36px);
+    }
+
+    .js .reveal.visible {
+      opacity:1;
+      transform:none;
+    }
+
+    .lift {
+      transition:transform .55s cubic-bezier(.22,1,.36,1), filter .55s;
+    }
+
+    .lift:hover {
+      transform:translateY(-8px);
+      filter:saturate(1.03);
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior:auto; }
+      .reveal,
+      .lift { transition:none; }
+    }
+
+    @media(max-width:900px) {
+      .gateway-hero { min-height:auto; padding-top:104px; }
+      .project-kicker,
+      .hero-summary,
+      .editorial-intro,
+      .statement-grid,
+      .system-head,
+      .system-row,
+      .outcome-band {
+        grid-template-columns:1fr;
       }
-      .anno-card { width: 100%; }
-      .swatch-row {
-        display:grid;
-        grid-template-columns:repeat(2, minmax(0, 1fr));
-      }
-      .swatch { min-width:auto; }
-      .gateway-showcase-grid { grid-template-columns: 1fr; }
-    }
-    @media(max-width:340px){
-      .swatch-row { grid-template-columns:1fr; }
+      .gateway-title { font-size:clamp(58px,18vw,104px); }
+      .project-meta { grid-template-columns:1fr; }
+      .full-media { min-height:56vh; }
+      .media-grid { grid-template-columns:1fr; }
+      .span-7,
+      .span-5,
+      .span-6,
+      .span-12 { grid-column:auto; }
+      .media-panel,
+      .tall { min-height:360px; }
+      .swatches { grid-template-columns:1fr 1fr; }
+      .stat-line { grid-template-columns:1fr; gap:10px; }
     }
   </style>
 </head>
 <body>
+<script>document.documentElement.classList.add('js');</script>
 
 <nav>
   <div class="nav-inner">
@@ -138,512 +447,248 @@
   </div>
 </nav>
 
-<div class="page">
-
-  <!-- Hero -->
-  <div class="hero reveal">
-    <div class="hero-meta">
+<main class="page">
+  <header class="gateway-hero reveal">
+    <div class="project-kicker">
       <a href="index.html#works" class="hero-back">← Works</a>
-      <span class="hero-meta-sep">/</span>
-      <span class="hero-meta-tag">Case Study · Brand Identity Design</span>
+      <span>Gateway · Brand Identity · Richcraft Homes</span>
     </div>
-    <div class="hero-tags">
-      <span class="hero-tag-pill filled">Brand Identity</span>
-      <span class="hero-tag-pill">Brand Designer</span>
-      <span class="hero-tag-pill">Richcraft Homes</span>
-      <span class="hero-tag-pill">Figma · Adobe Creative Suite</span>
-    </div>
-    <h1 class="hero-title">A new community needed a brand <br>that felt nothing like real estate.</h1>
-    <p class="hero-desc">Gateway is a Richcraft Homes residential community built for younger buyers entering the market for the first time. I collaborated on the launch rollout, helping shape the brand across layouts, collateral, digital assets, and campaign touchpoints so the launch felt clear, consistent, and approachable.</p>
 
-    <div class="cs-overview">
-      <div class="cs-overview-item">
-        <span class="cs-overview-label">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="4.5" r="2.5"/><path d="M2 12c0-2.8 2.2-5 5-5s5 2.2 5 5"/></svg>
-          Role
-        </span>
-        <span class="cs-overview-value">Brand Designer · Visual System</span>
-      </div>
-      <div class="cs-overview-item">
-        <span class="cs-overview-label">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2.5l2 2-7 7-2.5.5.5-2.5 7-7z"/><line x1="8" y1="4" x2="10" y2="6"/></svg>
-          Tools
-        </span>
-        <span class="cs-overview-value">Figma · Illustrator · InDesign · Photoshop · After Effects · Premiere Pro</span>
-      </div>
-      <div class="cs-overview-item">
-        <span class="cs-overview-label">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="1.5" width="11" height="11" rx="2"/><line x1="1.5" y1="5.5" x2="12.5" y2="5.5"/><line x1="1.5" y1="9" x2="12.5" y2="9"/><line x1="5.5" y1="5.5" x2="5.5" y2="12.5"/></svg>
-          Type
-        </span>
-        <span class="cs-overview-value">Client Work · Brand Identity</span>
-      </div>
-      <div class="cs-overview-item">
-        <span class="cs-overview-label">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 1.5L1.5 5v8h4V9.5h3V13h4V5z"/></svg>
-          Client
-        </span>
-        <span class="cs-overview-value">Richcraft Homes</span>
+    <h1 class="gateway-title">Gateway<span>Brand Launch</span></h1>
+
+    <div class="hero-summary">
+      <p>A community launch system designed to feel clearer, warmer, and less like traditional real estate.</p>
+      <div class="project-meta" aria-label="Project details">
+        <div>
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Brand Designer · Visual System</span>
+        </div>
+        <div>
+          <span class="meta-label">Scope</span>
+          <span class="meta-value">Identity rollout, campaign assets, print, social, email, signage</span>
+        </div>
+        <div>
+          <span class="meta-label">Client</span>
+          <span class="meta-value">Richcraft Homes</span>
+        </div>
+        <div>
+          <span class="meta-label">Tools</span>
+          <span class="meta-value">Figma, Illustrator, InDesign, Photoshop, After Effects</span>
+        </div>
       </div>
     </div>
+  </header>
 
-    <div class="hero-cover">
-      <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius);">
-        <source src="assets/gateway/gateway-intro.mp4" type="video/mp4">
-      </video>
+  <section class="full-media reveal" aria-label="Gateway launch billboard">
+    <img src="assets/gateway/gatewaybillboard.jpg" alt="Gateway billboard campaign mockup">
+  </section>
+
+  <section class="section-wrap editorial-intro reveal">
+    <div>
+      <span class="eyebrow">01 · Context</span>
+      <h2 class="big-question">A first home should not feel like a luxury sales pitch.</h2>
+    </div>
+    <div class="body-copy">
+      <p>Gateway was created for younger first-time buyers in Ottawa. The visual language needed to feel modern and approachable while still carrying the trust of an established home builder.</p>
+      <p>I helped shape the launch rollout across brand applications, campaign touchpoints, digital assets, and sales materials so every piece felt like part of one calm system.</p>
+    </div>
+  </section>
+
+  <section class="statement-band reveal">
+    <div class="statement-grid">
+      <div>
+        <span class="eyebrow">Design Direction</span>
+        <div class="pill-list" aria-label="Design principles">
+          <span>Warm</span>
+          <span>Simple</span>
+          <span>Confident</span>
+          <span>Open</span>
+        </div>
+      </div>
+      <p class="statement-copy">Modern simplicity. Every element earns its place.</p>
+    </div>
+  </section>
+
+  <section class="section-wrap reveal">
+    <div class="media-grid">
+      <figure class="span-7">
+        <div class="media-panel tall lift lb-trigger">
+          <img src="assets/gateway/flat-elevation.jpg" alt="Gateway architectural elevation">
+        </div>
+        <figcaption class="caption">The color and spacing direction came from the actual architecture: clean lines, warm stone, open space.</figcaption>
+      </figure>
+      <figure class="span-5">
+        <div class="media-panel lift lb-trigger">
+          <img src="assets/gateway/branding_moodboard.png" alt="Gateway visual moodboard">
+        </div>
+        <figcaption class="caption">The moodboard translated those architectural cues into a brand world.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section-wrap system-section reveal">
+    <div class="system-head">
+      <div>
+        <span class="eyebrow">02 · Identity System</span>
+        <h2 class="big-question">Clean type, grounded color, and enough space to breathe.</h2>
+      </div>
+      <div class="body-copy">
+        <p>The system was intentionally quiet. Instead of decorative real estate language, the brand relied on proportion, restraint, and consistent hierarchy across every launch touchpoint.</p>
+      </div>
     </div>
 
-  </div>
+    <figure>
+      <div class="logo-stage">
+        <video autoplay muted loop playsinline>
+          <source src="assets/gateway/logo.mp4" type="video/mp4">
+        </video>
+      </div>
+      <figcaption class="caption">Logo motion and brand pacing kept the launch feeling contemporary without becoming loud.</figcaption>
+    </figure>
 
-  <div class="body-layout">
+    <div class="system-row">
+      <div class="palette-card">
+        <span class="eyebrow">Palette</span>
+        <p class="body-copy">Warm neutrals and deep green connected the campaign back to the community renderings.</p>
+        <div class="swatches">
+          <div class="swatch-block" style="background:#111111;">Black<br>#111111</div>
+          <div class="swatch-block" style="background:#4d4d4d;">Charcoal<br>#4D4D4D</div>
+          <div class="swatch-block light" style="background:#d8d8d8;">Grey<br>#D8D8D8</div>
+          <div class="swatch-block light" style="background:#f8f8f8;">White<br>#F8F8F8</div>
+        </div>
+      </div>
+      <div class="type-card">
+        <span class="eyebrow">Typography</span>
+        <p class="body-copy">Roboto anchors the logo. Poppins carries the campaign with a softer, more accessible rhythm.</p>
+        <div class="type-display">Your first home. Your way in.</div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Sidebar nav -->
-    <div class="section-nav">
-      <a href="#background" class="active">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
-          <line x1="2" y1="3.5" x2="12" y2="3.5"/>
-          <line x1="2" y1="6.5" x2="12" y2="6.5"/>
-          <line x1="2" y1="9.5" x2="8" y2="9.5"/>
-        </svg>
-        Background
-      </a>
-      <a href="#problem">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="7" cy="6" r="4.5"/>
-          <line x1="7" y1="4" x2="7" y2="6.5"/>
-          <circle cx="7" cy="8.5" r=".5" fill="currentColor"/>
-        </svg>
-        The Problem
-      </a>
-      <a href="#strategy">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="3" cy="7" r="1.5"/>
-          <circle cx="7" cy="4" r="1.5"/>
-          <circle cx="11" cy="7" r="1.5"/>
-          <line x1="4.5" y1="6" x2="5.5" y2="5"/>
-          <line x1="8.5" y1="5" x2="9.5" y2="6"/>
-        </svg>
-        Strategy
-      </a>
-      <a href="#identity">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 10L10.5 2l1.5 1.5L5.5 11 4 10z"/>
-          <line x1="3" y1="11" x2="1.5" y2="12.5"/>
-          <line x1="3" y1="12.5" x2="5" y2="12.5"/>
-        </svg>
-        Identity
-      </a>
-      <a href="#applications">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="1.5" y="1.5" width="5" height="5" rx="1"/>
-          <rect x="7.5" y="1.5" width="5" height="5" rx="1"/>
-          <rect x="1.5" y="7.5" width="5" height="5" rx="1"/>
-          <rect x="7.5" y="7.5" width="5" height="5" rx="1"/>
-        </svg>
-        Applications
-      </a>
-      <a href="#outcome">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="1.5" y1="12.5" x2="12.5" y2="12.5"/>
-          <rect x="2.5" y="7.5" width="2" height="5" rx=".5"/>
-          <rect x="6" y="4.5" width="2" height="8" rx=".5"/>
-          <rect x="9.5" y="2" width="2" height="10.5" rx=".5"/>
-        </svg>
-        Outcome
-      </a>
-      <a href="#learned">
-        <svg class="snav-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M7 1.5a3.5 3.5 0 0 1 2 6.3V9.5H5V7.8A3.5 3.5 0 0 1 7 1.5z"/>
-          <line x1="5.5" y1="11" x2="8.5" y2="11"/>
-          <line x1="6" y1="12.5" x2="8" y2="12.5"/>
-        </svg>
-        Learned
-      </a>
+  <section class="section-wrap work-strip reveal">
+    <div class="system-head">
+      <div>
+        <span class="eyebrow">03 · Applications</span>
+        <h2 class="big-question">One system, many surfaces.</h2>
+      </div>
+      <div class="body-copy">
+        <p>The launch needed to move from sales center print pieces to social, email, billboard, and on-site signage without losing its voice.</p>
+      </div>
     </div>
 
-    <div class="content">
-
-      <!-- 01 Background -->
-      <section class="cs-section reveal" id="background">
-        <span class="section-label">01 Background</span>
-        <h2 class="section-title">Richcraft was launching a community <br>for people who had never bought a home.</h2>
-        <div class="section-body">
-          <p>Richcraft Homes is one of Ottawa's established residential builders. Most of their communities target move-up buyers. Gateway was different. It was designed for millennials and Gen Z buyers in their 20s and early 30s, people purchasing their first property and coming to it with skepticism toward traditional real estate marketing.</p>
-          <p>I was one of the designers on the project, collaborating on the brand rollout from concept through launch. The work focused on building a visual system that could stay consistent across every touchpoint while still feeling warm, modern, and accessible.</p>
+    <div class="media-grid">
+      <figure class="span-12">
+        <div class="media-panel lift lb-trigger">
+          <img src="assets/gateway/print-assets-brochure.png" alt="Gateway print assets and brochure design">
         </div>
-
-        <div class="summary-card" style="margin-top:40px;">
-          <div class="summary-card-brief">
-            <div style="display:flex;align-items:center;gap:7px;margin-bottom:10px;">
-              <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gray-text);flex-shrink:0;"><rect x="4" y="1.5" width="8" height="3" rx="1"/><rect x="2" y="3" width="12" height="11.5" rx="1.5"/><line x1="5" y1="8" x2="11" y2="8"/><line x1="5" y1="10.5" x2="9" y2="10.5"/></svg>
-              <span class="callout-label" style="margin-bottom:0;">The brief</span>
-            </div>
-            <p class="callout-text">Build a cohesive launch system for Gateway that connects with younger first-time buyers. It should feel contemporary and personal, not corporate, and work across print, digital, and on-site signage from day one.</p>
-          </div>
+        <figcaption class="caption">Print collateral and sales material.</figcaption>
+      </figure>
+      <figure class="span-6">
+        <div class="media-panel lift lb-trigger">
+          <img src="assets/gateway/social-mockup.png" alt="Gateway social media campaign mockup">
         </div>
-      </section>
-
-      <!-- 02 The Problem -->
-      <section class="cs-section reveal" id="problem">
-        <span class="section-label">02 The Problem</span>
-        <h2 class="section-title">Real estate branding keeps using the same visual language. <br>Younger buyers have learned to ignore it.</h2>
-        <div class="section-body">
-          <p>Most residential brands look the same. Dark serifs, gold accents, cold photography. To a first-time buyer in their late 20s, that language reads as formal and not built for them. Gateway needed to feel like a beginning, not a prestige purchase.</p>
+        <figcaption class="caption">Social campaign system.</figcaption>
+      </figure>
+      <figure class="span-6">
+        <div class="media-panel lift lb-trigger">
+          <img src="assets/gateway/gatewaybillboard.jpg" alt="Gateway billboard campaign mockup">
         </div>
-
-        <div class="comparison-grid">
-          <div class="comparison-col problem">
-            <div class="comparison-col-label">
-              <span></span>
-              Conventional real estate branding
-            </div>
-            <div class="comparison-points">
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="4" y1="4" x2="14" y2="14"/><line x1="14" y1="4" x2="4" y2="14"/></svg>
-                <span class="comparison-point-text">Heavy serif fonts that signal authority over approachability</span>
-              </div>
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="4" y1="4" x2="14" y2="14"/><line x1="14" y1="4" x2="4" y2="14"/></svg>
-                <span class="comparison-point-text">Gold and navy palettes borrowed from luxury hospitality</span>
-              </div>
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="4" y1="4" x2="14" y2="14"/><line x1="14" y1="4" x2="4" y2="14"/></svg>
-                <span class="comparison-point-text">Photography that shows lifestyle, not actual community life</span>
-              </div>
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><line x1="4" y1="4" x2="14" y2="14"/><line x1="14" y1="4" x2="4" y2="14"/></svg>
-                <span class="comparison-point-text">Copy that talks to buyers as investors, not as people finding a home</span>
-              </div>
-            </div>
-          </div>
-          <div class="comparison-col solution">
-            <div class="comparison-col-label">
-              <span></span>
-              What Gateway needed to be
-            </div>
-            <div class="comparison-points">
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="3,9 7,13 15,5"/></svg>
-                <span class="comparison-point-text">Clean, modern type that feels friendly rather than formal</span>
-              </div>
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="3,9 7,13 15,5"/></svg>
-                <span class="comparison-point-text">A visual system that used colour with restraint and consistency</span>
-              </div>
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="3,9 7,13 15,5"/></svg>
-                <span class="comparison-point-text">Visuals that reflect how younger buyers actually see their space</span>
-              </div>
-              <div class="comparison-point">
-                <svg class="comparison-point-icon" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><polyline points="3,9 7,13 15,5"/></svg>
-                <span class="comparison-point-text">A brand that feels like a beginning, honest and accessible</span>
-              </div>
-            </div>
-          </div>
+        <figcaption class="caption">Large-format outdoor campaign.</figcaption>
+      </figure>
+      <figure class="span-7">
+        <div class="media-panel lift lb-trigger">
+          <img src="assets/gateway/emails.png" alt="Gateway email campaign design">
         </div>
-      </section>
-
-      <!-- 03 Strategy -->
-      <section class="cs-section reveal" id="strategy">
-        <span class="section-label">03 Strategy</span>
-        <h2 class="section-title">I started with the architecture, <br>not a mood board.</h2>
-        <div class="section-body">
-          <p>Most brand projects begin with references from other industries. I did the opposite. The 3D architectural renderings for Gateway already existed, and they told me what the community actually looked like: clean lines, warm stone and concrete tones, generous windows, open green space.</p>
-          <p>I used those renderings as the reference point for how the colour direction should behave across layouts. That kept the work grounded in the actual architecture instead of feeling like a generic real estate campaign.</p>
+        <figcaption class="caption">Email templates for launch and registrant communication.</figcaption>
+      </figure>
+      <figure class="span-5">
+        <div class="media-panel lift lb-trigger">
+          <img src="assets/gateway/gateway_mockup.png" alt="Gateway poster mockup">
         </div>
-
-        <div class="callout dark" style="margin-top:40px;">
-          <span class="callout-label">Design Direction</span>
-          <p class="callout-text">Modern simplicity. Every element earns its place. If it does not add clarity or warmth, it comes out.</p>
-        </div>
-
-        <div class="two-col" style="margin-top:40px;">
-          <div>
-            <p style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">Architecture reference</p>
-            <div class="img-block lb-trigger" style="margin-top:0; aspect-ratio:4/3;">
-              <img src="assets/gateway/flat-elevation.jpg" alt="Gateway flat elevation architectural render" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-sm);">
-            </div>
-          </div>
-          <div>
-            <p style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); margin-bottom:12px;">Branding moodboard</p>
-            <div class="img-block lb-trigger" style="margin-top:0; aspect-ratio:4/3;">
-              <img src="assets/gateway/branding_moodboard.png" alt="Gateway branding moodboard" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-sm);">
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 04 Brand Identity -->
-      <section class="cs-section reveal" id="identity">
-        <span class="section-label">04 Brand Identity</span>
-        <h2 class="section-title">Clean lines, warm tones, <br>and type that does not try too hard.</h2>
-        <div class="section-body">
-          <p>The launch system brought together the core identity, layout principles, and asset system into one cohesive structure. Each piece had to hold up across formats, from a small digital ad to a full-size sales center banner.</p>
-        </div>
-
-        <!-- Logo animation -->
-        <div class="img-block dark" style="aspect-ratio:16/7; margin-top:40px; padding:0; overflow:hidden;">
-          <video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; display:block; border-radius:var(--radius-sm);">
-            <source src="assets/gateway/logo.mp4" type="video/mp4">
-          </video>
-        </div>
-
-        <!-- Colour palette -->
-        <h3 style="font-size:15px; font-weight:600; margin-top:48px; margin-bottom:4px;">Color palette</h3>
-        <p style="font-size:14px; color:var(--gray-text); margin-bottom:0;">The palette was applied to echo the tones in the 3D architectural renderings.</p>
-
-        <div class="swatch-row">
-          <div class="swatch">
-            <div class="swatch-color" style="background:#242B37;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Midnight</span>
-              <span class="swatch-hex">#242B37</span>
-            </div>
-          </div>
-          <div class="swatch">
-            <div class="swatch-color" style="background:#C2B9AA;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Stone</span>
-              <span class="swatch-hex">#C2B9AA</span>
-            </div>
-          </div>
-          <div class="swatch">
-            <div class="swatch-color" style="background:#303038;"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Slate</span>
-              <span class="swatch-hex">#303038</span>
-            </div>
-          </div>
-          <div class="swatch">
-            <div class="swatch-color" style="background:#F4F3F0; border:1px solid var(--border);"></div>
-            <div class="swatch-info">
-              <span class="swatch-name">Ghost</span>
-              <span class="swatch-hex">#F4F3F0</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Typography -->
-        <h3 style="font-size:15px; font-weight:600; margin-top:48px; margin-bottom:4px;">Typography</h3>
-        <p style="font-size:14px; color:var(--gray-text); margin-bottom:0;">Roboto appeared in the logo, while Poppins carried the supporting copy across the launch system.</p>
-
-        <div class="type-specimen">
-          <div class="type-specimen-row">
-            <span class="type-label">Logo<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Roboto</span></span>
-            <span class="type-sample" style="font-size:42px; font-weight:500; line-height:1; font-family:'Roboto',sans-serif; text-transform:uppercase;">GATEWAY</span>
-          </div>
-          <div class="type-specimen-row">
-            <span class="type-label">Heading<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Poppins</span></span>
-            <span class="type-sample" style="font-size:24px; font-weight:600; font-family:'Poppins',sans-serif;">Your first home. Your way in.</span>
-          </div>
-          <div class="type-specimen-row">
-            <span class="type-label">Body<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Poppins</span></span>
-            <span class="type-sample" style="font-size:15px; font-weight:400; line-height:1.7; color:#444; font-family:'Poppins',sans-serif;">Modern homes designed for how people actually live. Open layouts, natural light, and every detail considered.</span>
-          </div>
-          <div class="type-specimen-row">
-            <span class="type-label">Label<br><span style="font-weight:400; font-size:14px; letter-spacing:.05em;">Poppins</span></span>
-            <span class="type-sample" style="font-size:14px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-text); font-family:'Poppins',sans-serif;">Register Now · Ottawa, ON</span>
-          </div>
-        </div>
-
-        <!-- Identity system feature cards -->
-        <div class="anno-layout">
-          <div class="anno-row" style="grid-template-columns:repeat(3,1fr);">
-
-            <div class="anno-card">
-              <svg class="anno-card-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="13" cy="13" r="10"/><path d="M9 13h8M13 9v8"/>
-              </svg>
-              <span class="anno-card-title">Simple type application</span>
-              <span class="anno-card-desc">Roboto stayed with the logo, while Poppins carried the supporting hierarchy across headlines, body copy, and labels.</span>
-            </div>
-
-            <div class="anno-card">
-              <svg class="anno-card-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="15" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="15" width="8" height="8" rx="1.5"/><rect x="15" y="15" width="8" height="8" rx="1.5"/>
-              </svg>
-              <span class="anno-card-title">Generous white space</span>
-              <span class="anno-card-desc">Layouts breathe. Crowded design signals anxiety. Open space signals confidence and quality without saying either word.</span>
-            </div>
-
-            <div class="anno-card">
-              <svg class="anno-card-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 13h16M13 5l8 8-8 8"/>
-              </svg>
-              <span class="anno-card-title">Architecture-led color</span>
-              <span class="anno-card-desc">The palette was applied with the 3D renders in mind, so the campaign felt connected to the built environment.</span>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- 05 Applications -->
-      <section class="cs-section reveal" id="applications">
-        <span class="section-label">05 Applications</span>
-        <h2 class="section-title">The system had to hold up <br>from a banner to a browser.</h2>
-        <div class="section-body">
-          <p>A brand system is only useful if it works in every format the team actually needs. For Gateway, that meant print collateral for the sales center, digital ads for social and search, email campaigns to the registrant list, and on-site signage.</p>
-          <p>I built a set of templates for each format so the marketing team could produce new assets without the design drifting. Every template used the same palette, type scale, and spacing rules from the core system.</p>
-        </div>
-
-        <!-- Print collateral -->
-        <div class="img-block lb-trigger" style="aspect-ratio:2720/1502; margin-top:40px; padding:0; overflow:hidden;">
-          <img src="assets/gateway/print-assets-brochure.png" alt="Gateway print assets and brochure layout" style="width:100%; height:100%; object-fit:cover; border-radius:var(--radius-sm);">
-        </div>
-
-        <!-- Feature cards for application types -->
-        <div class="anno-layout" style="margin-top:32px;">
-          <div class="anno-row" style="grid-template-columns:1fr 1fr;">
-
-            <div class="anno-card">
-              <svg class="anno-card-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="3" width="18" height="20" rx="2"/><line x1="8" y1="9" x2="18" y2="9"/><line x1="8" y1="13" x2="18" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/>
-              </svg>
-              <span class="anno-card-title">Print and sales center</span>
-              <span class="anno-card-desc">Brochures, floor plan sheets, site maps, and sales center signage. All produced in InDesign with a consistent grid that made updates fast.</span>
-            </div>
-
-            <div class="anno-card">
-              <svg class="anno-card-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="5" width="20" height="16" rx="2"/><line x1="3" y1="10" x2="23" y2="10"/>
-              </svg>
-              <span class="anno-card-title">Digital ads and social</span>
-              <span class="anno-card-desc">Static and animated assets for Instagram, Facebook, and Google Display. Sized for every placement from story to feed to banner.</span>
-            </div>
-
-          </div>
-          <div class="anno-row" style="grid-template-columns:1fr 1fr;">
-
-            <div class="anno-card">
-              <svg class="anno-card-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="6" width="20" height="14" rx="2"/><polyline points="3,10 13,15 23,10"/>
-              </svg>
-              <span class="anno-card-title">Email campaigns</span>
-              <span class="anno-card-desc">Templates for the registrant list: launch announcements, open house invites, and VIP preview events. All staying within the brand's clean layout language.</span>
-            </div>
-
-            <div class="anno-card">
-              <svg class="anno-card-icon" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 21V8l8-5 8 5v13"/><rect x="9" y="13" width="8" height="8" rx="1"/>
-              </svg>
-              <span class="anno-card-title">On-site signage</span>
-              <span class="anno-card-desc">Construction hoarding, street signs, and the sales center exterior. Large-format files prepared for production with proper bleeds and safe zones.</span>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Digital, signage, and sales center assets -->
-        <div class="gateway-showcase" aria-label="Gateway campaign mockup gallery">
-          <div class="gateway-showcase-grid">
-            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
-              <img src="assets/gateway/social-mockup.png" alt="Gateway social media mockup">
-            </div>
-
-            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
-              <img src="assets/gateway/gatewaybillboard.jpg" alt="Gateway billboard campaign mockup with the message your gateway to modern living">
-            </div>
-
-            <div class="gateway-showcase-item gateway-showcase-media gateway-showcase-wide lb-trigger">
-              <img src="assets/gateway/emails.png" alt="Gateway email campaign design">
-            </div>
-
-            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
-              <img src="assets/gateway/gateway_mockup.png" alt="Gateway wall poster mockup being hung in an interior space">
-            </div>
-
-            <div class="gateway-showcase-item gateway-showcase-media lb-trigger">
-              <img src="assets/gateway/gateway-mockups.png" alt="Gateway framed poster mockup leaning against a wall">
-            </div>
-          </div>
-        </div>
-
-        <!-- Social campaign video -->
-        <div style="margin-top:12px; border-radius:var(--radius-sm); overflow:hidden; border:1px solid var(--border);">
-          <video autoplay muted loop playsinline style="width:100%; display:block; border-radius:var(--radius-sm);">
+        <figcaption class="caption">Interior and sales center campaign extensions.</figcaption>
+      </figure>
+      <figure class="span-12">
+        <div class="media-panel short">
+          <video autoplay muted loop playsinline>
             <source src="assets/gateway/social-campain.mp4" type="video/mp4">
           </video>
         </div>
-      </section>
-
-      <!-- 06 Outcome -->
-      <section class="cs-section reveal" id="outcome">
-        <span class="section-label">06 Outcome</span>
-        <h2 class="section-title">The brand connected with <br>exactly who it was built for.</h2>
-        <div class="section-body">
-          <p>Within two weeks after product launch, Gateway's registrant numbers came back strong. The target demographic responded. Over 600 people from the 20 to 35 age range registered within the launch window, and the broader engagement across brand materials reached more than 4,100 new users.</p>
-          <p>The 35% conversion rate from initial interest to action was above the benchmark for comparable new community launches in the Ottawa market.</p>
-        </div>
-
-        <div class="outcome-grid">
-          <div class="outcome-card filled">
-            <span class="outcome-num">600+</span>
-            <p class="outcome-desc">Registrants from the target demographic within the launch window</p>
-          </div>
-          <div class="outcome-card">
-            <span class="outcome-num">4,100+</span>
-            <p class="outcome-desc">New users engaging with Gateway brand materials across channels</p>
-          </div>
-          <div class="outcome-card">
-            <span class="outcome-num">35%</span>
-            <p class="outcome-desc">Conversion rate from registration interest to confirmed action</p>
-          </div>
-        </div>
-
-        <div class="callout" style="margin-top:40px;">
-          <span class="callout-label">What drove it</span>
-          <p class="callout-text">The brand looked different from everything else in the market. Younger buyers noticed. When a brand does not try to impress the wrong person, it reaches the right one faster.</p>
-        </div>
-      </section>
-
-      <!-- 07 What I Learned -->
-      <section class="cs-section reveal" id="learned">
-        <span class="section-label">07 What I Learned</span>
-        <h2 class="section-title">The quieter the system, the louder the brand.</h2>
-        <div class="section-body">
-          <p>I came into this project thinking more options meant more flexibility. By the end I had stripped the palette down, cut half the type styles, and trusted white space to do real work. The brand felt stronger for it.</p>
-        </div>
-
-      </section>
-
-    </div><!-- end content -->
-  </div><!-- end body-layout -->
-
-  <!-- Related projects -->
-  <div class="related">
-    <h3>More Work</h3>
-    <div class="related-grid">
-      <a class="related-card" href="bdlnow-case-study.html">
-        <div class="related-thumb dark">
-          <video src="assets/bdlnow/BDL_Now_Intro.mp4" poster="assets/bdlnow/BDL_Now_Intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
-        </div>
-        <div class="related-body">
-          <span class="related-tag">Product Design · Data Visualization</span>
-          <p class="related-title">BDLNow — Canada's real-time GDP nowcast, made readable</p>
-        </div>
-      </a>
-      <a class="related-card" href="briefbuy-case-study.html">
-        <div class="related-thumb">
-          <img src="assets/home/briefbuy-tumbnail.png" alt="BriefBuy product thumbnail" style="width:100%;height:100%;object-fit:cover;display:block;">
-        </div>
-        <div class="related-body">
-          <span class="related-tag">AI Product · Side Project</span>
-          <p class="related-title">BriefBuy — AI running shoe comparison, built in four weeks</p>
-        </div>
-      </a>
+        <figcaption class="caption">Motion assets for social rollout.</figcaption>
+      </figure>
     </div>
-  </div>
+  </section>
 
-</div><!-- end page -->
+  <section class="section-wrap reveal">
+    <div class="outcome-band">
+      <div>
+        <span class="eyebrow">04 · Outcome</span>
+        <h2 class="big-question">The brand reached the buyers it was built for.</h2>
+      </div>
+      <div>
+        <div class="stat-stack">
+          <div class="stat-line">
+            <span class="stat-num">600+</span>
+            <p class="stat-desc">Registrants from the target demographic within the launch window.</p>
+          </div>
+          <div class="stat-line">
+            <span class="stat-num">4,100+</span>
+            <p class="stat-desc">New users engaging with Gateway brand materials across channels.</p>
+          </div>
+          <div class="stat-line">
+            <span class="stat-num">35%</span>
+            <p class="stat-desc">Conversion rate from registration interest to confirmed action.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- Lightbox -->
+  <section class="full-media reveal" aria-label="Gateway closing mockup">
+    <img src="assets/gateway/gateway-mockups.png" alt="Gateway framed brand mockup">
+  </section>
+
+  <section class="section-wrap editorial-intro reveal">
+    <div>
+      <span class="eyebrow">05 · Reflection</span>
+      <h2 class="big-question">The quieter the system, the louder the brand.</h2>
+    </div>
+    <div class="body-copy">
+      <p>I came into this project thinking more options meant more flexibility. By the end, the palette was tighter, the type system was simpler, and white space became one of the strongest parts of the identity.</p>
+    </div>
+  </section>
+
+  <section class="next-work">
+    <div class="related">
+      <h3>More Work</h3>
+      <div class="related-grid">
+        <a class="related-card" href="bdlnow-case-study.html">
+          <div class="related-thumb dark">
+            <video src="assets/bdlnow/BDL_Now_Intro.mp4" poster="assets/bdlnow/BDL_Now_Intro_poster.png" autoplay muted loop playsinline preload="metadata" style="width:100%;height:100%;object-fit:contain;display:block;"></video>
+          </div>
+          <div class="related-body">
+            <span class="related-tag">Product Design · Data Visualization</span>
+            <p class="related-title">BDLNow — Canada's real-time GDP nowcast, made readable</p>
+          </div>
+        </a>
+        <a class="related-card" href="briefbuy-case-study.html">
+          <div class="related-thumb">
+            <img src="assets/home/briefbuy-tumbnail.png" alt="BriefBuy product thumbnail" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div class="related-body">
+            <span class="related-tag">AI Product · Side Project</span>
+            <p class="related-title">BriefBuy — AI running shoe comparison, built in four weeks</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
 <div class="lightbox-overlay" id="lightbox">
   <button class="lightbox-close" id="lightbox-close">✕</button>
   <img src="" alt="" id="lightbox-img">
 </div>
 
 <script src="assets/js/case-study.js" defer></script>
-
 </body>
 </html>
