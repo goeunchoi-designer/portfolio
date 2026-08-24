@@ -235,6 +235,7 @@
     .about-tool-btn:hover { color: #111; background: rgba(0,0,0,.06); }
     .about-tool-btn.active { background: #111; color: #fff; }
     .about-tool-divider { width: 1px; height: 24px; background: rgba(0,0,0,.14); margin: 0 4px; }
+    .about-tool-text-icon { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 17px; font-weight: 800; line-height: 1; }
     .about-sticker-toggle.active { background: #111; color: #fff; }
     .about-sticker-toggle.active i { color: #fff !important; }
 
@@ -298,9 +299,40 @@
       transition: transform 0.22s cubic-bezier(.22,1,.36,1), filter 0.22s ease;
       z-index: 8;
     }
-    .ab-canvas-sticker img { width: 100px; height: auto; border: 3px solid white; border-radius: 50%; object-fit: contain; pointer-events: none; filter: drop-shadow(0 8px 14px rgba(0,0,0,.18)); }
+    .ab-canvas-sticker img { width: 100px; height: auto; object-fit: contain; pointer-events: none; filter: drop-shadow(0 8px 14px rgba(0,0,0,.18)); }
     .ab-canvas-sticker:hover { transform: translate(-50%, -50%) rotate(0deg) scale(1.08); }
     .ab-canvas-sticker.dragging { cursor: grabbing; z-index: 24; transition: none; }
+
+    .ab-canvas-text {
+      position: absolute;
+      min-width: 24px;
+      max-width: 60vw;
+      padding: 4px 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--black);
+      background: transparent;
+      border-radius: 6px;
+      outline: none;
+      cursor: text;
+      white-space: pre-wrap;
+      word-break: break-word;
+      transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+      transition: box-shadow 0.15s ease;
+      z-index: 9;
+    }
+    .ab-canvas-text:empty::before {
+      content: 'Type something…';
+      color: rgba(0,0,0,.35);
+    }
+    .ab-canvas-text.locked {
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+    .ab-canvas-text.locked:hover { box-shadow: 0 0 0 1.5px rgba(0,0,0,.18); }
+    .ab-canvas-text.dragging { cursor: grabbing; z-index: 24; transition: none; }
 
     .hero {
       position: relative;
@@ -771,26 +803,20 @@
       align-items: start;
     }
     .ab-headline {
-      grid-column: 1 / -1;
-      grid-row: auto;
-      font-size: clamp(32px, 3.8vw, 52px);
+      font-size: clamp(24px, 2.2vw, 32px);
       font-weight: 800;
       letter-spacing: -0.03em;
-      line-height: 1.12;
+      line-height: 1.15;
       color: var(--black);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .ab-headline em { font-style: italic; font-weight: 300; }
 
+    /* About board — explicit 2-row x 3-col grid (6 cells total) */
+    .ab-cell-status-map { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+
     .ab-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px 20px;
-      width: fit-content;
-      max-width: 100%;
-      transform: rotate(var(--rot, 0deg));
-      box-shadow: 0 10px 24px rgba(0,0,0,.07), 0 2px 8px rgba(0,0,0,.05);
+     
       transition: transform 0.3s cubic-bezier(.22,1,.36,1), box-shadow 0.3s;
       cursor: grab;
       touch-action: none;
@@ -798,7 +824,6 @@
     }
     .ab-card:hover {
       transform: rotate(0deg) translateY(-3px);
-      box-shadow: 0 16px 40px rgba(0,0,0,.1), 0 4px 12px rgba(0,0,0,.06);
       z-index: 10;
       position: relative;
     }
@@ -840,30 +865,230 @@
       text-transform: uppercase; color: var(--white);
       background: var(--black);
       display: block;
-      margin: -18px -20px 14px;
-      padding: 10px 20px;
-      border-radius: 15px 15px 0 0;
+      padding: 5px 20px;
+      border-radius: 10px 10px 0 0;
+      border: 0;
+      font-family: inherit;
+      text-align: center;
     }
+    button.ab-label { cursor: pointer; }
 
     /* Status */
-    .ab-status { grid-column: auto; grid-row: auto; --rot: -2deg; display: flex; align-items: center; gap: 10px; }
+    .ab-status { --rot: -2deg; display: flex; align-items: center; gap: 10px; }
     .ab-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
     .ab-status-text { font-size: 14px; font-weight: 500; color: var(--black); }
 
-    /* Availability */
-    .ab-avail { grid-column: auto; grid-row: auto; --rot: 2deg; }
-    .ab-avail-list { display: flex; flex-direction: column; gap: 5px; margin-top: 4px; }
-    .ab-avail-list span { font-size: 14px; color: var(--black); font-weight: 500; display: flex; align-items: center; gap: 6px; }
-    .ab-avail-list span::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--black); flex-shrink:0; }
+    /* Chalkboard world map — sits under the status card, using the full illustration (frame + gradients kept) */
+    .ab-chalk-map { width: 262px; max-width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .ab-chalk-map-wrap {
+      position: relative; width: 100%; border-radius: 14px; overflow: hidden; cursor: pointer;
+  
+      transform: rotate(0deg) scale(1);
+      transition: transform .4s cubic-bezier(.22,1,.36,1), box-shadow .4s cubic-bezier(.22,1,.36,1), filter .4s;
+    }
+    .ab-chalk-map-wrap:hover {
+      transform: rotate(-1deg) scale(1.035) translateY(-4px);
+      box-shadow: 0 20px 36px rgba(0,0,0,.22);
+      filter: brightness(1.05) saturate(1.1);
+    }
+    .ab-chalk-map-img { display: block; width: 100%; height: auto; transition: filter .4s; }
+    .ab-chalk-pin { position: absolute; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; }
+    .ab-chalk-pin-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e; border: 1.5px solid #f8f7f7;
+      box-shadow: 0 1px 3px rgba(0,0,0,.45);
+      position: relative; z-index: 2;
+      transition: transform .3s cubic-bezier(.22,1,.36,1);
+    }
+    .ab-chalk-pin--remote .ab-chalk-pin-dot { background: #f8f7f7; border: 1.5px solid #111; }
+    .ab-chalk-pin-pulse {
+      position: absolute; width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e; opacity: .6;
+      animation: ab-chalk-pulse 1.6s cubic-bezier(.22,.61,.36,1) infinite;
+    }
+    .ab-chalk-pin--remote .ab-chalk-pin-pulse { background: #f8f7f7; animation-duration: 2.4s; }
+    @keyframes ab-chalk-pulse {
+      0%   { transform: scale(1); opacity: .6; }
+      70%  { opacity: .12; }
+      100% { transform: scale(4.2); opacity: 0; }
+    }
+    .ab-chalk-map-wrap:hover .ab-chalk-pin-dot { transform: scale(1.35); }
+    .ab-chalk-pin-label {
+      position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%) translateY(4px);
+      background: #111; color: #fff; font-size: 10px; font-weight: 600; letter-spacing: .01em;
+      padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+      opacity: 0; pointer-events: none; z-index: 3;
+      transition: opacity .2s, transform .2s;
+    }
+    .ab-chalk-pin:hover .ab-chalk-pin-label { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .ab-chalk-pin:hover .ab-chalk-pin-pulse { animation-duration: .8s; }
+    .ab-chalk-map-hint { font-size: 11px; color: var(--gray-text); text-align: center; transition: color .3s; }
+    .ab-chalk-map-wrap:hover ~ .ab-chalk-map-hint { color: var(--black); }
 
-    /* Experience card */
-    .ab-exp-role { grid-column: auto; grid-row: auto; --rot: -1.5deg; }
-    .ab-role-co { font-size: 14px; font-weight: 700; line-height: 1.3; display: block; margin-bottom: 3px; }
-    .ab-role-title { font-size: 14px; color: var(--gray-text); display: block; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-    .ab-role-title:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    /* Experience card — styled like an employee ID badge on a lanyard */
+    .ab-exp-role {
+      border-radius: 16px;
+      grid-column: 2; grid-row: 1; --rot: -1.5deg;
+      position: relative;
+      width: 240px;
+      justify-self: center;
+      background: var(--black);
+      border: none;
+      padding: 22px 16px 14px;
+      overflow: visible;
+      box-shadow: 0 2px 3px rgba(0,0,0,.2), 0 16px 32px rgba(0,0,0,.28);
+      transform-origin: top center;
+    }
+    @keyframes ab-badge-hang-swing {
+      0%   { transform: translateY(-3px) rotate(0deg); }
+      14%  { transform: translateY(-3px) rotate(2.2deg); }
+      30%  { transform: translateY(-3px) rotate(-1.5deg); }
+      46%  { transform: translateY(-3px) rotate(0.9deg); }
+      62%  { transform: translateY(-3px) rotate(-0.5deg); }
+      78%  { transform: translateY(-3px) rotate(0.25deg); }
+      100% { transform: translateY(-3px) rotate(0deg); }
+    }
+    .ab-exp-role:hover {
+      animation: ab-badge-hang-swing 1.6s cubic-bezier(.33, 0, .2, 1);
+    }
+    .ab-badge-hardware { position: absolute; top: -20px; left: 50%; height: 132px; width: auto; transform: translate(-50%, -50%); z-index: 1; filter: drop-shadow(0 2px 3px rgba(0,0,0,.3)) drop-shadow(0 8px 12px rgba(0,0,0,.35)); }
+    .ab-badge-photo { position: relative; height: 130px; border-radius: 10px; overflow: hidden; }
+    .ab-badge-photo-frame { flex: 0 0 60%; background: #d9d9d9; }
+    .ab-badge-photo-img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; transform: scale(1.62); transform-origin: 50% 8%; }
+    .ab-badge-photo-accent { flex: 1; background: linear-gradient(160deg, #e2571f, #c1440e); }
+    .ab-badge-id { margin-top: 10px; display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 5px; }
+    .ab-badge-name { font-size: 14px; font-weight: 800; color: var(--white); letter-spacing: -0.01em; white-space: nowrap; }
+    .ab-badge-title { font-size: 10px; color: rgba(255,255,255,.55); white-space: nowrap; }
+    .ab-badge-history { margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.14); display: flex; flex-direction: column; gap: 6px; }
+    .ab-badge-history-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+    .ab-badge-history-co { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.85); }
+    .ab-badge-history-date { font-size: 10px; color: rgba(255,255,255,.4); white-space: nowrap; flex-shrink: 0; }
+    .ab-badge-footer {
+      margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.14);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .ab-badge-logo { width: 18px; height: 18px; flex-shrink: 0; }
+    .ab-badge-url { font-size: 10px; color: rgba(255,255,255,.5); letter-spacing: .01em; }
 
-    /* Interests */
-    .ab-interests { grid-column: auto; grid-row: auto; --rot: 1.5deg; }
+    /* Interests — styled like a little spring notebook */
+    .ab-interests {
+      grid-column: 1; grid-row: 2; --rot: 1.5deg;
+      position: relative;
+      justify-self: start;
+
+
+      border-radius: 16px;
+      overflow: visible;
+  
+    }
+    .ab-notebook-body { position: relative; }
+
+    /* Shared book shape — the cover and the badge page use the exact same shape */
+    .ab-notebook-face {
+      position: relative;
+      height: 210px;
+      padding: 16px 36px 16px 36px;
+      border-radius: 4px;
+      box-shadow: 0 14px 28px rgba(0,0,0,.28), 0 3px 8px rgba(0,0,0,.16);
+      overflow: hidden;
+    }
+    .ab-notebook-face[hidden] { display: none !important; }
+    .ab-notebook-face.ab-folder-front {
+      /* override the resume-folder rules that assume absolute positioning */
+      position: relative;
+      inset: auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      z-index: auto;
+      cursor: pointer;
+      width: 168px;
+    }
+    .ab-notebook-cover-title {
+      font-size: 15px;
+      font-weight: 700;
+      font-style: italic;
+      color: var(--white);
+      text-align: center;
+      letter-spacing: -0.01em;
+    }
+    .ab-notebook-pages {
+      background: var(--white) !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      box-shadow: 0 10px 24px rgba(0,0,0,.10) !important;
+      width: 336px !important;
+      z-index: 6;
+      cursor: default;
+    }
+    .ab-notebook-pages-heading {
+      width: 100%;
+      font-size: 12px;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--gray-text);
+      text-align: center;
+      margin-bottom: 2px;
+    }
+    .ab-notebook-pages { padding-left: 22px !important; padding-right: 22px !important; }
+    .ab-notebook-pages .ab-tags {
+      display: flex;
+      gap: 0 26px;
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+    }
+    .ab-notebook-pages .ab-tags-col {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 2px 4px;
+    }
+    .ab-notebook-pages .ab-tags-col:last-child { padding-left: 15px; }
+    .ab-notebook-pages .ab-tags span {
+      display: inline-flex;
+      width: auto;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 0;
+      font-size: 10px;
+      padding: 4px 7px;
+      gap: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      box-shadow: none;
+    }
+    .ab-notebook-pages .ab-tags span:hover { box-shadow: none; }
+    .ab-notebook-pages .ab-tags-col span:first-child { --rot: 0deg; transform: none; }
+    .ab-notebook-pages .ab-tags span svg { width: 11px; height: 11px; flex-shrink: 0; }
+    .ab-notebook-pages .ab-notebook-spring {
+      left: 50%; transform: translateX(-50%);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='0.7' y2='1'%3E%3Cstop offset='0' stop-color='%23f4f4f4'/%3E%3Cstop offset='0.32' stop-color='%23fdfdfd'/%3E%3Cstop offset='0.5' stop-color='%23a8a8a8'/%3E%3Cstop offset='0.75' stop-color='%23555'/%3E%3Cstop offset='1' stop-color='%23222'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M3,19 A17,16.5 0 0 1 37,19' fill='none' stroke='url(%23g2)' stroke-width='6.5' stroke-linecap='round'/%3E%3C/svg%3E");
+    }
+
+    /* Metallic spring — same element, present on both faces */
+    .ab-notebook-spring {
+      position: absolute;
+      left: -11px; top: 10px; bottom: 10px;
+      width: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0.7' y2='1'%3E%3Cstop offset='0' stop-color='%23f4f4f4'/%3E%3Cstop offset='0.32' stop-color='%23fdfdfd'/%3E%3Cstop offset='0.5' stop-color='%23a8a8a8'/%3E%3Cstop offset='0.75' stop-color='%23555'/%3E%3Cstop offset='1' stop-color='%23222'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cellipse cx='20' cy='19' rx='17' ry='16.5' fill='none' stroke='url(%23g)' stroke-width='6.5'/%3E%3C/svg%3E");
+      background-repeat: repeat-y;
+      background-size: 20px 19px;
+      background-position: left center;
+      filter: drop-shadow(0 1px 1px rgba(0,0,0,.35));
+      z-index: 2;
+    }
+    .ab-notebook-cover-hint {
+      font-size: 11px;
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      letter-spacing: .01em;
+    }
     .ab-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
     .ab-tags span {
       display: inline-flex;
@@ -900,19 +1125,16 @@
     }
 
     /* Interior design mood card */
-    .ab-interior { grid-column: auto; grid-row: auto; --rot: -1deg; padding: 0; overflow: hidden; }
-    .ab-interior-img { width: 100%; height: 160px; object-fit: cover; display: block; }
-    .ab-interior-body { padding: 16px 20px 18px; }
-    .ab-interior-title { font-size: 16px; font-weight: 400; display: block; margin-bottom: 4px; }
-    .ab-interior-desc { font-size: 14px; color: var(--gray-text); line-height: 1.5; }
-    /* Interior card label — at top of card (padding:0), no negative margin needed */
-    .ab-interior > .ab-label {
-      margin: 0;
-      border-radius: 15px 15px 0 0;
-    }
 
     /* Resume envelope toy — black string-tie mailer that opens on click, then reveals the resume in a lightbox */
-    .ab-folder-wrap { grid-column: auto; grid-row: auto; display: flex; flex-direction: column; align-items: center; }
+    .ab-folder-wrap {
+      grid-column: 2; grid-row: 2; display: flex; flex-direction: column; align-items: center;
+      cursor: grab; touch-action: none; user-select: none;
+      transition: transform 0.3s cubic-bezier(.22,1,.36,1);
+    }
+    .ab-folder-wrap.dragging {
+      cursor: grabbing; z-index: 20; position: relative; transition: none;
+    }
     .ab-folder-toy {
       --rot: 2deg;
       position: relative;
@@ -1002,7 +1224,7 @@
     .resume-lightbox-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.72); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
     .resume-lightbox-panel {
       position: relative; z-index: 1;
-      width: min(720px, 92vw); height: min(880px, 90vh);
+      width: min(1100px, 96vw); height: 96vh;
       background: #fff; border-radius: 14px;
       box-shadow: 0 30px 80px rgba(0,0,0,.4);
       display: flex; flex-direction: column; overflow: hidden;
@@ -1025,12 +1247,19 @@
     }
     .resume-lightbox-download:hover { background: #f0f0f0; }
 
-    /* Music player: turntable — sits as a decorative background fixture, top-right of the About board */
+    /* Turntable + memory game — stacked together in the same grid cell (row 1, col 3) */
+    .ab-turntable-stack {
+      grid-column: 3;
+      grid-row: 1;
+      justify-self: end;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Music player: turntable */
     .ab-turntable {
-      position: absolute;
-      top: -24px;
-      right: 8px;
-      z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1135,38 +1364,10 @@
     }
     .ab-tt-hint { display: block; font-size: 11px; color: var(--gray-text); text-align: center; }
 
-    /* Guestbook */
-    .ab-guestbook { grid-column: auto; grid-row: auto; --rot: 1.5deg; width: 260px; }
-    .ab-guestbook-form { display: flex; gap: 8px; margin-top: 4px; }
-    .ab-guestbook-input {
-      flex: 1; min-width: 0; font-size: 14px; padding: 8px 12px;
-      border: 1px solid var(--border); border-radius: 999px;
-      background: var(--off-white); color: var(--black);
-    }
-    .ab-guestbook-input:focus { outline: none; border-color: var(--black); }
-    .ab-guestbook-submit {
-      width: 34px; height: 34px; border-radius: 50%; border: none; flex-shrink: 0;
-      background: var(--black); color: #fff; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; font-size: 13px;
-      transition: transform 0.15s ease;
-    }
-    .ab-guestbook-submit:hover { transform: scale(1.08); }
-    .ab-guestbook-notes { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; max-height: 132px; overflow-y: auto; }
-    .ab-guestbook-note {
-      font-size: 13px; color: var(--black); background: #fff8d8;
-      border: 1px solid rgba(0,0,0,.08); border-radius: 8px;
-      padding: 7px 10px; line-height: 1.4; word-break: break-word;
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
-    }
-    .ab-guestbook-note button {
-      border: none; background: none; color: var(--gray-text); cursor: pointer;
-      font-size: 12px; line-height: 1; flex-shrink: 0; padding: 2px;
-    }
-    .ab-guestbook-note button:hover { color: var(--black); }
-    .ab-guestbook-empty { font-size: 12px; color: var(--gray-text); margin-top: 12px; }
 
     /* Memory game */
-    .ab-game { grid-column: auto; grid-row: auto; --rot: -1.5deg; width: 240px; }
+    .ab-game { --rot: -1.5deg; width: 240px; }
+    .ab-game-body { padding: 10px; background: var(--white); border-radius: 12px; box-shadow: 0 8px 18px rgba(0,0,0,.08); }
     .ab-game-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; margin-bottom: 10px; }
     .ab-game-moves { font-size: 12px; color: var(--gray-text); font-weight: 500; }
     .ab-game-restart {
@@ -1182,6 +1383,7 @@
       background: var(--black); position: relative; perspective: 400px;
       padding: 0; display: block;
     }
+    .ab-game-tile:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
     .ab-game-tile-inner {
       width: 100%; height: 100%; position: relative; display: block;
       transition: transform 0.35s cubic-bezier(.22,1,.36,1);
@@ -1485,14 +1687,14 @@
       position: absolute;
       inset: 0;
       border-radius: 28px;
-      background: url("assets/home/Goni_Designer_flip.png") center top / 100% auto no-repeat;
+      background: url("assets/home/Goni_Designer_flip.svg") center top / 100% auto no-repeat;
       opacity: 0;
       pointer-events: none;
       will-change: opacity;
       transition: opacity 0.55s cubic-bezier(.16,1,.3,1);
     }
     .flip-card-back::after {
-      background-image: url("assets/home/Goni_Designer.png");
+      background-image: url("assets/home/Goni_Designer_flip.svg");
       opacity: 1;
     }
     .hero-img-wrap.looking-left::after,
@@ -1778,16 +1980,20 @@
       .work-card { width: 100%; }
       .works-nav { display: none; }
       .work-meta { flex-direction: column; gap: 14px; }
-      .about-pg { grid-template-columns: 1fr 1fr; min-height: unset; gap: 12px; }
-      .ab-headline { grid-column: 1 / -1; grid-row: auto; font-size: 28px; }
-      .ab-time, .ab-status, .ab-role, .ab-interests, .ab-stats, .ab-building, .ab-exp, .ab-ottawa, .ab-folder-wrap, .ab-guestbook, .ab-game { grid-column: span 1; grid-row: auto; }
-      .ab-guestbook, .ab-game { grid-column: 1 / -1; width: auto; }
-      .ab-turntable { position: static; grid-column: 1 / -1; margin: 0 auto 8px; }
+      .about-pg { grid-template-columns: 1fr 1fr; min-height: unset; row-gap: 32px; column-gap: 12px; }
+      .ab-headline { font-size: 28px; margin-bottom: 8px; }
+      .ab-cell-status-map, .ab-interests, .ab-folder-wrap, .ab-turntable-stack { grid-column: span 1; grid-row: auto; }
+      .ab-cell-status-map, .ab-turntable-stack { grid-column: 1 / -1; width: auto; }
+      .ab-exp-role { grid-column: 1 / -1; grid-row: auto; width: 100%; max-width: 260px; margin: 0 auto; }
+      .ab-turntable-stack { justify-self: center; margin: 0 auto 8px; }
+      .ab-cell-status-map { order: 2; }
+      .ab-exp-role { order: 1; }
+      .ab-turntable-stack { order: 3; }
+      .ab-interests { order: 4; }
+      .ab-folder-wrap { order: 5; }
+      .ab-notebook-pages { width: 100% !important; max-width: 336px; }
       .ab-tt-plate { width: 100%; max-width: 200px; height: auto; aspect-ratio: 1; margin: 0 auto; }
-      .ab-interior { display: grid; grid-template-columns: 110px 1fr; grid-template-rows: auto 1fr; grid-column: 1 / -1; }
-      .ab-interior > .ab-label { grid-column: 1 / -1; }
-      .ab-interior-img { grid-column: 1; height: 100%; min-height: 110px; }
-      .ab-interior-body { grid-column: 2; align-self: center; }
+      .ab-chalk-map { width: 100%; max-width: 260px; margin: 0 auto; }
       footer { background: var(--black); }
       .footer-inner {
         padding: 56px 28px 40px;
@@ -1835,7 +2041,7 @@
     <div class="hero-panel-left reveal">
       <div class="hero-visual">
         <div class="hero-img-wrap">
-          <img src="assets/home/Goni_Designer.png" alt="Goeun Choi designer illustration" />
+          <img src="assets/home/Goni_Designer.svg" alt="Goeun Choi designer illustration" />
           <div class="hi-badge">
             <span class="hi-text">Hi</span>
             <span class="hi-emoji"><svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg"><path d="M352 96C352 78.3 337.7 64 320 64C302.3 64 288 78.3 288 96L288 304C288 312.8 280.8 320 272 320C263.2 320 256 312.8 256 304L256 128C256 110.3 241.7 96 224 96C206.3 96 192 110.3 192 128L192 400C192 401.5 192 403.1 192.1 404.6L131.6 347C115.6 331.8 90.3 332.4 75 348.4C59.7 364.4 60.4 389.7 76.4 405L188.8 512C231.9 553.1 289.2 576 348.8 576L368 576C465.2 576 544 497.2 544 400L544 192C544 174.3 529.7 160 512 160C494.3 160 480 174.3 480 192L480 304C480 312.8 472.8 320 464 320C455.2 320 448 312.8 448 304L448 128C448 110.3 433.7 96 416 96C398.3 96 384 110.3 384 128L384 304C384 312.8 376.8 320 368 320C359.2 320 352 312.8 352 304L352 96z"/></svg></span>
@@ -2005,14 +2211,14 @@
           <div class="flip-card" id="skillsFlipCard">
             <div class="flip-card-inner">
               <div class="flip-card-front">
-                <img src="assets/home/Goni_Designer.png" alt="Designer illustration" />
+                <img src="assets/home/Goni_Designer.svg" alt="Designer illustration" />
                 <div class="hi-badge">
                   <span class="hi-text">Hi</span>
                   <span class="hi-emoji"><svg viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg"><path d="M352 96C352 78.3 337.7 64 320 64C302.3 64 288 78.3 288 96L288 304C288 312.8 280.8 320 272 320C263.2 320 256 312.8 256 304L256 128C256 110.3 241.7 96 224 96C206.3 96 192 110.3 192 128L192 400C192 401.5 192 403.1 192.1 404.6L131.6 347C115.6 331.8 90.3 332.4 75 348.4C59.7 364.4 60.4 389.7 76.4 405L188.8 512C231.9 553.1 289.2 576 348.8 576L368 576C465.2 576 544 497.2 544 400L544 192C544 174.3 529.7 160 512 160C494.3 160 480 174.3 480 192L480 304C480 312.8 472.8 320 464 320C455.2 320 448 312.8 448 304L448 128C448 110.3 433.7 96 416 96C398.3 96 384 110.3 384 128L384 304C384 312.8 376.8 320 368 320C359.2 320 352 312.8 352 304L352 96z"/></svg></span>
                 </div>
               </div>
               <div class="flip-card-back">
-                <img src="assets/home/Goni_Designer_flip.png" alt="Designer illustration" />
+                <img src="assets/home/Goni_Designer_flip.svg" alt="Designer illustration" />
               </div>
             </div>
           </div>
@@ -2127,68 +2333,164 @@
       <canvas class="about-draw-canvas" id="aboutDrawCanvas" aria-hidden="true"></canvas>
       <div class="about-pg">
 
-        <!-- Doodle stickers — draggable, like the rest of the board -->
-        <span class="ab-sticker ab-sticker-star" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 5.4L20 9.3l-4 4 1 5.7L12 16.5 7 19l1-5.7-4-4 5.6-.9L12 3z"/></svg></span>
-        <span class="ab-sticker ab-sticker-coffee" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a3 3 0 0 1 0 6h-1"/><path d="M2 8h16v6a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg></span>
-        <span class="ab-sticker ab-sticker-film" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M7 3v18M17 3v18M2 9h5M17 9h5M2 15h5M17 15h5"/></svg></span>
+   
+       
 
-        <h2 class="ab-headline">Graphic design and multimedia.<br><em>Based in Canada,</em><br>always curious.</h2>
+        <!-- Row 1, col 1: headline copy + status + chalkboard map, stacked together -->
+        <div class="ab-cell ab-cell-status-map">
+          <h2 class="ab-headline">Graphic design and multimedia.<br><em>Based in Canada,</em><br>always curious.</h2>
 
-        <!-- Status -->
-        <div class="ab-card ab-status">
-          <span class="ab-dot"></span>
-          <span class="ab-status-text">Open to design opportunities</span>
-        </div>
+         
 
-        <!-- Availability -->
-        <div class="ab-card ab-avail">
-          <span class="ab-label">Where I can work</span>
-          <div class="ab-avail-list">
-            <span>Vancouver · Hybrid</span>
-            <span>Toronto · Hybrid</span>
-            <span>Canada · Remote</span>
-            <span>US · Remote</span>
+          <!-- Chalkboard map — showing where I work -->
+          <div class="ab-chalk-map">
+            <div class="ab-chalk-map-wrap">
+              <img class="ab-chalk-map-img" src="assets/home/World Maps.svg" alt="Chalkboard world map with pins on Vancouver, Toronto, Canada, and the US" />
+              <span class="ab-chalk-pin ab-chalk-pin--hybrid" style="left:18.5%; top:34.5%;">
+                <span class="ab-chalk-pin-label">Vancouver &middot; Hybrid</span>
+                <span class="ab-chalk-pin-pulse"></span><span class="ab-chalk-pin-dot"></span>
+              </span>
+              <span class="ab-chalk-pin ab-chalk-pin--hybrid" style="left:29.1%; top:42%;">
+                <span class="ab-chalk-pin-label">Toronto &middot; Hybrid</span>
+                <span class="ab-chalk-pin-pulse"></span><span class="ab-chalk-pin-dot"></span>
+              </span>
+             
+            
+            </div>
+             <div class="ab-card ab-status">
+            <span class="ab-dot"></span>
+            <span class="ab-status-text">Open to design opportunities</span>
+          </div>
+            <span class="ab-chalk-map-hint">Vancouver &amp; Toronto hybrid &middot; Canada &amp; US remote</span>
           </div>
         </div>
 
-        <!-- Experience -->
+        <!-- Row 1, col 2: Experience — styled like an employee ID badge -->
         <div class="ab-card ab-exp-role">
-          <span class="ab-label">Experience</span>
-          <span class="ab-role-co">Canadian Chamber of Commerce</span>
-          <span class="ab-role-title">Web &amp; Graphic Designer · 2024 to Present</span>
-          <span class="ab-role-co">Richcraft Homes</span>
-          <span class="ab-role-title">Web & Graphic Designer · 2021 to 2024</span>
-          <span class="ab-role-co">Freelance</span>
-          <span class="ab-role-title">UI/UX Designer · 2020 to 2024</span>
-        </div>
+          <svg class="ab-badge-hardware" viewBox="0 0 40 110" width="44" height="121" aria-hidden="true">
+            <defs>
+              <linearGradient id="hwMetal" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#8a8a8a"/>
+                <stop offset="45%" stop-color="#eeeeee"/>
+                <stop offset="55%" stop-color="#eeeeee"/>
+                <stop offset="100%" stop-color="#8a8a8a"/>
+              </linearGradient>
+            </defs>
+            <rect x="15" y="0" width="10" height="40" rx="2" fill="#1a1a1a"/>
+            <rect x="5" y="38" width="30" height="10" rx="5" fill="url(#hwMetal)" stroke="#7a7a7a" stroke-width="0.6"/>
+            <rect x="17" y="47" width="6" height="9" fill="url(#hwMetal)"/>
+            <path d="M20 56 v9 a8.5 8.5 0 1 0 8.5 8.5" fill="none" stroke="url(#hwMetal)" stroke-width="4.5" stroke-linecap="round"/>
+            <line x1="20.5" y1="65.5" x2="26" y2="71" stroke="#7a7a7a" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="20.5" cy="65.5" r="1.7" fill="#6f6f6f"/>
+          </svg>
+          <div class="ab-badge-photo">
+            <span class="ab-badge-photo-frame">
+              <img class="ab-badge-photo-img" src="assets/home/Goni_Designer.svg" alt="Goeun Choi" />
+            </span>
 
-        <!-- Interests -->
-        <div class="ab-card ab-interests">
-          <span class="ab-label">Into</span>
-          <div class="ab-tags">
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>Coffee</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l1 4H7l1-4z"/><path d="M7 6h10l-1 14a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2L7 6z"/><line x1="12" y1="6" x2="12" y2="2"/></svg>Mocha latte</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18l-9 10z"/><line x1="12" y1="13" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg>Cocktail</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>Travel</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>Interior design</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 3 1.5 5 3 6.5V19a1 1 0 0 0 1 1h1v2h2v-2h2v2h2v-2h1a1 1 0 0 0 1-1v-3.5c1.5-1.5 3-3.5 3-6.5a7 7 0 0 0-7-7z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>Horror / Thriller</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><polygon points="10 8.5 15 11 10 13.5" fill="currentColor"/></svg>K-drama</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M12 11V3"/><line x1="17" y1="3" x2="15" y2="9"/></svg>Korean food</span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 1 4 4c0 1-.5 2-1 2.5H9c-.5-.5-1-1.5-1-2.5a4 4 0 0 1 4-4z"/><path d="M9 9.5l3 11 3-11"/></svg>Pistachio dessert</span>
+          </div>
+          <div class="ab-badge-id">
+            <span class="ab-badge-name">Goeun Choi</span>
+            <span class="ab-badge-title">Web &amp; Graphic Designer</span>
+          </div>
+          <div class="ab-badge-history">
+            <div class="ab-badge-history-row">
+              <span class="ab-badge-history-co">Canadian Chamber of Commerce</span>
+              <span class="ab-badge-history-date">2024&ndash;Present</span>
+            </div>
+            <div class="ab-badge-history-row">
+              <span class="ab-badge-history-co">Richcraft Homes</span>
+              <span class="ab-badge-history-date">2021&ndash;2024</span>
+            </div>
+            <div class="ab-badge-history-row">
+              <span class="ab-badge-history-co">Freelance &middot; UI/UX</span>
+              <span class="ab-badge-history-date">2020&ndash;2024</span>
+            </div>
+          </div>
+          <div class="ab-badge-footer">
+            <svg class="ab-badge-logo" viewBox="0 0 64 64" role="img" aria-label="Goeun Choi logo">
+              <path d="M43 21a15 15 0 1 0 3.8 16H34" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="47" cy="47" r="3.5" fill="#ffffff"/>
+            </svg>
+            <span class="ab-badge-url">goeunchoi9090@gmail.com</span>
           </div>
         </div>
 
-        <!-- Interior design mood card -->
-        <div class="ab-card ab-interior">
-          <span class="ab-label">Also making</span>
-          <img class="ab-interior-img" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80" alt="Interior design inspiration" />
-          <div class="ab-interior-body">
-            <span class="ab-interior-title">Rooms, paintings, and small details</span>
-            <span class="ab-interior-desc">I love interior design. I make my own paintings to hang on the wall, then play with small decorations until a room feels personal and lived in.</span>
+        <!-- Row 1, col 3: Turntable + memory game, stacked in the same cell -->
+        <div class="ab-turntable-stack">
+          <div class="ab-turntable" id="musicCard">
+            <div class="ab-tt-plate" id="ttPlate">
+              <div class="ab-tt-record" id="ttRecord">
+                <div class="ab-tt-label">
+                  <span class="ab-tt-title">Top Flow</span>
+                  <span class="ab-tt-artist">Jazz &middot; lo-fi</span>
+                </div>
+              </div>
+              <div class="ab-tt-pivot"></div>
+              <div class="ab-tt-arm" id="ttArm">
+                <span class="ab-tt-arm-bar"></span>
+                <span class="ab-tt-arm-head"></span>
+              </div>
+              <div class="ab-tt-volume">
+                <i class="fa-solid fa-volume-high"></i>
+                <input class="ab-tt-volume-slider" id="ttVolume" type="range" min="0" max="100" value="70" aria-label="Volume">
+              </div>
+            </div>
+            <span class="ab-tt-hint" id="ttHint">Drag the needle onto the record to play</span>
+            <audio id="musicAudio" src="assets/home/top-flow_jazz_main_full.mp3" preload="none" loop></audio>
+          </div>
+
+          <!-- Memory game -->
+          <div class="ab-card ab-game" id="memoryGameCard">
+            <span class="ab-label">Memory game</span>
+            <div class="ab-game-body">
+              <div class="ab-game-meta">
+                <span class="ab-game-moves" id="gameMoves">Moves: 0</span>
+                <button class="ab-game-restart" id="gameRestart" type="button" aria-label="Restart game"><i class="fa-solid fa-rotate-right"></i></button>
+              </div>
+              <div class="ab-game-grid" id="gameGrid"></div>
+            </div>
+            <span class="ab-game-win" id="gameWin" hidden></span>
           </div>
         </div>
 
-        <!-- Resume folder toy — click opens the folder, then shows the resume in a lightbox -->
+        <!-- Row 2, col 1: Interests — a little spring notebook, click "Into" to swap the cover for the badges -->
+        <div class="ab-card ab-interests" id="interestsNotebook">
+          <button class="ab-label" id="intoToggle" type="button" aria-expanded="false" aria-controls="intoBody">Into</button>
+          <div class="ab-notebook-body" id="intoBody">
+
+            <!-- Closed face: book cover, shown by default -->
+            <span class="ab-notebook-face ab-folder-front" id="intoCover" role="button" tabindex="0" aria-expanded="false">
+              <span class="ab-notebook-spring" aria-hidden="true"></span>
+              <span class="ab-notebook-cover-title">What I'm Into</span>
+             
+            </span>
+
+            <!-- Open face: same cover shape, holds the badges, hidden until toggled -->
+            <span class="ab-notebook-face ab-folder-front ab-notebook-pages" id="intoPages" hidden>
+              <span class="ab-notebook-spring" aria-hidden="true"></span>
+        
+              <div class="ab-tags">
+                <div class="ab-tags-col">
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>Coffee</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2h8l1 4H7l1-4z"/><path d="M7 6h10l-1 14a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2L7 6z"/><line x1="12" y1="6" x2="12" y2="2"/></svg>Mocha latte</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18l-9 10z"/><line x1="12" y1="13" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg>Cocktail</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>Travel</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7"/><path d="M9 22V12h6v10"/></svg>Interior design</span>
+                </div>
+                <div class="ab-tags-col">
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 3 1.5 5 3 6.5V19a1 1 0 0 0 1 1h1v2h2v-2h2v2h2v-2h1a1 1 0 0 0 1-1v-3.5c1.5-1.5 3-3.5 3-6.5a7 7 0 0 0-7-7z"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1" fill="currentColor"/></svg>Horror / Thriller</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><polygon points="10 8.5 15 11 10 13.5" fill="currentColor"/></svg>K-drama</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M12 11V3"/><line x1="17" y1="3" x2="15" y2="9"/></svg>Cooking</span>
+                  <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a4 4 0 0 1 4 4c0 1-.5 2-1 2.5H9c-.5-.5-1-1.5-1-2.5a4 4 0 0 1 4-4z"/><path d="M9 9.5l3 11 3-11"/></svg>Pistachio dessert</span>
+                </div>
+              </div>
+            </span>
+
+          </div>
+        </div>
+
+        <!-- Row 2, col 2: Resume folder toy — click opens the folder, then shows the resume in a lightbox -->
         <div class="ab-folder-wrap">
           <button class="ab-folder-toy" id="resumeFolder" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="resumeLightbox">
             <span class="ab-folder-paper" aria-hidden="true">
@@ -2213,55 +2515,14 @@
               </span>
             </span>
           </button>
-          <span class="ab-folder-hint">Click to open</span>
-        </div>
 
-        <!-- Turntable — a background fixture in the top-right of the board, not a card. Drag the arm onto the record to play, off to stop -->
-        <div class="ab-turntable" id="musicCard">
-          <div class="ab-tt-plate" id="ttPlate">
-            <div class="ab-tt-record" id="ttRecord">
-              <div class="ab-tt-label">
-                <span class="ab-tt-title">Top Flow</span>
-                <span class="ab-tt-artist">Jazz &middot; lo-fi</span>
-              </div>
-            </div>
-            <div class="ab-tt-pivot"></div>
-            <div class="ab-tt-arm" id="ttArm">
-              <span class="ab-tt-arm-bar"></span>
-              <span class="ab-tt-arm-head"></span>
-            </div>
-            <div class="ab-tt-volume">
-              <i class="fa-solid fa-volume-high"></i>
-              <input class="ab-tt-volume-slider" id="ttVolume" type="range" min="0" max="100" value="70" aria-label="Volume">
-            </div>
-          </div>
-          <span class="ab-tt-hint" id="ttHint">Drag the needle onto the record to play</span>
-          <audio id="musicAudio" src="assets/home/top-flow_jazz_main_full.mp3" preload="none" loop></audio>
-        </div>
-
-        <!-- Guestbook -->
-        <div class="ab-card ab-guestbook" id="guestbookCard">
-          <span class="ab-label">Leave a note</span>
-          <form class="ab-guestbook-form" id="guestbookForm">
-            <input class="ab-guestbook-input" id="guestbookInput" type="text" maxlength="80" placeholder="Say hi..." autocomplete="off" required>
-            <button class="ab-guestbook-submit" type="submit" aria-label="Post note"><i class="fa-solid fa-arrow-right"></i></button>
-          </form>
-          <div class="ab-guestbook-notes" id="guestbookNotes"></div>
-        </div>
-
-        <!-- Memory game -->
-        <div class="ab-card ab-game" id="memoryGameCard">
-          <span class="ab-label">Memory game</span>
-          <div class="ab-game-meta">
-            <span class="ab-game-moves" id="gameMoves">Moves: 0</span>
-            <button class="ab-game-restart" id="gameRestart" type="button" aria-label="Restart game"><i class="fa-solid fa-rotate-right"></i></button>
-          </div>
-          <div class="ab-game-grid" id="gameGrid"></div>
-          <span class="ab-game-win" id="gameWin" hidden></span>
         </div>
 
       </div>
     </section>
+
+    <p class="hero-draw-hint" id="resumeHoverHint"><span class="hint-icon">🖱</span> Click to open</p>
+    <p class="hero-draw-hint" id="intoHoverHint"><span class="hint-icon">🖱</span> Click to peek inside</p>
 
   </div>
 
@@ -2270,6 +2531,8 @@
     <button class="about-tool-btn" data-tool="pencil" title="Pencil"><i class="fa-solid fa-pencil"></i></button>
     <button class="about-tool-btn active" data-tool="brush" title="Brush"><i class="fa-solid fa-paintbrush"></i></button>
     <button class="about-tool-btn" data-tool="marker" title="Marker"><i class="fa-solid fa-marker"></i></button>
+    <span class="about-tool-divider"></span>
+    <button class="about-tool-btn" data-tool="text" title="Add text"><span class="about-tool-text-icon">T</span></button>
     <span class="about-tool-divider"></span>
     <button class="about-tool-btn" data-action="clear" title="Clear drawing"><i class="fa-solid fa-arrow-rotate-left"></i></button>
     <span class="about-tool-divider"></span>
@@ -2614,10 +2877,96 @@
         makeCanvasStickerDraggable(sticker);
       }
 
+      // Text notes behave like a sticker once typed (draggable, via the same
+      // pointer-capture pattern), but while actively being typed into they must
+      // stay hands-off so native click-to-place-caret / drag-to-select keeps
+      // working — so dragging only engages after the note is locked (blurred).
+      function makeCanvasTextDraggable(el) {
+        let startX = 0, startY = 0, baseLeft = 0, baseTop = 0, activePointerId = null;
+
+        el.addEventListener('pointerdown', (e) => {
+          if (e.button !== 0) return;
+          if (!el.classList.contains('locked')) return;
+          e.stopPropagation();
+          activePointerId = e.pointerId;
+          startX = e.clientX;
+          startY = e.clientY;
+          baseLeft = parseFloat(el.style.left) || 0;
+          baseTop = parseFloat(el.style.top) || 0;
+        });
+
+        el.addEventListener('pointermove', (e) => {
+          if (activePointerId === null || e.pointerId !== activePointerId) return;
+          if (!el.classList.contains('dragging')) {
+            el.setPointerCapture(e.pointerId);
+            el.classList.add('dragging');
+          }
+          el.style.left = (baseLeft + e.clientX - startX) + 'px';
+          el.style.top = (baseTop + e.clientY - startY) + 'px';
+        });
+
+        function endTextDrag(e) {
+          if (activePointerId === null || e.pointerId !== activePointerId) return;
+          activePointerId = null;
+          if (el.classList.contains('dragging')) {
+            el.classList.remove('dragging');
+            try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+          }
+        }
+        el.addEventListener('pointerup', endTextDrag);
+        el.addEventListener('pointercancel', endTextDrag);
+      }
+
+      function placeCaretAtEnd(el) {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        range.collapse(false);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+
+      function addCanvasText(p) {
+        const box = document.createElement('div');
+        box.className = 'ab-canvas-text';
+        box.contentEditable = 'true';
+        box.spellcheck = false;
+        box.style.left = p.x + 'px';
+        box.style.top = p.y + 'px';
+        box.style.setProperty('--rot', (Math.random() * 6 - 3).toFixed(1) + 'deg');
+        aboutEl.appendChild(box);
+        makeCanvasTextDraggable(box);
+        requestAnimationFrame(() => box.focus());
+
+        function lock() {
+          if (!box.textContent.trim()) { box.remove(); return; }
+          box.contentEditable = 'false';
+          box.classList.add('locked');
+        }
+        box.addEventListener('blur', lock);
+        box.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); box.blur(); }
+          if (e.key === 'Escape') { e.preventDefault(); box.textContent = ''; box.blur(); }
+        });
+        box.addEventListener('dblclick', (e) => {
+          if (!box.classList.contains('locked')) return;
+          e.stopPropagation();
+          box.classList.remove('locked');
+          box.contentEditable = 'true';
+          box.focus();
+          placeCaretAtEnd(box);
+        });
+      }
+
       function start(e) {
-        // Let card/sticker drags win — only start drawing on empty board space.
-        if (e.target.closest('.ab-card, .ab-sticker, .ab-canvas-sticker, .ab-tags span')) return;
+        // Let card/sticker/text drags win — only start drawing on empty board space.
+        if (e.target.closest('.ab-card, .ab-sticker, .ab-canvas-sticker, .ab-canvas-text, .ab-tags span, .ab-folder-wrap, .ab-chalk-map, .ab-turntable')) return;
         const p = pointFromEvent(e);
+        if (currentTool === 'text') {
+          addCanvasText(p);
+          if (!e.touches) e.preventDefault();
+          return;
+        }
         if (currentSticker) {
           addCanvasSticker(p);
           if (!e.touches) e.preventDefault();
@@ -2710,6 +3059,7 @@
       stickerPanel.querySelectorAll('.sticker-panel-item[data-sticker-src]').forEach(btn => {
         btn.addEventListener('click', () => {
           currentSticker = btn.dataset.stickerSrc;
+          if (currentTool === 'text') currentTool = 'brush'; // leave text-placement mode
           dock.querySelectorAll('.about-tool-btn[data-tool]').forEach(b => b.classList.remove('active'));
           stickerPanel.querySelectorAll('.sticker-panel-item').forEach(b => b.classList.toggle('active', b === btn));
           stickerToggle.classList.add('active');
@@ -2722,6 +3072,7 @@
         clearBtn.addEventListener('click', () => {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           aboutEl.querySelectorAll('.ab-canvas-sticker').forEach(sticker => sticker.remove());
+          aboutEl.querySelectorAll('.ab-canvas-text').forEach(text => text.remove());
         });
       }
 
@@ -2952,7 +3303,12 @@
 
       function spawnGhost() {
         if (ghost) return;
-        src = heroWrap.getBoundingClientRect();
+        // Cache the hero's rect from the first flight and reuse it for every
+        // later trip (forward or reverse) — measuring it fresh mid-transition
+        // (e.g. when reversing out of the landed state) would grab whatever
+        // position the hero happens to be scrolled to at that instant, not the
+        // fixed spot the ghost is actually supposed to fly to/from.
+        if (!src) src = heroWrap.getBoundingClientRect();
 
         // Outer wrapper: handles position + tilt + 3D flip
         ghost = document.createElement('div');
@@ -2978,7 +3334,7 @@
         const back = document.createElement('div');
         back.style.cssText = 'backface-visibility:hidden;-webkit-backface-visibility:hidden;position:absolute;inset:0;transform:rotateY(180deg);';
         const backImg = document.createElement('img');
-        backImg.src = 'assets/home/Goni_Designer_flip.png';
+        backImg.src = 'assets/home/Goni_Designer_flip.svg';
         backImg.style.cssText = 'width:100%;display:block;border-radius:28px;filter:drop-shadow(0 20px 56px rgba(0,0,0,.15));';
         back.appendChild(backImg);
 
@@ -3008,8 +3364,10 @@
       function onScroll() {
         const heroRect    = heroOuter.getBoundingClientRect();
         const travelStart = heroRect.height * 0.42;
+        const scrolled    = (-heroRect.top) - travelStart;
+        const raw         = clamp(scrolled / (heroRect.height - travelStart), 0, 1);
 
-        // ① Hero mostly visible — clean up everything
+        // ① Fully back at the hero — clean up everything (only real reset point)
         if (heroRect.top > -travelStart) {
           landed = false;
           killGhost(true);
@@ -3017,10 +3375,7 @@
           return;
         }
 
-        const scrolled = (-heroRect.top) - travelStart;
-        const raw      = clamp(scrolled / (heroRect.height - travelStart), 0, 1);
-
-        // ② At or past destination — show real flip card, no CSS transition
+        // ② Fully at the destination — show the real flip card, no CSS transition
         if (raw >= 1) {
           if (!landed) {
             landed = true;
@@ -3036,12 +3391,13 @@
           return;
         }
 
-        // ③ In flight (0 ≤ raw < 1) — handles both scroll-down and scroll-back-up
+        // ③ In flight (0 < raw < 1) — animate the ghost, forward or in reverse.
+        // If we were sitting landed at the destination and the user scrolls back
+        // up into this range, swap the static flip card back out for the ghost
+        // so it flies back to the hero instead of just vanishing.
         if (landed) {
-          // Came back from landed: remove real card, re-spawn ghost from current position
           landed = false;
           removeFlipCard();
-          killGhost(false);   // clears any stale ghost; hero opacity stays hidden
         }
         if (!ghost) spawnGhost();
 
@@ -3064,15 +3420,30 @@
 
     // ── About board: drag the cards and stickers around like a corkboard ──
     (function () {
-      document.querySelectorAll('.ab-card, .ab-sticker, .ab-tags span').forEach(el => {
-        let startX = 0, startY = 0, baseX = 0, baseY = 0, rotDeg = '0deg';
+      document.querySelectorAll('.ab-card, .ab-sticker, .ab-tags span, .ab-folder-wrap').forEach(el => {
+        let startX = 0, startY = 0, baseX = 0, baseY = 0, rotDeg = '0deg', moved = false, activePointerId = null;
+
+        // The "Into" notebook and resume folder need to stay click/tap-able (to open
+        // and close) while also being draggable, so their interactive faces/buttons
+        // aren't blanket-excluded like other cards' controls are — instead we defer
+        // setPointerCapture until the pointer actually moves. Capturing immediately
+        // on pointerdown makes the browser redirect the resulting click's target to
+        // this element, which silently breaks the cover/button's own click handler
+        // even when the user only tapped, never dragged.
+        const isNotebook = el.classList.contains('ab-interests');
+        const isFolderWrap = el.classList.contains('ab-folder-wrap');
+        const blockSelector = isNotebook
+          ? 'input, textarea, .ab-tt-arm, #intoToggle'
+          : isFolderWrap
+            ? 'input, textarea, .ab-tt-arm'
+            : 'button, input, textarea, .ab-tt-arm, .ab-notebook-face';
 
         el.addEventListener('pointerdown', (e) => {
           if (e.button !== 0) return;
-          if (e.target.closest('button, input, textarea, .ab-tt-arm')) return; // let interactive controls work without starting a drag
+          if (e.target.closest(blockSelector)) return; // let interactive controls work without starting a drag
           e.stopPropagation(); // don't also drag an ancestor card when dragging a nested sticker/tag
-          el.setPointerCapture(e.pointerId);
-          el.classList.add('dragging');
+          activePointerId = e.pointerId;
+          moved = false;
           rotDeg = getComputedStyle(el).getPropertyValue('--rot').trim() || '0deg';
           startX = e.clientX;
           startY = e.clientY;
@@ -3082,20 +3453,89 @@
         });
 
         el.addEventListener('pointermove', (e) => {
-          if (!el.classList.contains('dragging')) return;
+          if (activePointerId === null || e.pointerId !== activePointerId) return;
           const dx = e.clientX - startX;
           const dy = e.clientY - startY;
+          if (!moved) {
+            if (Math.hypot(dx, dy) <= 4) return; // still within click tolerance — don't start dragging yet
+            moved = true;
+            el.setPointerCapture(e.pointerId);
+            el.classList.add('dragging');
+          }
           el.style.transform = `translate(${baseX + dx}px, ${baseY + dy}px) rotate(${rotDeg})`;
         });
 
         function endDrag(e) {
-          if (!el.classList.contains('dragging')) return;
-          el.classList.remove('dragging');
-          try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+          if (activePointerId === null || e.pointerId !== activePointerId) return;
+          activePointerId = null;
+          if (moved) {
+            el.classList.remove('dragging');
+            try { el.releasePointerCapture(e.pointerId); } catch (_) {}
+            // a real drag happened — swallow the click that follows so it doesn't
+            // also toggle the notebook/folder open or closed
+            el.addEventListener('click', (ce) => { ce.stopPropagation(); ce.preventDefault(); }, { capture: true, once: true });
+          }
         }
         el.addEventListener('pointerup', endDrag);
         el.addEventListener('pointercancel', endDrag);
       });
+    })();
+
+    // ── About board: interests notebook — click "Into" to swap the cover for the badges ──
+    (function () {
+      const toggle = document.getElementById('intoToggle');
+      const body = document.getElementById('intoBody');
+      const cover = document.getElementById('intoCover');
+      const pages = document.getElementById('intoPages');
+      if (!toggle || !body || !cover || !pages) return;
+
+      function openNotebook() {
+        if (!pages.hidden) return;
+        cover.hidden = true;
+        pages.hidden = false;
+        toggle.setAttribute('aria-expanded', 'true');
+        cover.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeNotebook() {
+        if (pages.hidden) return;
+        cover.hidden = false;
+        pages.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+        cover.setAttribute('aria-expanded', 'false');
+      }
+
+      toggle.addEventListener('click', () => {
+        if (pages.hidden) openNotebook();
+        else closeNotebook();
+      });
+
+      cover.addEventListener('click', openNotebook);
+      cover.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openNotebook();
+        }
+      });
+
+      body.addEventListener('click', (e) => {
+        if (e.target.closest('#intoToggle, #intoCover, .ab-tags span')) return;
+        closeNotebook();
+      });
+
+      // Cursor-following "Click to peek inside" hint, styled like the resume's "Click to open" hint
+      const hoverHint = document.getElementById('intoHoverHint');
+      if (hoverHint) {
+        function moveHoverHint(e) {
+          hoverHint.style.left = e.clientX + 'px';
+          hoverHint.style.top = e.clientY + 'px';
+          hoverHint.classList.add('following');
+        }
+        cover.addEventListener('mouseenter', moveHoverHint);
+        cover.addEventListener('mousemove', moveHoverHint);
+        cover.addEventListener('mouseleave', () => hoverHint.classList.remove('following'));
+        cover.addEventListener('mousedown', () => hoverHint.classList.remove('following'));
+      }
     })();
 
     // ── About board: resume folder toy — click opens the folder, then the resume lightbox ──
@@ -3132,6 +3572,21 @@
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && !lightbox.hidden) closeLightbox();
       });
+
+      // Cursor-following "Click to open" hint, styled like the hero's "Drag to draw" hint
+      const hoverHint = document.getElementById('resumeHoverHint');
+      const folderWrap = folder.closest('.ab-folder-wrap');
+      if (hoverHint && folderWrap) {
+        function moveHoverHint(e) {
+          hoverHint.style.left = e.clientX + 'px';
+          hoverHint.style.top = e.clientY + 'px';
+          hoverHint.classList.add('following');
+        }
+        folderWrap.addEventListener('mouseenter', moveHoverHint);
+        folderWrap.addEventListener('mousemove', moveHoverHint);
+        folderWrap.addEventListener('mouseleave', () => hoverHint.classList.remove('following'));
+        folderWrap.addEventListener('mousedown', () => hoverHint.classList.remove('following'));
+      }
     })();
 
     // ── About board: turntable music player — drag the needle onto the record to play, off to stop ──
@@ -3220,61 +3675,6 @@
       }
     })();
 
-    // ── About board: guestbook sticky notes (saved locally per visitor) ──
-    (function () {
-      const form = document.getElementById('guestbookForm');
-      const input = document.getElementById('guestbookInput');
-      const list = document.getElementById('guestbookNotes');
-      if (!form || !list) return;
-
-      const STORAGE_KEY = 'gc-portfolio-guestbook';
-      const load = () => {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-        catch (_) { return []; }
-      };
-      const save = (notes) => localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
-
-      function render() {
-        const notes = load();
-        list.innerHTML = '';
-        if (!notes.length) {
-          list.innerHTML = '<span class="ab-guestbook-empty">No notes yet — be the first to say hi.</span>';
-          return;
-        }
-        notes.forEach((note, i) => {
-          const item = document.createElement('div');
-          item.className = 'ab-guestbook-note';
-          const span = document.createElement('span');
-          span.textContent = note;
-          const del = document.createElement('button');
-          del.type = 'button';
-          del.setAttribute('aria-label', 'Remove note');
-          del.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-          del.addEventListener('click', () => {
-            const remaining = load();
-            remaining.splice(i, 1);
-            save(remaining);
-            render();
-          });
-          item.appendChild(span);
-          item.appendChild(del);
-          list.appendChild(item);
-        });
-      }
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const text = input.value.trim();
-        if (!text) return;
-        const notes = load();
-        notes.unshift(text);
-        save(notes.slice(0, 12));
-        input.value = '';
-        render();
-      });
-
-      render();
-    })();
 
     // ── About board: memory matching mini-game ──
     (function () {
@@ -3437,6 +3837,12 @@
     let vhx = 0, vhy = 0;
     let inside = false, opacity = 0, frame = 0;
 
+    // In the About board, the blob should only show over empty, drawable canvas
+    // space — not while hovering the cards/stickers/folder that sit on top of it
+    // and intercept the drag-to-draw gesture (mirrors the about-draw-canvas's own
+    // exclusion list).
+    const ABOUT_UNDRAWABLE = '.ab-card, .ab-sticker, .ab-canvas-sticker, .ab-canvas-text, .ab-tags span, .ab-folder-wrap, .ab-chalk-map, .ab-turntable';
+
     document.addEventListener('mousemove', function (e) {
       mx = e.clientX; my = e.clientY;
       function inZone(el) {
@@ -3444,7 +3850,8 @@
         const r = el.getBoundingClientRect();
         return mx >= r.left && mx <= r.right && my >= r.top && my <= r.bottom;
       }
-      inside = inZone(heroEl) || inZone(aboutEl) || inZone(footerEl);
+      const inAbout = inZone(aboutEl) && !e.target.closest(ABOUT_UNDRAWABLE);
+      inside = inZone(heroEl) || inAbout || inZone(footerEl);
     });
 
     heroEl.addEventListener('mouseleave',   function () { inside = false; });
@@ -3544,8 +3951,16 @@
     const flipCard = document.getElementById('skillsFlipCard');
     const flipFront = document.querySelector('.flip-card-front');
     const flipBack = document.querySelector('.flip-card-back');
+    const flipFrontImg = flipFront ? flipFront.querySelector('img') : null;
+    const flipBackImg = flipBack ? flipBack.querySelector('img') : null;
+    const skillsSection = document.querySelector('.skills-section');
     let targetRX = 0, targetRY = 0, curRX = 0, curRY = 0;
     let targetScale = 1, curScale = 1;
+    // The skills avatar sits far down the page from the hero, so it needs its own
+    // cursor-distance calculation (scoped to the skills section) instead of reusing
+    // the hero's — otherwise it only reacts when the cursor happens to be near the hero.
+    let targetSkillRX = 0, targetSkillRY = 0, curSkillRX = 0, curSkillRY = 0;
+    let targetSkillScale = 1, curSkillScale = 1;
     let lookingLeft = false;
 
     function setAvatarLook(nextLookingLeft) {
@@ -3582,6 +3997,22 @@
       targetRY = Math.max(-1, Math.min(1, dx / (r.width / 2))) * MAX_TILT * falloff;
       targetRX = Math.max(-1, Math.min(1, -dy / (r.height / 2))) * MAX_TILT * falloff;
       targetScale = 1 + falloff * 0.08;
+
+      if (flipCard && skillsSection) {
+        const fr = flipCard.getBoundingClientRect();
+        const sr = skillsSection.getBoundingClientRect();
+        const fcx = fr.left + fr.width / 2;
+        const fcy = fr.top + fr.height / 2;
+        const fdx = e.clientX - fcx;
+        const fdy = e.clientY - fcy;
+        const fdist = Math.sqrt(fdx * fdx + fdy * fdy);
+        const fradius = Math.max(sr.width, sr.height) * 0.6;
+        const ffalloff = Math.max(0, 1 - fdist / fradius);
+
+        targetSkillRY = Math.max(-1, Math.min(1, fdx / (fr.width / 2))) * MAX_TILT * ffalloff;
+        targetSkillRX = Math.max(-1, Math.min(1, -fdy / (fr.height / 2))) * MAX_TILT * ffalloff;
+        targetSkillScale = 1 + ffalloff * 0.08;
+      }
     });
 
     (function tick() {
@@ -3589,6 +4020,15 @@
       curRY += (targetRY - curRY) * 0.14;
       curScale += (targetScale - curScale) * 0.1;
       wrap.style.transform = 'scale(' + curScale.toFixed(3) + ') rotateX(' + curRX.toFixed(2) + 'deg) rotateY(' + curRY.toFixed(2) + 'deg)';
+
+      curSkillRX += (targetSkillRX - curSkillRX) * 0.14;
+      curSkillRY += (targetSkillRY - curSkillRY) * 0.14;
+      curSkillScale += (targetSkillScale - curSkillScale) * 0.1;
+      const skillTilt = 'scale(' + curSkillScale.toFixed(3) + ') rotateX(' + curSkillRX.toFixed(2) + 'deg) rotateY(' + curSkillRY.toFixed(2) + 'deg)';
+      // Give the skills-section avatar its own cursor-reactive tilt, applied to the
+      // images directly so it doesn't fight the card's own flip/hover transforms.
+      if (flipFrontImg) flipFrontImg.style.transform = skillTilt;
+      if (flipBackImg) flipBackImg.style.transform = skillTilt;
       requestAnimationFrame(tick);
     })();
   })();
