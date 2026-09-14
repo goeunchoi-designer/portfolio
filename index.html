@@ -2698,6 +2698,9 @@
       const heroOuter = document.querySelector('.hero-outer');
       const canvas = document.getElementById('heroDrawCanvas');
       if (!heroOuter || !canvas) return;
+      // Disabled on mobile/tablet: the touchmove listener below blocks the
+      // page from scrolling, since drawing and scrolling both use one-finger drag.
+      if (window.matchMedia('(max-width: 900px)').matches) return;
 
       const ctx = canvas.getContext('2d');
       const hint = document.getElementById('heroDrawHint');
@@ -2797,6 +2800,9 @@
       const canvas  = document.getElementById('aboutDrawCanvas');
       const dock    = document.getElementById('aboutToolDock');
       if (!aboutEl || !canvas || !dock) return;
+      // Disabled on mobile/tablet: the touchmove listener below blocks the
+      // page from scrolling, since drawing and scrolling both use one-finger drag.
+      if (window.matchMedia('(max-width: 900px)').matches) return;
 
       const ctx = canvas.getContext('2d');
       const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
