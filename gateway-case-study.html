@@ -49,10 +49,10 @@
     }
 
     .gateway-hero {
-      min-height:100vh;
+      min-height:auto;
       padding:116px clamp(28px,5vw,80px) 28px;
       display:grid;
-      grid-template-rows:auto 1fr auto;
+      grid-template-rows:auto auto auto;
       gap:34px;
       background:var(--white);
     }
@@ -78,11 +78,31 @@
       color:var(--black);
     }
 
-    .gateway-title span {
+    .gateway-title .title-line-2 {
+      color:var(--gray-text);
+    }
+
+    .title-line {
       display:block;
-      color:transparent;
-      -webkit-text-stroke:2px var(--black);
-      text-stroke:2px var(--black);
+      padding-bottom:.08em;
+      margin-bottom:-.08em;
+    }
+
+    .letter {
+      display:inline-block;
+      opacity:1;
+      transform:none;
+      transition:opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1);
+    }
+
+    .js .letter {
+      opacity:0;
+      transform:translateY(65%);
+    }
+
+    .js .gateway-hero.visible .letter {
+      opacity:1;
+      transform:none;
     }
 
     .hero-summary {
@@ -93,6 +113,7 @@
     }
 
     .hero-summary p {
+      align-self:start;
       max-width:640px;
       font-size:clamp(20px,2.3vw,34px);
       line-height:1.15;
@@ -128,7 +149,7 @@
 
     .full-media {
       width:100%;
-      min-height:70vh;
+      height:80vh;
       background:var(--black);
       overflow:hidden;
     }
@@ -149,7 +170,7 @@
 
     .editorial-intro {
       display:grid;
-      grid-template-columns:minmax(280px,.92fr) minmax(320px,1.08fr);
+      grid-template-columns:minmax(280px,1fr) minmax(280px,1fr);
       gap:clamp(32px,8vw,130px);
       align-items:start;
     }
@@ -173,7 +194,7 @@
     }
 
     .body-copy {
-      max-width:680px;
+   
       font-size:clamp(18px,2vw,24px);
       line-height:1.45;
       letter-spacing:-.01em;
@@ -225,23 +246,23 @@
     .media-grid {
       display:grid;
       grid-template-columns:repeat(12,1fr);
-      gap:14px;
+      gap:0;
+      width:100vw;
+      margin-left:calc(50% - 50vw);
+      margin-right:calc(50% - 50vw);
     }
 
     .media-panel {
-      min-height:360px;
-      border-radius:var(--radius-sm);
+     
       overflow:hidden;
-      background:var(--gray-light);
-      border:1px solid rgba(16,16,16,.08);
     }
 
     .span-7 { grid-column:span 7; }
     .span-5 { grid-column:span 5; }
     .span-6 { grid-column:span 6; }
     .span-12 { grid-column:1 / -1; }
-    .tall { min-height:620px; }
-    .short { min-height:280px; }
+    .tall { height:620px; }
+    .short { height:80vh; }
 
     .caption {
       margin-top:11px;
@@ -256,18 +277,23 @@
 
     .system-head {
       display:grid;
-      grid-template-columns:minmax(260px,.9fr) minmax(320px,1.1fr);
+      grid-template-columns:minmax(260px,1fr) minmax(260px,1fr);
       gap:clamp(30px,7vw,100px);
       margin-bottom:52px;
       align-items:end;
     }
 
     .logo-stage {
-      aspect-ratio:16/7;
       border-radius:var(--radius-sm);
       overflow:hidden;
       background:var(--black);
       margin-bottom:14px;
+    }
+
+    .logo-stage video {
+      display:block;
+      width:100%;
+      height:auto;
     }
 
     .system-row {
@@ -328,9 +354,11 @@
 
     .work-strip .big-question { color:var(--white); }
 
+    .work-strip .body-copy { color:rgba(255,255,255,.82); }
+
     .outcome-band {
       display:grid;
-      grid-template-columns:minmax(260px,.85fr) minmax(320px,1.15fr);
+      grid-template-columns:minmax(260px,1fr) minmax(260px,1fr);
       gap:clamp(32px,8vw,120px);
       align-items:start;
     }
@@ -342,7 +370,7 @@
 
     .stat-line {
       display:grid;
-      grid-template-columns:160px 1fr;
+      grid-template-columns:250px 1fr;
       gap:22px;
       padding:24px 0;
       border-top:1px solid var(--border);
@@ -392,19 +420,10 @@
       transform:none;
     }
 
-    .lift {
-      transition:transform .55s cubic-bezier(.22,1,.36,1), filter .55s;
-    }
-
-    .lift:hover {
-      transform:translateY(-8px);
-      filter:saturate(1.03);
-    }
-
     @media (prefers-reduced-motion:reduce) {
       html { scroll-behavior:auto; }
       .reveal,
-      .lift { transition:none; }
+      .letter { transition:none; }
     }
 
     @media(max-width:900px) {
@@ -420,7 +439,7 @@
       }
       .gateway-title { font-size:clamp(58px,18vw,104px); }
       .project-meta { grid-template-columns:1fr; }
-      .full-media { min-height:56vh; }
+      .full-media { height:38vh; }
       .media-grid { grid-template-columns:1fr; }
       .span-7,
       .span-5,
@@ -454,7 +473,7 @@
       <span>Gateway · Brand Identity · Richcraft Homes</span>
     </div>
 
-    <h1 class="gateway-title">Gateway<span>Brand Launch</span></h1>
+    <h1 class="gateway-title" aria-label="Gateway Brand Launch"><span class="title-line title-line-1" aria-hidden="true">Gateway</span><span class="title-line title-line-2" aria-hidden="true">Brand Launch</span></h1>
 
     <div class="hero-summary">
       <p>A community launch system designed to feel clearer, warmer, and less like traditional real estate.</p>
@@ -480,7 +499,9 @@
   </header>
 
   <section class="full-media reveal" aria-label="Gateway launch billboard">
-    <img src="assets/gateway/gatewaybillboard.jpg" alt="Gateway billboard campaign mockup">
+    <video autoplay muted loop playsinline>
+      <source src="assets/gateway/gateway-intro.mp4" type="video/mp4">
+    </video>
   </section>
 
   <section class="section-wrap editorial-intro reveal">
@@ -511,17 +532,15 @@
 
   <section class="section-wrap reveal">
     <div class="media-grid">
-      <figure class="span-7">
-        <div class="media-panel tall lift lb-trigger">
+      <figure class="span-6">
+        <div class="media-panel tall lb-trigger">
           <img src="assets/gateway/flat-elevation.jpg" alt="Gateway architectural elevation">
         </div>
-        <figcaption class="caption">The color and spacing direction came from the actual architecture: clean lines, warm stone, open space.</figcaption>
       </figure>
-      <figure class="span-5">
-        <div class="media-panel lift lb-trigger">
+      <figure class="span-6">
+        <div class="media-panel tall lb-trigger">
           <img src="assets/gateway/branding_moodboard.png" alt="Gateway visual moodboard">
         </div>
-        <figcaption class="caption">The moodboard translated those architectural cues into a brand world.</figcaption>
       </figure>
     </div>
   </section>
@@ -543,7 +562,6 @@
           <source src="assets/gateway/logo.mp4" type="video/mp4">
         </video>
       </div>
-      <figcaption class="caption">Logo motion and brand pacing kept the launch feeling contemporary without becoming loud.</figcaption>
     </figure>
 
     <div class="system-row">
@@ -551,10 +569,10 @@
         <span class="eyebrow">Palette</span>
         <p class="body-copy">Warm neutrals and deep green connected the campaign back to the community renderings.</p>
         <div class="swatches">
-          <div class="swatch-block" style="background:#111111;">Black<br>#111111</div>
-          <div class="swatch-block" style="background:#4d4d4d;">Charcoal<br>#4D4D4D</div>
-          <div class="swatch-block light" style="background:#d8d8d8;">Grey<br>#D8D8D8</div>
-          <div class="swatch-block light" style="background:#f8f8f8;">White<br>#F8F8F8</div>
+          <div class="swatch-block" style="background:#242b37;">Midnight<br>#242B37</div>
+          <div class="swatch-block light" style="background:#c2b9aa;">Stone<br>#C2B9AA</div>
+          <div class="swatch-block" style="background:#303030;">Slate<br>#303030</div>
+          <div class="swatch-block light" style="background:#f4f3f0;">Ghost<br>#F4F3F0</div>
         </div>
       </div>
       <div class="type-card">
@@ -578,34 +596,29 @@
 
     <div class="media-grid">
       <figure class="span-12">
-        <div class="media-panel lift lb-trigger">
+        <div class="media-panel lb-trigger">
           <img src="assets/gateway/print-assets-brochure.png" alt="Gateway print assets and brochure design">
         </div>
-        <figcaption class="caption">Print collateral and sales material.</figcaption>
       </figure>
       <figure class="span-6">
-        <div class="media-panel lift lb-trigger">
-          <img src="assets/gateway/social-mockup.png" alt="Gateway social media campaign mockup">
+        <div class="media-panel lb-trigger">
+          <img src="assets/gateway/emails.png" alt="Gateway email campaign design" style="transform:scale(1.2);">
         </div>
-        <figcaption class="caption">Social campaign system.</figcaption>
       </figure>
       <figure class="span-6">
-        <div class="media-panel lift lb-trigger">
+        <div class="media-panel lb-trigger">
           <img src="assets/gateway/gatewaybillboard.jpg" alt="Gateway billboard campaign mockup">
         </div>
-        <figcaption class="caption">Large-format outdoor campaign.</figcaption>
       </figure>
-      <figure class="span-7">
-        <div class="media-panel lift lb-trigger">
-          <img src="assets/gateway/emails.png" alt="Gateway email campaign design">
+      <figure class="span-6">
+        <div class="media-panel lb-trigger">
+          <img src="assets/gateway/gateway_mockup.png" alt="Gateway poster mockup" style="object-position:center 35%;">
         </div>
-        <figcaption class="caption">Email templates for launch and registrant communication.</figcaption>
       </figure>
-      <figure class="span-5">
-        <div class="media-panel lift lb-trigger">
-          <img src="assets/gateway/gateway_mockup.png" alt="Gateway poster mockup">
+      <figure class="span-6">
+        <div class="media-panel lb-trigger">
+          <img src="assets/gateway/social-mockup.png" alt="Gateway social media campaign mockup" style="transform:scale(1.5);">
         </div>
-        <figcaption class="caption">Interior and sales center campaign extensions.</figcaption>
       </figure>
       <figure class="span-12">
         <div class="media-panel short">
@@ -613,7 +626,6 @@
             <source src="assets/gateway/social-campain.mp4" type="video/mp4">
           </video>
         </div>
-        <figcaption class="caption">Motion assets for social rollout.</figcaption>
       </figure>
     </div>
   </section>

@@ -8,6 +8,27 @@
   }
 
   ready(function () {
+    var titleLines = document.querySelectorAll('.gateway-title .title-line');
+    var letterStep = 0.025;
+    var letterIndex = 0;
+
+    titleLines.forEach(function (line) {
+      var text = line.textContent;
+      line.textContent = '';
+      text.split('').forEach(function (char) {
+        if (char === ' ') {
+          line.appendChild(document.createTextNode(' '));
+          return;
+        }
+        var letter = document.createElement('span');
+        letter.className = 'letter';
+        letter.textContent = char;
+        letter.style.transitionDelay = (letterIndex * letterStep) + 's';
+        letterIndex += 1;
+        line.appendChild(letter);
+      });
+    });
+
     var revealEls = document.querySelectorAll('.reveal');
 
     if (!('IntersectionObserver' in window)) {
@@ -186,5 +207,57 @@
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape') closeLightbox();
     });
+
+    var statEls = document.querySelectorAll('.stat-num');
+
+    function animateStat(el) {
+      var raw = el.textContent.trim();
+      var match = raw.match(/^([^\d]*)([\d,]+(?:\.\d+)?)(.*)$/);
+      if (!match) return;
+
+      var prefix = match[1];
+      var numText = match[2];
+      var suffix = match[3];
+      var target = parseFloat(numText.replace(/,/g, ''));
+      var hasComma = numText.indexOf(',') !== -1;
+      var duration = 1400;
+      var start = null;
+
+      function formatNumber(value) {
+        var rounded = Math.round(value);
+        return hasComma ? rounded.toLocaleString('en-US') : String(rounded);
+      }
+
+      function step(timestamp) {
+        if (start === null) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = prefix + formatNumber(target * eased) + suffix;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = raw;
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    if (statEls.length) {
+      if (!('IntersectionObserver' in window)) {
+        statEls.forEach(function (el) { animateStat(el); });
+      } else {
+        var statObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              animateStat(entry.target);
+              statObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.4 });
+
+        statEls.forEach(function (el) { statObserver.observe(el); });
+      }
+    }
   });
 })();
